@@ -1,0 +1,43 @@
+name: Update verified bibliography
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/update-books.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replace bibliography cards
+        shell: bash
+        run: |
+          python3 -  'PY'
+          from pathlib import Path
+          import json
+          p = Path("data/site-data.js")
+          s = p.read_text(encoding="utf-8")
+          head = "window.REVIVAL_SITE = "
+          if not s.startswith(head): raise SystemExit("Unexpected data format")
+          data = json.loads(s[len(head):].strip().rstrip(";"))
+          books = data["books"]
+          l = [b for b in books if b.get("author") == "리처드 러블레이스"]
+          m = [b for b in books if b.get("category") == "추가 확보 예정" and b.get("title") == "부흥" and b.get("author") == "이안 머레이"]
+          if len(l) != 2 or len(m) != 1: raise SystemExit(f"Guard failed: Lovelace={len(l)}, Murray={len(m)}")
+          i = next(i for i,b in enumerate(books) if b.get("author") == "리처드 러블레이스")
+          kept = [b for b in books if b not in l and b not in m]
+          kept.insert(i, {"category":"영적 갱신 · 부흥신학","title":"온전한 영성","author":"리처드 러블레이스","note":"원제 Renewal as a Way of Life(1985), 한국어판 2008. Dynamics of Spiritual Life(1979)는 별도의 저서입니다."})
+          if len(kept) != 6: raise SystemExit("Incorrect final count")
+          data["books"] = kept
+          p.write_text(head + json.dumps(data, ensure_ascii=False, indent=2) + ";\n", encoding="utf-8")
+          
+          PY
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/site-data.js
+          git commit -m "Consolidate Lovelace and remove forthcoming Murray card"
+          git push
