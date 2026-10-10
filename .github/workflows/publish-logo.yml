@@ -1,0 +1,67 @@
+name: Publish revival project logo
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/publish-logo.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install image dependencies
+        run: python3 -m pip install --quiet pillow cairosvg
+      - name: Generate logo assets and update homepage
+        run: |
+          python3 -c '
+          import base64,gzip
+          from io import BytesIO
+          from pathlib import Path
+          from PIL import Image
+          import cairosvg
+          assets=Path("assets")
+          assets.mkdir(exist_ok=True)
+ svg=gzip.decompress(base64.b64decode("H4sIAAAAAAAC/41WPW9bVwzd8yuIl6UFbqz7RV7ewvKQJVOXjt0k68kWKluGrETuFqAeiiJDC6TIkhTp0KJj2hRBCzR/pqM//kMPn6TBstt0MfkeeS95Dg+fvHv65IDOjqbHp/3mcLE4+aTXWy6XO8u0M5sf9KL3voeMhp5M2uXD2Vm/8eQpRM7dn4bms2nbbyZHSBnMJ4MH08Gwnfaby3dPr1/9RNfPzy9/fHn1+tX1N38QvIu3r+nvp8/p6sXvlz+/oavzXy9+e09XL8+vXnxLl3/+cvHm+4u3f9H1s2eXP3xHl+++vnj/VbN3b3fUjk9hppPjdjB/NB+MJu3xgiajfjOeDo7az9pRQ2eh3+xE39CX5gQ4ZxGO2htzqjZ7u6eL2QnZnwf7s+ls3m/uj8e5ptL01rHZeHzaLpCepNlKHEZJ/nZiSVuJrXof5VZi2Eob7iNtYGm9m7j+A+jD6eN2hTRscMY1Ts8bnHwnzsi1HY9vt5+32/depb2DkFK2EwvH4fCDOL1PSUf/G+dwNvvi0Wy6GSivcfq8xrmGGf5lmCPhO3rPvD3M8XAUR3eArNuJovshfRBkK7zv9W6QvU69u/N2f0HLyWhxiOPd7hy2k4PDxeZpPJlicZaHk0WLe+7tngwWhwRCPg0hugASKYQEJ8OJwZxKQbOFlGJSc5iSrxYKlIqFmClHC5VEuVioMnGCE6ISV4EjlSSiRCiFJGdzmIR1FSpWPSRPpXocVyXNdqEwabU2OFJlC2V8GLznVR+o6FetoRKvuw2pmFfg5bg+EbJdkswL2dUaV0erncRxVz0+NT6o05qpaoH1VEGA1kQqyPToxAdXo1DJ1VVOVDyuUiERgxwjcFnPiIixgVdw2JxAEqw9IGXtkjNxAS1YAxCFaxDJNbqaI+WMckEp2bNPlLJ0bUWUsbZi9xwpxgxbKXr0H4Aos7Xz+WbIj+fTj+5vhP7xzWkLWNBNe7Lql82CpgrrxcUUu2ax0sRSXARSDsUl8J59chlaSQVWrMXoGCgT4gxZxJodxk5Rk5NsNjrBUHGHKwFQanFgEfnsimZKGJnifRJ2ivMZTCtmz8awUWSUxII+EigCvzYJ6z8Y4QH0xrJSBKohYsrCyawrG2r3XhXSA9kqNiGPSphCRUXEOVZXBAi9d8UQQvPFF8hZnBSBVSCBvBU2JDARHBechxYYuoLvOJhlWMShGcZeMIORgvuhdIHIGAgFzOGdEwHDYEJMQ6F29SSDGWhMEphCvqAvKWtrykL/mBZw4X5oE2yCeYUms8uYIDC4ZO9LdMmeMaFkmoXao72XgImahjHRGKjY5MELakMBuBf9B6jT+gCzN8W0+RncEpMmRo2MlfWoCYvNT1phvcuorUHQG2ooODOMwGzqEOM2hW5/OmxiXMSuhxIww5qgEvRqs6noFfcqhl1slklWFhyWZAuBZ6ivGje2OII8Xu2rAouqx5cE+40Z1phwjxCUBPUVqphVsQ8MOCuYXbVZ4+vU2WjPNmvksTgGzop6GTOptgVYPDWuRe7gyn5JV2TZ/zd7/wBFVsAKBwkAAA=="))
+          (assets/"revival-logo.svg").write_bytes(svg)
+          png=cairosvg.svg2png(bytestring=svg,output_width=512,output_height=512)
+          (assets/"revival-logo-512.png").write_bytes(png)
+          logo=Image.open(BytesIO(png)).convert("RGB")
+          logo.resize((32,32),Image.Resampling.LANCZOS).save(assets/"favicon-32.png")
+          logo.resize((180,180),Image.Resampling.LANCZOS).save(assets/"apple-touch-icon.png")
+          logo.save(assets/"favicon.ico",format="ICO",sizes=[(16,16),(32,32),(48,48)])
+          share=Image.new("RGB",(1200,630),"white")
+          share.paste(logo.resize((560,560),Image.Resampling.LANCZOS),(320,35))
+          share.save(assets/"og-image.jpg","JPEG",quality=90,optimize=True)
+          f=Path("index.html")
+          s=f.read_text(encoding="utf-8")
+          tag=lambda v:chr(60)+v+chr(62)
+          old=tag("i")+"✝"+tag("/i")
+          new=tag('img class="brand-logo" src="/assets/revival-logo-512.png" alt="부흥 프로젝트 로고"')
+          if old in s:s=s.replace(old,new,1)
+          if "brand-logo{width:" not in s:s=s.replace(tag("/style"),".brand-logo{width:48px;height:48px;object-fit:contain;border-radius:8px;background:white;display:block} "+tag("/style"),1)
+          if 'property="og:image"' not in s:
+              tags=[
+                'link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png"',
+                'link rel="icon" href="/assets/revival-logo.svg" type="image/svg+xml"',
+                'link rel="apple-touch-icon" href="/assets/apple-touch-icon.png"',
+                'meta property="og:type" content="website"',
+                'meta property="og:title" content="부흥 프로젝트 | 하나님의 영광을 봄"',
+                'meta property="og:description" content="개혁주의 부흥신학과 교회의 갱신, 회심과 선교 연구"',
+                'meta property="og:url" content="https://revival-project.pages.dev/"',
+                'meta property="og:image" content="https://revival-project.pages.dev/assets/og-image.jpg"',
+                'meta property="og:image:width" content="1200"',
+                'meta property="og:image:height" content="630"',
+                'meta name="twitter:card" content="summary_large_image"',
+                'meta name="twitter:image" content="https://revival-project.pages.dev/assets/og-image.jpg"']
+              s=s.replace(tag("/head"),"\n".join(map(tag,tags))+"\n"+tag("/head"),1)
+          f.write_text(s,encoding="utf-8")
+          '
+      - name: Commit assets and homepage
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets index.html
+          git diff --cached --quiet || (git commit -m "Publish logo, favicon, and sharing image" && git push origin HEAD:main)
