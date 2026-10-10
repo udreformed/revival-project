@@ -293,16 +293,10 @@ window.REVIVAL_SITE = {
   ],
   "books": [
     {
-      "category": "핵심 신학",
-      "title": "성령의 역동학",
-      "author": "리처드 러블레이스",
-      "note": "『온전한 영성』과 다른 책입니다. 원전 확보 후 세부 개념과 인용을 검증합니다."
-    },
-    {
-      "category": "영적 갱신",
+      "category": "영적 갱신 · 부흥신학",
       "title": "온전한 영성",
       "author": "리처드 러블레이스",
-      "note": "공개용 원문이 아닌 연구용 자료로 참고합니다."
+      "note": "원제 Renewal as a Way of Life(1985), 한국어판 2008. Dynamics of Spiritual Life(1979)는 별도의 저서입니다."
     },
     {
       "category": "부흥 설교",
@@ -315,12 +309,6 @@ window.REVIVAL_SITE = {
       "title": "부흥관 바로 세우기",
       "author": "이안 머레이",
       "note": "부흥과 인간 중심 부흥주의를 구별하는 연구 자료."
-    },
-    {
-      "category": "추가 확보 예정",
-      "title": "부흥",
-      "author": "이안 머레이",
-      "note": "정확한 판본과 자료를 확보한 뒤 직접 인용합니다."
     },
     {
       "category": "기도·선교",
