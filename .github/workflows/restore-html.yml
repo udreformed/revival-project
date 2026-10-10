@@ -1,0 +1,25 @@
+name: Restore HTML source
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  restore:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Decode editor-escaped markup if needed
+        run: |
+          python3 -c 'from pathlib import Path; import html; p=Path("index.html"); old=p.read_text(encoding="utf-8"); p.write_text(html.unescape(old),encoding="utf-8") if old.startswith(chr(38)+"lt;") else None'
+          if git diff --quiet -- index.html; then
+            echo "HTML already normal"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add index.html
+            git commit -m "Restore HTML source"
+            git push
+          fi
