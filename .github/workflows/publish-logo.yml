@@ -14,54 +14,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install image dependencies
         run: python3 -m pip install --quiet pillow cairosvg
-      - name: Generate logo assets and update homepage
-        run: |
-          python3 -c '
-          import base64,gzip
-          from io import BytesIO
-          from pathlib import Path
-          from PIL import Image
-          import cairosvg
-          assets=Path("assets")
-          assets.mkdir(exist_ok=True)
- svg=gzip.decompress(base64.b64decode("H4sIAAAAAAAC/41WPW9bVwzd8yuIl6UFbqz7RV7ewvKQJVOXjt0k68kWKluGrETuFqAeiiJDC6TIkhTp0KJj2hRBCzR/pqM//kMPn6TBstt0MfkeeS95Dg+fvHv65IDOjqbHp/3mcLE4+aTXWy6XO8u0M5sf9KL3voeMhp5M2uXD2Vm/8eQpRM7dn4bms2nbbyZHSBnMJ4MH08Gwnfaby3dPr1/9RNfPzy9/fHn1+tX1N38QvIu3r+nvp8/p6sXvlz+/oavzXy9+e09XL8+vXnxLl3/+cvHm+4u3f9H1s2eXP3xHl+++vnj/VbN3b3fUjk9hppPjdjB/NB+MJu3xgiajfjOeDo7az9pRQ2eh3+xE39CX5gQ4ZxGO2htzqjZ7u6eL2QnZnwf7s+ls3m/uj8e5ptL01rHZeHzaLpCepNlKHEZJ/nZiSVuJrXof5VZi2Eob7iNtYGm9m7j+A+jD6eN2hTRscMY1Ts8bnHwnzsi1HY9vt5+32/depb2DkFK2EwvH4fCDOL1PSUf/G+dwNvvi0Wy6GSivcfq8xrmGGf5lmCPhO3rPvD3M8XAUR3eArNuJovshfRBkK7zv9W6QvU69u/N2f0HLyWhxiOPd7hy2k4PDxeZpPJlicZaHk0WLe+7tngwWhwRCPg0hugASKYQEJ8OJwZxKQbOFlGJSc5iSrxYKlIqFmClHC5VEuVioMnGCE6ISV4EjlSSiRCiFJGdzmIR1FSpWPSRPpXocVyXNdqEwabU2OFJlC2V8GLznVR+o6FetoRKvuw2pmFfg5bg+EbJdkswL2dUaV0erncRxVz0+NT6o05qpaoH1VEGA1kQqyPToxAdXo1DJ1VVOVDyuUiERgxwjcFnPiIixgVdw2JxAEqw9IGXtkjNxAS1YAxCFaxDJNbqaI+WMckEp2bNPlLJ0bUWUsbZi9xwpxgxbKXr0H4Aos7Xz+WbIj+fTj+5vhP7xzWkLWNBNe7Lql82CpgrrxcUUu2ax0sRSXARSDsUl8J59chlaSQVWrMXoGCgT4gxZxJodxk5Rk5NsNjrBUHGHKwFQanFgEfnsimZKGJnifRJ2ivMZTCtmz8awUWSUxII+EigCvzYJ6z8Y4QH0xrJSBKohYsrCyawrG2r3XhXSA9kqNiGPSphCRUXEOVZXBAi9d8UQQvPFF8hZnBSBVSCBvBU2JDARHBechxYYuoLvOJhlWMShGcZeMIORgvuhdIHIGAgFzOGdEwHDYEJMQ6F29SSDGWhMEphCvqAvKWtrykL/mBZw4X5oE2yCeYUms8uYIDC4ZO9LdMmeMaFkmoXao72XgImahjHRGKjY5MELakMBuBf9B6jT+gCzN8W0+RncEpMmRo2MlfWoCYvNT1phvcuorUHQG2ooODOMwGzqEOM2hW5/OmxiXMSuhxIww5qgEvRqs6noFfcqhl1slklWFhyWZAuBZ6ivGje2OII8Xu2rAouqx5cE+40Z1phwjxCUBPUVqphVsQ8MOCuYXbVZ4+vU2WjPNmvksTgGzop6GTOptgVYPDWuRe7gyn5JV2TZ/zd7/wBFVsAKBwkAAA=="))
-          (assets/"revival-logo.svg").write_bytes(svg)
-          png=cairosvg.svg2png(bytestring=svg,output_width=512,output_height=512)
-          (assets/"revival-logo-512.png").write_bytes(png)
-          logo=Image.open(BytesIO(png)).convert("RGB")
-          logo.resize((32,32),Image.Resampling.LANCZOS).save(assets/"favicon-32.png")
-          logo.resize((180,180),Image.Resampling.LANCZOS).save(assets/"apple-touch-icon.png")
-          logo.save(assets/"favicon.ico",format="ICO",sizes=[(16,16),(32,32),(48,48)])
-          share=Image.new("RGB",(1200,630),"white")
-          share.paste(logo.resize((560,560),Image.Resampling.LANCZOS),(320,35))
-          share.save(assets/"og-image.jpg","JPEG",quality=90,optimize=True)
-          f=Path("index.html")
-          s=f.read_text(encoding="utf-8")
-          tag=lambda v:chr(60)+v+chr(62)
-          old=tag("i")+"✝"+tag("/i")
-          new=tag('img class="brand-logo" src="/assets/revival-logo-512.png" alt="부흥 프로젝트 로고"')
-          if old in s:s=s.replace(old,new,1)
-          if "brand-logo{width:" not in s:s=s.replace(tag("/style"),".brand-logo{width:48px;height:48px;object-fit:contain;border-radius:8px;background:white;display:block} "+tag("/style"),1)
-          if 'property="og:image"' not in s:
-              tags=[
-                'link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png"',
-                'link rel="icon" href="/assets/revival-logo.svg" type="image/svg+xml"',
-                'link rel="apple-touch-icon" href="/assets/apple-touch-icon.png"',
-                'meta property="og:type" content="website"',
-                'meta property="og:title" content="부흥 프로젝트 | 하나님의 영광을 봄"',
-                'meta property="og:description" content="개혁주의 부흥신학과 교회의 갱신, 회심과 선교 연구"',
-                'meta property="og:url" content="https://revival-project.pages.dev/"',
-                'meta property="og:image" content="https://revival-project.pages.dev/assets/og-image.jpg"',
-                'meta property="og:image:width" content="1200"',
-                'meta property="og:image:height" content="630"',
-                'meta name="twitter:card" content="summary_large_image"',
-                'meta name="twitter:image" content="https://revival-project.pages.dev/assets/og-image.jpg"']
-              s=s.replace(tag("/head"),"\n".join(map(tag,tags))+"\n"+tag("/head"),1)
-          f.write_text(s,encoding="utf-8")
-          '
-      - name: Commit assets and homepage
+      - name: Apply logo and social metadata
+        run: python3 -c "import base64,gzip;exec(gzip.decompress(base64.b64decode('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')))"
+      - name: Commit generated assets
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add assets index.html
-          git diff --cached --quiet || (git commit -m "Publish logo, favicon, and sharing image" && git push origin HEAD:main)
+          git diff --cached --quiet || (git commit -m "Publish logo, favicon, and social preview" && git push origin HEAD:main)
