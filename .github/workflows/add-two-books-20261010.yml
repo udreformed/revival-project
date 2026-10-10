@@ -1,0 +1,18 @@
+name: Add requested revival books
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/add-two-books-20261010.yml]
+permissions:
+  contents: write
+jobs:
+  add:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add requested cards
+        run: python3 -c 'import json;from pathlib import Path;p=Path("data/site-data.js");s=p.read_text(encoding="utf-8");h="window.REVIVAL_SITE = ";assert s.startswith(h);d=json.loads(s[len(h):].strip().rstrip(";"));b=d["books"];assert len(b)==6 and all(x["title"] not in ["균형잡힌 부흥론","세계 부흥 운동사"] for x in b) and not any("비키" in x["author"] for x in b);i=next(i for i,x in enumerate(b) if x["title"]=="부흥관 바로 세우기");b.insert(i+1,{"category":"부흥신학 · 분별","title":"균형잡힌 부흥론","author":"조나단 에드워즈","note":"18세기 대각성운동을 둘러싼 부흥 반대와 광신적 오류를 함께 검토하며, 참된 부흥의 분별과 교회의 책임을 논합니다."});b.insert(i+2,{"category":"부흥 역사","title":"세계 부흥 운동사","author":"박용규","note":"초대교회부터 종교개혁·청교도·대각성운동과 웨일스 부흥, 근현대 부흥운동까지 역사적 흐름을 연구합니다."});assert len(b)==8;p.write_text(h+json.dumps(d,ensure_ascii=False,indent=2)+";\n",encoding="utf-8")'
+      - name: Commit cards
+        run: git -c user.name=github-actions -c user.email=github-actions@users.noreply.github.com commit -am "Add Edwards and Park revival books"
+      - name: Push cards
+        run: git push
