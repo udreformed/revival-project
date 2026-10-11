@@ -376,27 +376,42 @@ window.REVIVAL_SITE = {
   else setTimeout(linkLovelaceSummary,0);
 })();
 
-
-// 공통 위로 이동 버튼
+/* 부흥 프로젝트 도서 카드 연결: 박용규 전체 부흥 역사 / 이안 머리 제5장과 부록 */
 (function(){
-  function installScrollTop(){
-    if(document.getElementById('scroll-top-button')) return;
-    var style=document.createElement('style');
-    style.textContent='.scroll-top-button{position:fixed;right:22px;bottom:22px;z-index:9999;width:48px;height:48px;border:1px solid #c8d9d2;border-radius:50%;background:rgba(255,255,255,.94);color:#216f69;box-shadow:0 8px 24px rgba(24,59,70,.18);font-size:25px;font-weight:800;line-height:1;display:grid;place-items:center;cursor:pointer;opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .18s ease,transform .18s ease,background .18s ease}.scroll-top-button.is-visible{opacity:1;transform:translateY(0);pointer-events:auto}.scroll-top-button:hover,.scroll-top-button:focus-visible{background:#eaf4ef;outline:2px solid #83aa9d;outline-offset:2px}@media(max-width:700px){.scroll-top-button{right:14px;bottom:16px;width:44px;height:44px;font-size:23px}}';
-    document.head.appendChild(style);
-    var btn=document.createElement('button');
-    btn.id='scroll-top-button';
-    btn.className='scroll-top-button';
-    btn.type='button';
-    btn.setAttribute('aria-label','페이지 맨 위로 이동');
-    btn.setAttribute('title','맨 위로');
-    btn.textContent='↑';
-    btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
-    function update(){btn.classList.toggle('is-visible',window.scrollY>320);}
-    window.addEventListener('scroll',update,{passive:true});
-    update();
-    document.body.appendChild(btn);
+  function attachResearchPages(){
+    var host=document.getElementById('books');
+    if(!host)return;
+    var cards=Array.prototype.slice.call(host.querySelectorAll('.book'));
+    function attach(title,links,main){
+      var card=cards.find(function(c){var h=c.querySelector('h3');return h&&h.textContent.trim()===title;});
+      if(!card||card.dataset.studyLinked==='true')return;
+      card.dataset.studyLinked='true';
+      card.style.cursor='pointer';
+      card.setAttribute('tabindex','0');
+      card.setAttribute('role','link');
+      card.setAttribute('aria-label',title+' 상세 요약 페이지 열기');
+      var box=document.createElement('div');
+      box.className='study-links';
+      box.style.cssText='display:flex;flex-wrap:wrap;gap:8px;margin-top:16px';
+      links.forEach(function(x){
+        var a=document.createElement('a');
+        a.href=x.href;a.textContent=x.title;
+        a.style.cssText='display:inline-block;padding:8px 12px;border:1px solid #bdd7ca;border-radius:7px;background:#f2f8f4;color:#176858;text-decoration:none;font-size:12px;font-weight:800;line-height:1.5';
+        a.addEventListener('click',function(e){e.stopPropagation()});
+        box.appendChild(a);
+      });
+      card.appendChild(box);
+      card.addEventListener('click',function(e){if(e.target.closest('a'))return;window.location.assign(main)});
+      card.addEventListener('keydown',function(e){if(e.target===card&&(e.key==='Enter'||e.key===' ')){e.preventDefault();window.location.assign(main)}});
+      card.addEventListener('mouseenter',function(){card.style.borderColor='#84afa3';card.style.boxShadow='0 8px 22px #214d4920';});
+      card.addEventListener('mouseleave',function(){card.style.borderColor='';card.style.boxShadow='';});
+    }
+    attach('세계 부흥 운동사',[{title:'세계 부흥 운동사 전체 내용 읽기 →',href:'world-revival-history.html'}],'world-revival-history.html');
+    attach('부흥관 바로 세우기',[
+      {title:'제5장 성령 세례 읽기 →',href:'iain-murray-chapter-5.html'},
+      {title:'부록 3편 읽기 →',href:'iain-murray-appendices.html'}
+    ],'iain-murray-chapter-5.html');
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',installScrollTop);
-  else installScrollTop();
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){setTimeout(attachResearchPages,0)});
+  else setTimeout(attachResearchPages,0);
 })();
