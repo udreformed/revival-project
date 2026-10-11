@@ -408,9 +408,10 @@ window.REVIVAL_SITE = {
     }
     attach('세계 부흥 운동사',[{title:'세계 부흥 운동사 전체 내용 읽기 →',href:'world-revival-history.html'}],'world-revival-history.html');
     attach('부흥관 바로 세우기',[
-      {title:'제5장 성령 세례 읽기 →',href:'iain-murray-chapter-5.html'},
-      {title:'부록 3편 읽기 →',href:'iain-murray-appendices.html'}
-    ],'iain-murray-chapter-5.html');
+      {title:'제1–7장·부록 3편 전체 요약 읽기 →',href:'iain-murray-full-summary.html'},
+      {title:'제5장 따로 보기 →',href:'iain-murray-chapter-5.html'},
+      {title:'부록 따로 보기 →',href:'iain-murray-appendices.html'}
+    ],'iain-murray-full-summary.html');
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){setTimeout(attachResearchPages,0)});
   else setTimeout(attachResearchPages,0);
