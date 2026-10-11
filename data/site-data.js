@@ -493,3 +493,30 @@ window.REVIVAL_SITE = {
     document.addEventListener('DOMContentLoaded',function(){setTimeout(installCovers,0);});
   }else setTimeout(installCovers,0);
 })();
+/* GitHub: data/site-data.js 파일 맨 마지막 줄 아래에 붙여넣으세요. 기존 코드는 삭제하지 마세요. */
+(function(){
+  function connectEdwardsCard(){
+    var host=document.getElementById('books');
+    if(!host) return;
+    var cards=Array.prototype.slice.call(host.querySelectorAll('.book'));
+    var card=cards.find(function(node){var h=node.querySelector('h3');return h && h.textContent.trim()==='균형잡힌 부흥론';});
+    if(!card||card.dataset.edwardsSummaryLinked==='true') return;
+    card.dataset.edwardsSummaryLinked='true';
+    var dest='edwards-balanced-revival.html';
+    var a=document.createElement('a');
+    a.href=dest;
+    a.textContent='전체 상세 요약 읽기 →';
+    a.style.cssText='display:inline-block;margin-top:14px;color:#216f69;font-size:12px;font-weight:800;text-decoration:none;border-bottom:1px solid #a3c8b7';
+    a.addEventListener('click',function(e){e.stopPropagation()});
+    (card.querySelector('.book-info')||card).appendChild(a);
+    card.style.cursor='pointer';
+    card.setAttribute('tabindex','0');
+    card.setAttribute('role','link');
+    card.setAttribute('aria-label','균형잡힌 부흥론 전체 상세 요약 읽기');
+    card.addEventListener('click',function(e){if(e.target.closest('a'))return;window.location.href=dest;});
+    card.addEventListener('keydown',function(e){if(e.target===card&&(e.key==='Enter'||e.key===' ')){e.preventDefault();window.location.href=dest;}});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(connectEdwardsCard,0)});
+  else setTimeout(connectEdwardsCard,0);
+})();
+
