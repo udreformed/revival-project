@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>설교를 위한 세계 부흥운동 역사 연표 | 부흥 프로젝트</title>
+<script>if(new URLSearchParams(location.search).get("embed")==="1")document.documentElement.classList.add("atlas-home-embedded");</script>
+
 <meta name="description" content="1625년부터 1995년까지, 설교에 활용하기 좋은 세계 부흥운동 16개 사건을 연대별로 살펴보는 인터랙티브 연표">
 <style>
 :root{--ink:#193845;--muted:#657a80;--teal:#216f69;--blue:#1c4459;--line:#d9e5df;--surface:#f6f7f3;--white:#fff;--pale:#e9f3ee;--gold:#a98445;--shadow:0 12px 30px #143b3330}
@@ -30,6 +32,16 @@ main{max-width:1240px;padding:28px 23px 80px;margin:auto}.hero{background:linear
 .guideline{margin-top:19px;padding:19px 24px;background:#fff;border:1px solid var(--line);border-radius:12px}.guideline h2{font-size:16px;margin:0 0 5px}.guideline p{font-size:13px;color:#52676a;margin:5px 0;word-break:keep-all}.footer{text-align:center;color:#8b9e99;font-size:12px;margin:25px 0 0}
 @media(max-width:720px){.head-inner{padding:8px 14px}.official-logo{width:42px;height:42px}.brand{font-size:13px}.head .return{font-size:11px}main{padding:15px 12px 50px}.hero{padding:21px 19px}.hero p{font-size:13px}.panel-top{padding:17px 15px 10px}.panel-top h2{font-size:18px}.controls{padding:0 14px 13px}.tab{padding:8px 10px}.filterwrap{width:100%;margin:4px 0 0}.filterwrap .search{flex:1;width:100%}.trackhint{padding:9px 14px}.event-node{width:162px;min-height:80px;padding:9px 10px}.event-node .name{font-size:12px}.detail-head{padding:18px 17px 13px}.detail-nav .nav-btn{padding:7px 9px}.detail-body{display:block;padding:14px 17px 18px}.detail-body>div+div{margin-top:17px}.detail-body p{font-size:13px}.guideline{padding:17px 18px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.event-node{transition:none}}
+
+/* Same timeline can be embedded without duplicating the homepage's logo/header/title. */
+html.atlas-home-embedded{scroll-behavior:auto}
+html.atlas-home-embedded body{background:#fff}
+html.atlas-home-embedded .head,html.atlas-home-embedded .hero,html.atlas-home-embedded .footer{display:none!important}
+html.atlas-home-embedded main{max-width:none;width:100%;margin:0;padding:12px 0 8px}
+html.atlas-home-embedded .panel{box-shadow:none}
+html.atlas-home-embedded .detail{scroll-margin-top:0}
+html.atlas-home-embedded .guideline{margin-top:14px}
+@media(max-width:720px){html.atlas-home-embedded main{padding:5px 0 7px}}
 </style></head><body>
 <header class="head"><div class="head-inner"><a class="brand" href="./" aria-label="부흥 프로젝트 메인으로"><svg class="official-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1254 1254" role="img" aria-label="부흥 프로젝트 공식 로고 — 열린 성경 위에 빨강과 파랑 불꽃">
 <defs>
@@ -120,7 +132,11 @@ function selectEvent(id,bringDetail){
  document.getElementById('nextBtn').disabled=index===EVENTS.length-1;
  const target=positions[index]-viewport.clientWidth/2;
  viewport.scrollTo({left:Math.max(0,target),behavior:'instant'});
- if(bringDetail)detail.scrollIntoView({behavior:'smooth',block:'start'});
+ if(bringDetail){
+  if(document.documentElement.classList.contains('atlas-home-embedded')){
+    window.parent.postMessage({type:'revival-atlas:focus',offset:detail.getBoundingClientRect().top+window.scrollY},window.location.origin);
+  }else detail.scrollIntoView({behavior:'smooth',block:'start'});
+ }
  updateStatus();
 }
 document.getElementById('prevBtn').addEventListener('click',()=>{let i=EVENTS.findIndex(e=>e.id===selectedId);if(i>0)selectEvent(EVENTS[i-1].id,false)});
@@ -142,4 +158,23 @@ search.addEventListener('input',()=>{
  updateStatus();
 });
 selectEvent(EVENTS[0].id,false);
-</script></body></html>
+</script>
+<script>
+/* Parent homepage adjusts the expanded frame height; no nested vertical scrollbars. */
+(function(){
+ if(!document.documentElement.classList.contains('atlas-home-embedded'))return;
+ let previousHeight=0;
+ const report=function(){
+   const h=Math.ceil(Math.max(document.body.scrollHeight,document.documentElement.scrollHeight));
+   if(Math.abs(h-previousHeight)>1){
+     previousHeight=h;
+     window.parent.postMessage({type:'revival-atlas:height',height:h},window.location.origin);
+   }
+ };
+ if('ResizeObserver' in window)new ResizeObserver(report).observe(document.querySelector('main'));
+ window.addEventListener('load',report);
+ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(report);
+ report();
+})();
+</script>
+</body></html>
