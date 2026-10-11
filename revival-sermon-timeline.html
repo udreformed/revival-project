@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>설교를 위한 세계 부흥운동 역사 연표 | 부흥 프로젝트</title>
+<meta name="description" content="1625년부터 1995년까지, 설교에 활용하기 좋은 세계 부흥운동 16개 사건을 연대별로 살펴보는 인터랙티브 연표">
+<style>
+:root{--ink:#193845;--muted:#657a80;--teal:#216f69;--blue:#1c4459;--line:#d9e5df;--surface:#f6f7f3;--white:#fff;--pale:#e9f3ee;--gold:#a98445;--shadow:0 12px 30px #143b3330}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--surface);color:var(--ink);font-family:"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;font-size:15px;line-height:1.8}
+button,input{font:inherit}a{color:var(--teal)}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #e2b868;outline-offset:3px}
+.head{position:sticky;top:0;z-index:50;background:#fffef7f2;backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.head-inner{max-width:1160px;margin:auto;padding:9px 22px;display:flex;justify-content:space-between;align-items:center;gap:14px}
+.brand{display:flex;gap:10px;align-items:center;text-decoration:none;font-weight:800;color:var(--ink);white-space:nowrap}.official-logo{width:48px;height:48px;display:block;flex:none}.head .return{font-weight:750;font-size:13px;text-decoration:none;white-space:nowrap}
+main{max-width:1240px;padding:28px 23px 80px;margin:auto}.hero{background:linear-gradient(115deg,#fff,#ebf2ed);border:1px solid var(--line);border-radius:15px;padding:28px 32px;margin-bottom:19px}
+.kicker{font-size:11px;font-weight:850;letter-spacing:.16em;color:var(--teal)}h1{font-family:"Noto Serif KR",Georgia,serif;letter-spacing:-.035em;font-size:clamp(27px,3.1vw,38px);line-height:1.4;margin:5px 0 9px;color:var(--blue)}.hero p{margin:5px 0;color:#49636a}.hero .selection{margin-top:10px;font-size:13px;color:var(--muted)}
+.panel{background:white;border:1px solid var(--line);border-radius:15px;box-shadow:0 5px 20px #243c3210;overflow:hidden}
+.panel-top{padding:20px 22px 14px}.panel-top h2{font-size:21px;letter-spacing:-.02em;margin:0;color:var(--blue)}.panel-top p{margin:3px 0 0;font-size:13px;color:var(--muted)}
+.controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:0 22px 16px}
+.tab,.nav-btn{border:1px solid #c7dbd1;background:#fff;color:#315b5a;font-weight:750;font-size:12px;border-radius:8px;padding:8px 12px;line-height:1.3}.tab.active{color:white;background:var(--teal);border-color:var(--teal)}.nav-btn:hover,.tab:hover{background:#eaf4ed}.tab.active:hover{background:var(--teal)}
+.filterwrap{display:flex;align-items:center;gap:8px;margin-left:auto}.search{min-width:0;width:212px;padding:8px 11px;font-size:13px;border:1px solid #ccdcd6;border-radius:8px;background:#fff;color:var(--ink)}
+.trackhint{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:8px 22px;background:#f3f7f4;color:#687a74;font-size:12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.hintbar{display:flex;align-items:center;gap:9px}.progress{height:3px;flex:1;max-width:200px;min-width:45px;background:#d8e8df;border-radius:9px;overflow:hidden}.progress span{display:block;width:0;height:100%;background:var(--teal)}
+.timeline-viewport{overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-color:#8ebdb1 #eef3ee;scrollbar-width:thin;background:linear-gradient(180deg,#f8fbf9,#fff 52%,#f9fbf8)}
+.timeline-stage{height:592px;position:relative;min-width:100%;isolation:isolate}
+.axis{position:absolute;top:296px;left:0;right:0;height:3px;background:linear-gradient(to right,#b5cbc2,#3d847c,#b5cbc2);z-index:1}.axis:before{content:"";position:absolute;left:0;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--teal)}.axis:after{content:"→";position:absolute;right:5px;top:-15px;color:var(--teal);font-size:22px;font-weight:800}
+.tick{position:absolute;top:282px;border-left:1px dashed #b2c7be;height:28px;z-index:1}.tick span{position:absolute;left:50%;transform:translateX(-50%);font-size:11px;top:-32px;font-weight:750;color:#768c83}
+.stem{position:absolute;width:1.5px;background:#b4cec3;z-index:1}.dot{position:absolute;top:289px;width:17px;height:17px;border:3px solid white;box-shadow:0 0 0 2px var(--teal);background:#a0bdad;border-radius:50%;transform:translateX(-50%);z-index:4;cursor:pointer}.dot.active{background:#eeae5a;box-shadow:0 0 0 3px var(--teal);width:20px;height:20px;top:288px}.dot.muted{opacity:.19;box-shadow:0 0 0 2px #a7b9b2}
+.event-node{position:absolute;width:184px;min-height:84px;padding:11px 12px 10px;background:white;border:1px solid #bad4c8;border-top:3px solid var(--teal);border-radius:10px;text-align:left;box-shadow:0 4px 13px #193b3612;color:var(--ink);z-index:3;display:flex;flex-direction:column;justify-content:center;line-height:1.36;gap:4px;transition:border-color .15s,background .15s,box-shadow .15s}.event-node:hover{box-shadow:0 7px 18px #193b3628;border-color:#5b9e89}.event-node.active{background:#eaf4ed;border-color:#216f69;border-top-color:var(--teal);box-shadow:0 7px 20px #1e56452a}.event-node.muted{opacity:.18;pointer-events:none}
+.event-node .date{font-size:11px;font-weight:800;letter-spacing:.01em;color:var(--teal)}.event-node .name{font-size:13px;font-weight:850;letter-spacing:-.025em;word-break:keep-all}.event-node .micro{font-size:11px;color:#627976;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.timeline-instruction{padding:8px 22px 14px;color:var(--muted);font-size:12px}
+.detail{margin-top:18px;scroll-margin-top:90px}.detail-head{padding:22px 28px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:18px}.detail-head .label{font-size:11px;letter-spacing:.1em;font-weight:850;color:var(--teal)}.detail-head h2{font-size:clamp(20px,2.4vw,29px);letter-spacing:-.03em;margin:0 0 6px;color:var(--blue);line-height:1.45}.detail-meta{font-size:12px;color:var(--muted)}.detail-nav{display:flex;gap:7px;flex:none}
+.detail-body{padding:17px 28px 25px;display:grid;grid-template-columns:1.28fr 1fr;gap:25px}.detail-body h3{font-size:14px;margin:0 0 7px;color:var(--teal)}.detail-body p{font-size:14px;line-height:1.9;margin:0 0 12px;word-break:keep-all}.detail-body .note{padding:13px 15px;background:#f4f7f5;border-left:3px solid #c9aa71;border-radius:5px}.detail-body .note p{font-size:13px;color:#526769;margin:0}.detail-body .source{font-size:12px;color:var(--muted);padding-top:5px}.verse{display:inline-block;background:#eaf2ed;border-radius:6px;color:#215e55;font-size:12px;font-weight:800;padding:3px 9px;margin-top:5px}
+.guideline{margin-top:19px;padding:19px 24px;background:#fff;border:1px solid var(--line);border-radius:12px}.guideline h2{font-size:16px;margin:0 0 5px}.guideline p{font-size:13px;color:#52676a;margin:5px 0;word-break:keep-all}.footer{text-align:center;color:#8b9e99;font-size:12px;margin:25px 0 0}
+@media(max-width:720px){.head-inner{padding:8px 14px}.official-logo{width:42px;height:42px}.brand{font-size:13px}.head .return{font-size:11px}main{padding:15px 12px 50px}.hero{padding:21px 19px}.hero p{font-size:13px}.panel-top{padding:17px 15px 10px}.panel-top h2{font-size:18px}.controls{padding:0 14px 13px}.tab{padding:8px 10px}.filterwrap{width:100%;margin:4px 0 0}.filterwrap .search{flex:1;width:100%}.trackhint{padding:9px 14px}.event-node{width:162px;min-height:80px;padding:9px 10px}.event-node .name{font-size:12px}.detail-head{padding:18px 17px 13px}.detail-nav .nav-btn{padding:7px 9px}.detail-body{display:block;padding:14px 17px 18px}.detail-body>div+div{margin-top:17px}.detail-body p{font-size:13px}.guideline{padding:17px 18px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.event-node{transition:none}}
+</style></head><body>
+<header class="head"><div class="head-inner"><a class="brand" href="./" aria-label="부흥 프로젝트 메인으로"><svg class="official-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1254 1254" role="img" aria-label="부흥 프로젝트 공식 로고 — 열린 성경 위에 빨강과 파랑 불꽃">
+<defs>
+<linearGradient id="flameRed" x1=".20" y1=".10" x2=".80" y2=".98"><stop stop-color="#ff4937"/><stop offset=".36" stop-color="#fb2630"/><stop offset=".73" stop-color="#e80026"/><stop offset="1" stop-color="#bc002a"/></linearGradient>
+<linearGradient id="flameBlue" x1="1" y1=".12" x2=".05" y2=".95"><stop stop-color="#259eff"/><stop offset=".43" stop-color="#0086e7"/><stop offset=".77" stop-color="#0752bb"/><stop offset="1" stop-color="#00338d"/></linearGradient>
+<linearGradient id="bookGold" x1=".5" y1=".04" x2=".5" y2="1"><stop stop-color="#ffd657"/><stop offset=".45" stop-color="#ffbd2d"/><stop offset=".79" stop-color="#f68c13"/><stop offset="1" stop-color="#e65c08"/></linearGradient>
+</defs><rect width="1254" height="1254" fill="white"/>
+<path d="M112,1033 113,1043 121,1049 184,1038 238,1035 309,1041 374,1055 428,1073 479,1095 539,1128 596,1169 622,1177 644,1175 658,1169 712,1130 790,1088 848,1065 891,1052 950,1040 1005,1035 1070,1038 1125,1049 1137,1047 1142,1040 1141,1030 1114,992 1070,938 1038,904 1018,894 987,890 921,893 860,905 801,926 749,953 704,986 669,1022 648,1053 628,1102 625,1101 615,1069 589,1024 576,1008 534,969 492,942 440,918 392,903 346,894 269,890 246,892 224,899 208,912 145,986Z" fill="url(#bookGold)"/>
+<path d="M614,82 625,116 628,156 621,196 606,232 589,259 567,286 517,335 403,433 373,463 342,501 317,541 294,596 283,646 282,688 286,714 297,749 315,784 337,814 365,841 401,865 504,908 540,927 563,943 601,982 618,1011 627,1035 646,985 654,948 654,919 646,887 634,863 620,844 595,819 529,766 500,735 484,707 476,676 478,643 488,613 511,574 549,530 574,510 575,513 560,555 557,579 558,604 565,633 579,662 597,686 619,707 647,726 636,704 629,674 629,653 634,628 650,593 714,508 744,456 766,393 772,356 773,326 770,293 761,256 747,221 728,187 707,158 675,124 647,101Z" fill="url(#flameRed)"/>
+<path d="M835,324 840,354 839,389 830,426 816,457 781,507 697,596 676,631 669,653 667,682 675,715 693,746 729,791 739,811 746,836 746,862 736,896 717,928 692,961 751,926 847,880 898,843 923,816 943,787 960,752 972,713 978,675 978,623 971,577 956,524 936,474 903,412 872,366Z" fill="url(#flameBlue)"/>
+</svg><span>부흥 프로젝트</span></a><a class="return" href="./#library">← 도서 자료실</a></div></header>
+<main><section class="hero"><div class="kicker">REVIVAL HISTORY · SERMON ILLUSTRATION ATLAS</div><h1>설교를 위한 세계 부흥운동 역사 연표</h1><p>1625–1995년 · 말씀·기도·회개·회심·교회의 갱신을 보여 주는 <strong>16개 역사적 사건</strong></p><p class="selection">박용규, 『세계부흥운동사』를 중심으로 선정 · 연대표의 사건을 누르면 바로 아래에서 자세히 읽을 수 있습니다.</p></section>
+<section class="panel" aria-label="인터랙티브 부흥 역사 연대표"><div class="panel-top"><h2>연대별 부흥 사건</h2><p>가까운 연도의 사건은 위·아래 층에 나누어 배치했습니다. 밀집 구간은 가독성을 위해 간격을 넓혔으며, 가로 간격은 실제 경과 연수에 비례하지 않습니다.</p></div>
+<div class="controls"><button type="button" class="tab active" data-century="all" aria-pressed="true">전체</button><button type="button" class="tab" data-century="17" aria-pressed="false">17세기</button><button type="button" class="tab" data-century="18" aria-pressed="false">18세기</button><button type="button" class="tab" data-century="19" aria-pressed="false">19세기</button><button type="button" class="tab" data-century="20" aria-pressed="false">20세기</button><div class="filterwrap"><label for="search" style="font-size:12px;color:var(--muted)">검색</label><input class="search" type="search" id="search" placeholder="인물 · 사건 · 장소 · 주제" autocomplete="off"></div></div>
+<div class="trackhint"><span>← 연대표를 좌우로 움직이세요 →</span><div class="hintbar"><span id="trackStatus">16개 사건</span><div class="progress" aria-hidden="true"><span id="scrollProgress"></span></div></div></div>
+<div class="timeline-viewport" id="timelineViewport" tabindex="0" aria-label="가로로 이동 가능한 연대별 부흥 사건 목록. 사건을 선택하면 아래에 상세 내용이 표시됩니다."><div class="timeline-stage" id="timelineStage"><div class="axis" aria-hidden="true"></div></div></div><div class="timeline-instruction">연도·사건 카드를 선택하세요. <strong>선택한 사건의 상세 내용은 아래에 한 번에 한 건씩 표시됩니다.</strong></div></section>
+<article class="panel detail" id="detail" aria-live="polite" aria-atomic="true"><div class="detail-head"><div><div class="label">선택한 부흥 사건 · <span id="detailCount">1 / 16</span></div><h2 id="detailTitle">사건을 선택하세요</h2><div class="detail-meta" id="detailMeta"></div></div><div class="detail-nav"><button class="nav-btn" type="button" id="prevBtn" aria-label="이전 사건">← 이전</button><button class="nav-btn" type="button" id="nextBtn" aria-label="다음 사건">다음 →</button></div></div><div class="detail-body"><div><h3>역사적 배경과 사건의 전개</h3><p id="story"></p><h3>관련 성경본문</h3><span class="verse" id="verse"></span></div><div><h3>개혁신학적 관점에서 추천하는 이유</h3><p id="reason"></p><div class="note"><h3>설교에서 유의할 점</h3><p id="caution"></p></div><p class="source" id="source"></p></div></div></article>
+<section class="guideline"><h2>사건 선정 원칙</h2><p>특정 교단에 속했다는 이유로 선정하거나 제외하지 않았습니다. 말씀 선포, 기도, 회개, 회심, 그리스도 중심의 복음과 지속적인 신앙의 열매가 뚜렷하고, 설교에서 역사적으로 설명할 만한 이야기가 있는 사건을 우선했습니다.</p><p><strong>신학적으로 모범으로 권장하기 어려운 부흥운동은 제외했습니다.</strong> 예컨대 인간의 방법에 의한 부흥을 지나치게 강조한 찰스 피니의 부흥주의, 방언을 성령세례의 규범적 표지로 삼은 아주사 거리 운동, 이 목록의 목적에 비추어 신학적 검토가 필요한 진젠도르프의 헤른후트 부흥 등은 선정하지 않았습니다. 일부 수록 사례에도 환상·특별한 체험에 대한 기록이 있지만, 이를 부흥의 필수 조건이나 설교의 모범으로 삼지 않습니다.</p><p>이 연표는 부흥에 대한 역사적 증언을 정리한 것이며, 보고된 회심 인원이나 비범한 체험의 초자연적 원인까지 독립적으로 입증하는 것은 아닙니다. 책의 해당 쪽수는 참고 위치이며, 상세한 설교 원고를 작성할 때는 1차 자료와 함께 재확인하는 것이 바람직합니다.</p></section><div class="footer">부흥 프로젝트 · 역사적 기록에 대한 개혁신학적 분별 · 2026</div></main>
+<script>
+"use strict";
+const EVENTS=[{"id":"stewarton","year":1625,"end":1630,"date":"1625–1630년","century":17,"title":"스튜어턴 부흥","person":"데이비드 딕슨","place":"스코틀랜드 어바인·스튜어턴","topic":"말씀과 회심","verse":"로마서 10:17","pages":"292쪽","story":"1625년경 스코틀랜드 어바인의 목사 데이비드 딕슨의 설교와 목회 아래 스튜어턴 일대에 영적 각성이 일어났습니다. 죄에 대한 자각과 회심을 고백하는 사람들이 나타났고, 이러한 움직임은 여러 해 이어졌습니다. 사건의 구체적인 개별 일화보다는 지속적인 교구 목회와 지역의 변화가 역사적 핵심입니다.","reason":"특정한 기술이나 극적인 집회 형식보다 정규적인 복음 설교와 목양을 통해 나타난 부흥이라는 점이 중요합니다. 인간의 죄와 그리스도의 은혜를 전하는 말씀 사역을 부흥의 중심에 놓을 수 있습니다.","caution":"1630년 6월 21일의 쇼츠 부흥은 별도 사건입니다. 스튜어턴의 회심 인원에 관한 전승을 독립적으로 검증된 통계처럼 사용하지 않습니다.","tags":["장로교","설교","회심"]},{"id":"shotts","year":1630,"date":"1630년 6월 21일","century":17,"title":"쇼츠 부흥","person":"존 리빙스턴","place":"스코틀랜드 쇼츠","topic":"중생과 성령","verse":"에스겔 36:25–27","pages":"171, 291–292쪽","story":"성찬예배를 전후한 모임에서 설교를 맡은 젊은 존 리빙스턴은 자신이 부족하다고 느껴 망설였습니다. 그는 결국 에스겔 36장의 정결과 새 마음의 약속을 전했습니다. 당시 기록에는 설교 후 많은 이들이 죄를 자각하고 회심했다고 전해집니다.","reason":"새 마음을 주시는 주체가 하나님이심을 직접 설교 본문으로 설명할 수 있습니다. 설교자의 역량 자체와 성령의 중생 사역을 구분한다는 점에서 개혁주의 은혜론을 보여 줍니다.","caution":"하루에 약 500명이 회심했다는 숫자는 후대 전승에 따른 보고로 소개하고, 중생의 확정적 집계로 단정하지 않습니다.","tags":["장로교","설교","중생"]},{"id":"raritan","year":1720,"date":"1720년대","century":18,"title":"뉴저지 개혁교회 부흥","person":"테오도루스 프릴링하이젠","place":"미국 뉴저지 래리턴","topic":"형식주의와 참된 믿음","verse":"고린도후서 13:5","pages":"304–314쪽","story":"1720년 뉴저지의 네 네덜란드 개혁교회에 부임한 프릴링하이젠은 첫 설교부터 형식적 교회 생활만으로 구원받았다고 안심하지 말라고 권면했습니다. 그는 죄에 대한 통회와 그리스도의 의, 참된 회심을 설교했습니다. 성찬과 교회 치리 문제를 둘러싸고 갈등이 있었지만, 교회에는 영적 각성과 변화가 보고되었습니다.","reason":"외적인 교회 소속과 그리스도를 믿는 참된 신앙을 구분하도록 도전합니다. 개혁교회의 교리와 말씀·성례·권징이 살아 있는 교회의 문제를 함께 다룰 수 있습니다.","caution":"성찬 자격을 둘러싼 그의 개별 판단과 갈등 해결 방식 전체를 무조건 모범으로 제시하지 않습니다.","tags":["개혁교회","칭의","회심"]},{"id":"northampton","year":1734,"end":1736,"date":"1734–1736년","century":18,"title":"노샘프턴 부흥","person":"조나단 에드워즈","place":"미국 매사추세츠 노샘프턴","topic":"참된 부흥의 열매","verse":"고린도후서 5:17","pages":"343–350쪽","story":"1734년 무렵 죽음과 영원에 대한 관심이 노샘프턴 공동체에 깊어졌습니다. 에드워즈의 설교와 목양 가운데 사람들이 죄와 구원에 진지해졌고, 가정과 일상생활에서 그리스도에 관한 대화가 증가했습니다. 예배와 찬송, 사람들의 삶에도 변화가 나타났으며 각성은 주변 마을로 확산되었습니다.","reason":"에드워즈는 하나님의 주권적 은혜와 성령의 중생을 강조하면서, 진정한 부흥을 분별하는 기준을 감정의 강도가 아니라 그리스도 중심의 믿음과 지속적인 거룩의 열매에 두었습니다.","caution":"특별한 심리·신체적 반응 자체를 참된 회심의 확실한 표지로 삼지 않습니다.","tags":["회심","분별","성화"]},{"id":"awakening","year":1740,"end":1742,"date":"1740–1742년","century":18,"title":"제1차 대각성운동의 확산","person":"조지 휫필드·조나단 에드워즈","place":"북미 여러 지역","topic":"주권적 은혜와 전도","verse":"고린도전서 1:21","pages":"353–381쪽","story":"1740년 휫필드는 북미 여러 도시를 순회하며 그리스도와 중생의 필요성을 선포했습니다. 뉴잉글랜드에서는 에드워즈를 비롯한 목회자들의 사역을 통해 각성의 두 번째 파장이 이어졌습니다. 지역을 넘어 설교와 회심에 관한 소식이 확산되었고, 부흥의 참된 열매를 둘러싼 논쟁도 일어났습니다.","reason":"칼빈주의적 구원 이해와 적극적인 복음 전도가 서로 대립하지 않는다는 사실을 보여 줍니다. 하나님의 선택과 은혜를 믿는 사람도 죄인에게 회개와 믿음을 간절히 요청합니다.","caution":"제1차 대각성의 모든 집회 운영 방식과 감정적 현상을 승인하는 뜻은 아닙니다. 에드워즈의 분별 기준을 함께 제시합니다.","tags":["전도","설교","주권"]},{"id":"cambuslang","year":1742,"date":"1742년 2월","century":18,"title":"캠버슬랭 부흥","person":"윌리엄 맥컬록","place":"스코틀랜드 캠버슬랭","topic":"그리스도의 의","verse":"예레미야 23:6","pages":"285–287쪽","story":"1742년 2월 18일 맥컬록 목사는 예레미야 23장 6절을 설교했습니다. 예배 후 구원에 관해 심각하게 고민하는 이들이 찾아왔고, 그날 밤 목사관에 약 50명이 모여 상담을 받았다고 전합니다. 이후 말씀과 성찬을 중심으로 각성이 이어졌고, 목회자들은 회심을 고백한 사람들의 신앙생활을 살피려 했습니다.","reason":"하나님께서 죄인에게 주시는 그리스도의 의가 설교의 주제였다는 점이 중요합니다. 말씀 선포, 신앙 상담, 성찬 및 지속적인 목양이 함께 나타난 사례입니다.","caution":"회중의 통곡과 많은 참석자를 부흥의 판정 기준으로 제시하지 않고, 신앙의 지속적 열매를 중시합니다.","tags":["칭의","설교","성례"]},{"id":"kilsyth1742","year":1742,"date":"1742년 5월","century":18,"title":"킬싯 부흥 (1742)","person":"제임스 로브","place":"스코틀랜드 킬싯","topic":"성령의 새 창조","verse":"에베소서 2:1–5","pages":"287–289쪽","story":"목사 제임스 로브는 죄인에게 중생이 왜 필요한지, 성령께서 어떻게 새 생명을 주시는지 설교했습니다. 1742년 5월 회중 가운데 죄의 자각과 변화가 보고되었고, 이후 교회는 말씀과 성찬을 중심으로 영적 갱신을 경험했습니다.","reason":"부흥의 핵심을 감정이나 비범한 은사가 아니라 죽은 죄인을 살리시는 성령의 중생 사역에 두는 역사적 예화로 적합합니다.","caution":"1839년 윌리엄 번즈와 관련된 킬싯 부흥과는 다른 사건입니다.","tags":["중생","성례","설교"]},{"id":"yale","year":1802,"date":"1802년","century":19,"title":"예일대학 부흥","person":"티모시 드와이트","place":"미국 코네티컷 예일대학","topic":"성경의 권위와 회심","verse":"디모데후서 3:15–17","pages":"399–402쪽","story":"1795년 예일대학 총장으로 부임한 드와이트는 학생들 가운데 널리 퍼진 불신앙에 대응하여 성경이 하나님의 말씀인가라는 문제를 약 6개월 동안 설교했습니다. 1802년 봄 두 졸업반 학생이 공개적으로 신앙을 고백했고, 이어 여러 학생에게 영적 각성이 확산되었습니다.","reason":"성경의 객관적 권위를 성실히 가르치는 일과 죄인의 내적 변화가 연결된 사례입니다. 강력한 체험을 인위적으로 조성하는 대신 진리의 설교와 성령의 역사에 의존합니다.","caution":"1802년의 회심자 수는 당시 대학 보고에 근거한 수치이지 중생 여부에 대한 최종 판정이 아닙니다.","tags":["청년","성경","회심"]},{"id":"dundee","year":1839,"date":"1839년 7–8월","century":19,"title":"킬싯·던디 부흥 (1839)","person":"윌리엄 찰머스 번즈·로버트 머리 맥체인","place":"스코틀랜드 킬싯·던디","topic":"말씀과 설교자의 도구성","verse":"고린도전서 3:6–7","pages":"459–466쪽","story":"1839년 7월 23일 젊은 설교자 번즈가 설교하던 킬싯에서 각성이 일어났습니다. 이후 던디 성베드로교회로 돌아온 그는 킬싯에서의 일을 전했고, 예배 후 남은 이들 사이에서 회개와 기도가 이어졌습니다. 당시 교회의 담임 목사 맥체인은 자리를 비운 상태였으며, 귀환 후 신앙 상담과 교회의 변화를 확인했습니다.","reason":"은혜를 베푸시는 주체는 하나님이시며 설교자는 도구라는 사실을 선명하게 보여 줍니다. 이후 교리교육과 목회적 돌봄이 중요하게 다뤄졌다는 점도 유익합니다.","caution":"1742년 킬싯 부흥과 혼동하지 않습니다. 극적인 현상을 재현해야 한다는 식으로 적용하지 않습니다.","tags":["장로교","목회","설교"]},{"id":"fulton","year":1857,"date":"1857년 9월 23일","century":19,"title":"뉴욕 정오기도 부흥","person":"제레마이아 란피어","place":"미국 뉴욕 풀턴가","topic":"지속적인 기도","verse":"사도행전 4:31","pages":"473–482쪽","story":"1857년 9월 23일 정오 뉴욕 북화란개혁교회 건물에서 평신도 란피어가 기도회를 열었습니다. 처음에는 혼자 기도하다가 모임이 끝날 무렵 여섯 명이 참석했습니다. 다음 주에는 더 많은 사람이 모였고, 결국 주간 기도회는 매일의 기도회로 확대되어 여러 지역으로 퍼졌습니다.","reason":"하나님의 주권을 의지하는 간절한 기도와 평신도의 신실한 참여를 보여 줍니다. 기도를 부흥을 보장하는 공식이 아니라 하나님이 명하신 은혜의 방편으로 설명할 수 있습니다.","caution":"당시의 대규모 회심 통계는 보고치로 제시하고 실제 회심과 집회 참여를 동일시하지 않습니다.","tags":["기도","평신도","회심"]},{"id":"ulster","year":1859,"date":"1857년 시작 · 1859년 확산","century":19,"title":"얼스터 부흥","person":"제임스 맥퀼킨 외 세 청년","place":"아일랜드 얼스터","topic":"기도와 교회의 갱신","verse":"골로새서 4:2–3","pages":"483–488쪽","story":"1857년 9월 네 청년이 아일랜드 켈스의 작은 학교에서 기도모임을 시작했습니다. 기도회의 수가 늘어나 1858년 말에는 약 100개 모임이 생겼다는 기록이 있습니다. 1859년 얼스터의 여러 장로교회와 지역에서 회심과 갱신이 보고되었고, 미국 기도운동을 견학한 목회자들의 보고도 자극이 되었습니다.","reason":"말씀과 연합기도, 지역 교회 사역이 함께 진행된 운동으로, 부흥을 특정 지도자의 개인적 능력보다 교회가 하나님께 의존하는 역사로 설명할 수 있습니다.","caution":"집단적 신체 반응을 성령 역사의 필수 표지로 보지 않으며, 기도모임 하나만이 전체 부흥의 유일한 원인이라고 단정하지 않습니다.","tags":["기도","교회","장로교"]},{"id":"korea","year":1903,"end":1907,"date":"1903–1907년","century":20,"title":"원산–평양 대부흥","person":"메리 화이트·루이스 맥컬리·로버트 하디·길선주 등","place":"한국 원산 → 평양","topic":"기도·사경회·회개","verse":"시편 51:17","pages":"713–716, 719–722쪽","story":"1903년 원산에서 화이트와 맥컬리가 시작한 기도모임에 여러 선교사가 합류했습니다. 기도 강의를 준비한 하디 선교사는 자신의 교만과 한국인을 향한 편견을 깨닫고 동료 선교사와 회중 앞에서 회개했습니다. 이후 기도와 사경회 중심의 영적 각성이 지속됐습니다. 1907년 1월 평양 장대현교회 사경회에서 길선주 장로는 친구 재산을 정리하며 돈을 부당하게 취한 죄를 고백했고, 회개와 기도가 여러 교회로 확산되었다고 당시 기록은 전합니다.","reason":"한 인물의 체험이 아니라 수년간의 기도·성경공부·복음 선포와 구체적 죄 고백, 교회의 갱신이 연결된 역사입니다. 하나님의 거룩하심 앞에서 죄를 깨닫고 돌이키는 회개가 핵심입니다.","caution":"원산 초기 주역 하디는 감리교 선교사였으며 한국 부흥을 모두 한 교단의 운동으로 단정할 수 없습니다. 죄 고백이 공개적으로 이루어져야만 참된 회개라는 식으로 일반화하지 않습니다.","tags":["한국","기도","회개"]},{"id":"wales","year":1904,"end":1905,"date":"1904–1905년","century":20,"title":"웨일스 부흥","person":"이반 로버츠 및 지역 교회 성도들","place":"영국 웨일스","topic":"기도와 삶의 변화","verse":"데살로니가전서 5:21","pages":"601–610쪽","story":"1904년 10월 31일 웨일스 모리아 예배당에서 기도회가 끝난 뒤 로버츠는 남아 있던 청년들에게 그리스도를 믿고 고백할 것을 권면했습니다. 이후 회중의 기도와 찬송, 신앙고백이 여러 지역으로 확산되었습니다. 당대 기록에는 개인의 회개와 일부 사회적 변화가 보고됩니다.","reason":"젊은이들의 회심, 기도, 그리스도를 향한 공개적 신앙고백과 삶의 변화를 설명할 때 유익합니다. 다만 부흥의 진정성은 말씀과 지속적인 열매를 기준으로 평가합니다.","caution":"로버츠 개인의 환상·계시 경험을 부흥의 규범으로 제시하지 않습니다. 감정의 고조, 확인되지 않은 사회적 일화를 과장하지 않습니다.","tags":["청년","회개","기도"]},{"id":"mukti","year":1905,"end":1906,"date":"1905–1906년","century":20,"title":"인도 묵티 부흥","person":"판디타 라마바이","place":"인도 케드가온 묵티 공동체","topic":"성경교육과 전도","verse":"요한복음 8:31–32","pages":"657–660쪽","story":"1905년 라마바이는 공동체에서 소녀들과 함께 기도모임을 조직했습니다. 6월 30일 요한복음 8장을 가르치던 중 여러 사람에게 죄 고백과 기도의 움직임이 나타났다고 기록됩니다. 이후 공동체는 이웃 지역을 향한 전도와 섬김으로 활동을 넓혔습니다.","reason":"성경을 배우고 서로를 위해 기도하는 삶이 이웃을 향한 복음 전파와 섬김으로 이어질 수 있음을 설명하는 사례로 제한하여 활용할 수 있습니다.","caution":"특별한 불꽃 환상, 방언 및 성령세례에 관한 특정 성결주의·오순절적 해석을 교리적 모범으로 추천하지 않습니다.","tags":["성경","기도","선교"]},{"id":"asbury","year":1970,"date":"1970년 2월 3일","century":20,"title":"애즈베리 대학 부흥","person":"커스터 레이놀즈와 학생들","place":"미국 켄터키 애즈베리대학","topic":"회개와 간증","verse":"요한일서 1:9","pages":"907–912쪽","story":"1970년 2월 3일 오전 정규 채플에서 예배를 인도하던 레이놀즈는 설교 대신 간증을 나누고 학생들에게 신앙 경험을 이야기하도록 초청했습니다. 학생들의 간증과 기도, 죄 고백이 이어졌고, 학교 채플에서 약 185시간 모임이 계속되었다고 기록됩니다. 이후 참여자들의 증언이 다른 학교와 교회로 전해졌습니다.","reason":"자신의 죄를 인정하고 함께 기도하며 서로의 신앙을 돌아보는 계기를 설명할 수 있습니다. 외형적 길이보다 신앙의 지속적인 변화에 주목하게 합니다.","caution":"웨슬리안 성결 전통의 운동이므로 성결론 전체를 개혁주의의 표준으로 제시하지 않습니다. 장시간 집회 자체를 성령의 임재 증거로 삼지 않습니다.","tags":["청년","회개","공동체"]},{"id":"wheaton","year":1995,"date":"1995년 3월 19일","century":20,"title":"휘튼대학 부흥","person":"브랜디 맥과이어·제임스 한 및 학생들","place":"미국 일리노이 휘튼대학","topic":"회개와 화해","verse":"야고보서 5:16","pages":"900–905쪽","story":"1995년 3월 19일 밤 휘튼대학 집회에서 하워드 페인 대학 학생 두 명이 자신들의 대학에서 있었던 일을 간증했습니다. 잠시 침묵이 흐른 뒤 한 휘튼대학 학생이 교만을 고백하고 동료들의 용서를 구했고, 다른 학생들도 자신의 죄를 고백했습니다. 기도와 신앙 갱신의 모임은 며칠간 계속되었습니다.","reason":"다른 공동체에 관한 간증이 자신의 신앙을 돌아보고 잘못을 인정하며 화해를 구하는 계기가 될 수 있음을 보여 줍니다.","caution":"심리적 분위기나 모든 공개 고백을 자동으로 참된 성령의 역사로 인정하지 않습니다. 회복·거룩의 장기적 열매를 판단 기준으로 삼습니다.","tags":["청년","화해","회개"]}];
+const stage=document.getElementById('timelineStage');
+const viewport=document.getElementById('timelineViewport');
+const detail=document.getElementById('detail');
+const AXIS_Y=296,CARD_W=184;
+let selectedId=EVENTS[0].id;
+const search=document.getElementById('search');
+const allNodes=[];
+const positions=[];
+let x=140;
+for(let i=0;i<EVENTS.length;i++){
+  if(i>0){const gap=EVENTS[i].year-EVENTS[i-1].year;
+    // Event-dense periods receive space; vacant historical periods are compressed.
+    x+=Math.max(108,Math.min(265,96+33*Math.log2(gap+1)));
+  }
+  positions.push(x);
+}
+const W=Math.ceil(positions[positions.length-1]+165);
+stage.style.width=W+'px';
+// Nodes alternate in four vertical lanes. Every lane has a collision buffer.
+const lanes=[{top:174,side:-1},{top:370,side:1},{top:58,side:-1},{top:480,side:1}];
+let used=lanes.map(()=>-10000);
+const ticks=[1650,1700,1750,1800,1850,1900,1950];
+const atYear=(y)=>{
+  if(y<=EVENTS[0].year)return positions[0];
+  if(y>=EVENTS[EVENTS.length-1].year)return positions[positions.length-1];
+  for(let i=0;i<EVENTS.length-1;i++)if(EVENTS[i].year<=y&&y<=EVENTS[i+1].year){
+    const a=EVENTS[i].year,b=EVENTS[i+1].year;
+    return positions[i]+(positions[i+1]-positions[i])*((y-a)/(b-a||1));
+  }
+  return positions[0];
+};
+ticks.forEach(t=>{const el=document.createElement('div');el.className='tick';el.style.left=atYear(t)+'px';el.innerHTML='<span>'+t+'</span>';stage.appendChild(el)});
+EVENTS.forEach((e,i)=>{
+  const choices=lanes.map((lane,n)=>({n,free:(positions[i]-used[n])>=CARD_W+22,preference:(n+((i%2)?1:0))%4}));
+  const available=choices.filter(p=>p.free).sort((a,b)=>a.preference-b.preference);
+  const choice=available.length?available[0].n:choices.sort((a,b)=>used[a.n]-used[b.n])[0].n;
+  const lane=lanes[choice];used[choice]=positions[i];
+  const stem=document.createElement('span');stem.className='stem';stem.setAttribute('aria-hidden','true');stem.style.left=(positions[i]-.75)+'px';stem.style.top=(lane.side<0?lane.top+84:AXIS_Y)+'px';stem.style.height=(lane.side<0?AXIS_Y-(lane.top+84):lane.top-AXIS_Y)+'px';stage.appendChild(stem);
+  const dot=document.createElement('span');dot.className='dot';dot.style.left=positions[i]+'px';dot.setAttribute('aria-hidden','true');stage.appendChild(dot);
+  const node=document.createElement('button');node.type='button';node.className='event-node';node.style.left=(positions[i]-CARD_W/2)+'px';node.style.top=lane.top+'px';node.dataset.id=e.id;node.dataset.century=e.century;
+  node.setAttribute('aria-label',e.date+' '+e.title+' 상세 보기');node.setAttribute('aria-pressed','false');
+  const year=document.createElement('span');year.className='date';year.textContent=e.date;
+  const name=document.createElement('span');name.className='name';name.textContent=e.title;
+  const topic=document.createElement('span');topic.className='micro';topic.textContent=e.topic;
+  node.append(year,name,topic);
+  node.addEventListener('click',()=>selectEvent(e.id,true));stage.appendChild(node);
+  allNodes.push({e,node,dot,stem});
+});
+function updateStatus(){
+ const available=allNodes.filter(x=>!x.node.classList.contains('muted')).length;
+ document.getElementById('trackStatus').textContent=available+'개 사건';
+ document.getElementById('scrollProgress').style.width=(100*viewport.scrollLeft/(viewport.scrollWidth-viewport.clientWidth||1))+'%';
+}
+function selectEvent(id,bringDetail){
+ const index=EVENTS.findIndex(e=>e.id===id); if(index<0)return;
+ selectedId=id;const e=EVENTS[index];
+ allNodes.forEach(a=>{const b=a.e.id===id;a.node.classList.toggle('active',b);a.node.setAttribute('aria-pressed',String(b));a.dot.classList.toggle('active',b)});
+ document.getElementById('detailCount').textContent=(index+1)+' / '+EVENTS.length;
+ document.getElementById('detailTitle').textContent=e.date+' · '+e.title;
+ document.getElementById('detailMeta').textContent=e.place+' · '+e.person;
+ document.getElementById('story').textContent=e.story;
+ document.getElementById('reason').textContent=e.reason;
+ document.getElementById('caution').textContent=e.caution;
+ document.getElementById('verse').textContent=e.verse;
+ document.getElementById('source').textContent='출처: 박용규, 『세계부흥운동사』, '+e.pages+' (인쇄본 기준)';
+ document.getElementById('prevBtn').disabled=index===0;
+ document.getElementById('nextBtn').disabled=index===EVENTS.length-1;
+ const target=positions[index]-viewport.clientWidth/2;
+ viewport.scrollTo({left:Math.max(0,target),behavior:'instant'});
+ if(bringDetail)detail.scrollIntoView({behavior:'smooth',block:'start'});
+ updateStatus();
+}
+document.getElementById('prevBtn').addEventListener('click',()=>{let i=EVENTS.findIndex(e=>e.id===selectedId);if(i>0)selectEvent(EVENTS[i-1].id,false)});
+document.getElementById('nextBtn').addEventListener('click',()=>{let i=EVENTS.findIndex(e=>e.id===selectedId);if(i<EVENTS.length-1)selectEvent(EVENTS[i+1].id,false)});
+viewport.addEventListener('scroll',updateStatus,{passive:true});
+viewport.addEventListener('keydown',e=>{const index=EVENTS.findIndex(v=>v.id===selectedId);if(e.key==='ArrowRight'&&index<EVENTS.length-1){e.preventDefault();selectEvent(EVENTS[index+1].id,false)}if(e.key==='ArrowLeft'&&index>0){e.preventDefault();selectEvent(EVENTS[index-1].id,false)}});
+document.querySelectorAll('.tab[data-century]').forEach(tab=>tab.addEventListener('click',()=>{
+ const value=tab.dataset.century;
+ document.querySelectorAll('.tab[data-century]').forEach(n=>{let a=n===tab;n.classList.toggle('active',a);n.setAttribute('aria-pressed',String(a))});
+ search.value='';allNodes.forEach(a=>{a.node.classList.remove('muted');a.dot.classList.remove('muted')});
+ const match=EVENTS.find(e=>value==='all'||String(e.century)===value);
+ if(match)selectEvent(match.id,false);
+ updateStatus();
+}));
+search.addEventListener('input',()=>{
+ const q=search.value.trim().toLocaleLowerCase();let first=null;
+ allNodes.forEach(a=>{const s=[a.e.title,a.e.person,a.e.place,a.e.topic,a.e.date,...a.e.tags].join(' ').toLocaleLowerCase();const valid=!q||s.includes(q);a.node.classList.toggle('muted',!valid);a.dot.classList.toggle('muted',!valid);if(valid&&!first)first=a.e});
+ if(q&&first)selectEvent(first.id,false);
+ updateStatus();
+});
+selectEvent(EVENTS[0].id,false);
+</script></body></html>
