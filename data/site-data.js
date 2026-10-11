@@ -375,3 +375,28 @@ window.REVIVAL_SITE = {
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){setTimeout(linkLovelaceSummary,0);});
   else setTimeout(linkLovelaceSummary,0);
 })();
+
+
+// 공통 위로 이동 버튼
+(function(){
+  function installScrollTop(){
+    if(document.getElementById('scroll-top-button')) return;
+    var style=document.createElement('style');
+    style.textContent='.scroll-top-button{position:fixed;right:22px;bottom:22px;z-index:9999;width:48px;height:48px;border:1px solid #c8d9d2;border-radius:50%;background:rgba(255,255,255,.94);color:#216f69;box-shadow:0 8px 24px rgba(24,59,70,.18);font-size:25px;font-weight:800;line-height:1;display:grid;place-items:center;cursor:pointer;opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .18s ease,transform .18s ease,background .18s ease}.scroll-top-button.is-visible{opacity:1;transform:translateY(0);pointer-events:auto}.scroll-top-button:hover,.scroll-top-button:focus-visible{background:#eaf4ef;outline:2px solid #83aa9d;outline-offset:2px}@media(max-width:700px){.scroll-top-button{right:14px;bottom:16px;width:44px;height:44px;font-size:23px}}';
+    document.head.appendChild(style);
+    var btn=document.createElement('button');
+    btn.id='scroll-top-button';
+    btn.className='scroll-top-button';
+    btn.type='button';
+    btn.setAttribute('aria-label','페이지 맨 위로 이동');
+    btn.setAttribute('title','맨 위로');
+    btn.textContent='↑';
+    btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+    function update(){btn.classList.toggle('is-visible',window.scrollY>320);}
+    window.addEventListener('scroll',update,{passive:true});
+    update();
+    document.body.appendChild(btn);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',installScrollTop);
+  else installScrollTop();
+})();
