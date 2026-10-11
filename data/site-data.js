@@ -342,3 +342,36 @@ window.REVIVAL_SITE = {
     }
   ]
 };
+
+// 『온전한 영성』 카드에서 상세 요약 페이지로 연결
+(function(){
+  function linkLovelaceSummary(){
+    var books=document.getElementById('books');
+    if(!books) return;
+    var cards=Array.prototype.slice.call(books.querySelectorAll('.book'));
+    var card=cards.find(function(c){var h=c.querySelector('h3');return h && h.textContent.trim()==='온전한 영성';});
+    if(!card || card.getAttribute('data-summary-linked')==='true') return;
+    card.setAttribute('data-summary-linked','true');
+    card.style.cursor='pointer';
+    card.style.transition='border-color .15s, box-shadow .15s, transform .15s';
+    card.setAttribute('tabindex','0');
+    card.setAttribute('role','link');
+    card.setAttribute('aria-label','온전한 영성 장별·소제목별 상세 요약 보기');
+    var a=document.createElement('a');
+    a.href='lovelace-renewal-summary.html';
+    a.textContent='장별·소제목별 상세 요약 보기 →';
+    a.style.display='inline-block';
+    a.style.marginTop='13px';
+    a.style.color='#216f69';
+    a.style.fontWeight='800';
+    a.style.fontSize='12px';
+    a.style.borderBottom='1px solid #a3c8b7';
+    card.appendChild(a);
+    card.addEventListener('mouseenter',function(){card.style.borderColor='#7da69a';card.style.boxShadow='0 8px 22px #214d4920';card.style.transform='translateY(-1px)';});
+    card.addEventListener('mouseleave',function(){card.style.borderColor='';card.style.boxShadow='';card.style.transform='';});
+    card.addEventListener('click',function(e){if(e.target.closest('a')) return;window.location.href=a.href;});
+    card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();window.location.href=a.href;}});
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){setTimeout(linkLovelaceSummary,0);});
+  else setTimeout(linkLovelaceSummary,0);
+})();
