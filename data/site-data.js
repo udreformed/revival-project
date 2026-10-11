@@ -406,13 +406,90 @@ window.REVIVAL_SITE = {
       card.addEventListener('mouseenter',function(){card.style.borderColor='#84afa3';card.style.boxShadow='0 8px 22px #214d4920';});
       card.addEventListener('mouseleave',function(){card.style.borderColor='';card.style.boxShadow='';});
     }
-    attach('세계 부흥 운동사',[{title:'세계 부흥 운동사 전체 내용 읽기 →',href:'world-revival-history.html'}],'world-revival-history.html');
+    // 박용규 카드는 index.html에서 전체 카드가 링크이므로 중첩 링크를 추가하지 않습니다.
     attach('부흥관 바로 세우기',[
-      {title:'제1–7장·부록 3편 전체 요약 읽기 →',href:'iain-murray-full-summary.html'},
-      {title:'제5장 따로 보기 →',href:'iain-murray-chapter-5.html'},
-      {title:'부록 따로 보기 →',href:'iain-murray-appendices.html'}
+      {title:'전체 요약 읽기 →',href:'iain-murray-full-summary.html'}
     ],'iain-murray-full-summary.html');
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){setTimeout(attachResearchPages,0)});
   else setTimeout(attachResearchPages,0);
+})();
+/* 도서 8종 한국어판 표지: 기존 카드와 요약 링크 보존, 별도 유료 기능 없음 */
+(function(){
+  var coverMap = {
+    '온전한 영성': 'https://image.yes24.com/goods/2812358/xl',
+    '부흥': 'https://image.yes24.com/goods/2153773/XL',
+    '부흥관 바로 세우기': 'https://image.yes24.com/goods/192777/L',
+    '균형잡힌 부흥론': 'https://cdn.imweb.me/thumbnail/20190330/5c9f329fba2df.jpg',
+    '세계 부흥 운동사': 'https://www.igoodnews.net/news/photo/201701/52015_34419_5739.png',
+    '기도합주회': 'https://cdn.imweb.me/thumbnail/20171012/59df134fe7776.jpg',
+    '하나님의 영광을 위한 하나님의 열심': 'https://cdn.imweb.me/thumbnail/20171011/59dd8a3db50b6.jpg',
+    '성령의 사역, 회심과 부흥': 'https://image.yes24.com/goods/2104324/xl'
+  };
+  var fallbacks = {
+    '온전한 영성': 'https://image.yes24.com/goods/2812358/L',
+    '부흥': 'https://image.yes24.com/goods/2153773/L',
+    '성령의 사역, 회심과 부흥': 'https://image.yes24.com/goods/2104324/L'
+  };
+  function installCovers(){
+    var host=document.getElementById('books');
+    if(!host || host.dataset.coversInstalled==='true') return;
+    var cards=Array.prototype.slice.call(host.querySelectorAll('.book'));
+    if(cards.length!==8) return;
+    host.dataset.coversInstalled='true';
+
+    var css = document.createElement('style');
+    css.textContent = [
+      '#books .book.has-cover{display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;align-items:start;padding:21px;min-height:208px;}',
+      '#books .book-cover{display:flex;align-items:flex-start;justify-content:center;width:96px;min-height:144px;margin:0;overflow:hidden;border-radius:5px;background:#f4f5f1;}',
+      '#books .book-cover img{display:block;width:96px;height:144px;object-fit:contain;object-position:center center;}',
+      '#books .book-info{min-width:0;}',
+      '#books .book-info h3{overflow-wrap:anywhere;}',
+      '#books .book-info .study-links{margin-top:13px !important;}',
+      '#books .book-cover-fallback{display:none;min-height:144px;width:96px;box-sizing:border-box;padding:12px 6px;align-items:center;justify-content:center;flex-direction:column;gap:9px;text-align:center;color:#647971;background:#eef2ed;border:1px solid #d9e3dc;}',
+      '#books .book-cover-fallback span{font-size:12px;font-weight:700;line-height:1.45;}',
+      '@media (max-width:1100px) and (min-width:701px){#books.books{grid-template-columns:repeat(2,minmax(0,1fr));}}',
+      '@media (max-width:700px){#books .book.has-cover{grid-template-columns:86px minmax(0,1fr);gap:15px;padding:18px;min-height:0;}#books .book-cover,#books .book-cover img,#books .book-cover-fallback{width:86px;}#books .book-cover img,#books .book-cover-fallback{height:129px;min-height:129px;}}'
+    ].join('\n');
+    document.head.appendChild(css);
+
+    cards.forEach(function(card){
+      var titleEl=card.querySelector('h3'),title=titleEl&&titleEl.textContent.trim();
+      if(!title || !coverMap[title]) return;
+      var figure=document.createElement('figure');
+      figure.className='book-cover';
+      var img=document.createElement('img');
+      img.alt=title+' 한국어판 도서 표지';
+      img.width=96; img.height=144;
+      img.loading='lazy'; img.decoding='async';
+      img.setAttribute('fetchpriority','low');
+      img.referrerPolicy='no-referrer';
+      var fallback=document.createElement('div');
+      fallback.className='book-cover-fallback';
+      fallback.setAttribute('aria-hidden','true');
+      var symbol=document.createElement('span');
+      symbol.textContent='책 표지';
+      var name=document.createElement('span');
+      name.textContent=title;
+      fallback.appendChild(symbol);fallback.appendChild(name);
+      var tried=false;
+      img.addEventListener('error',function(){
+        if(!tried && fallbacks[title]){tried=true;img.src=fallbacks[title];return;}
+        img.style.display='none';
+        fallback.style.display='flex';
+      });
+      img.src=coverMap[title];
+      figure.appendChild(img);
+      figure.appendChild(fallback);
+      var info=document.createElement('div');
+      info.className='book-info';
+      while(card.firstChild) info.appendChild(card.firstChild);
+      card.appendChild(figure);
+      card.appendChild(info);
+      card.classList.add('has-cover');
+    });
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',function(){setTimeout(installCovers,0);});
+  }else setTimeout(installCovers,0);
 })();
