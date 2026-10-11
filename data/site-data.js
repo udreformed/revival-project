@@ -521,3 +521,47 @@ window.REVIVAL_SITE = {
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(connectEdwardsCard,0)});
   else setTimeout(connectEdwardsCard,0);
 })();
+(function(){
+  'use strict';
+  function connectEdwardsCreationEnd(){
+    var host=document.getElementById('books');
+    if(!host)return;
+    var cards=Array.prototype.slice.call(host.querySelectorAll('.book'));
+    var card=cards.find(function(node){
+      var title=node.querySelector('h3');
+      return title && title.textContent.trim()==='하나님의 영광을 위한 하나님의 열심';
+    });
+    if(!card || card.dataset.creationEndLinked==='yes')return;
+    card.dataset.creationEndLinked='yes';
+    var dest='edwards-creation-end.html';
+    var link=document.createElement('a');
+    link.href=dest;
+    link.textContent='전체 상세 요약 읽기';
+    link.setAttribute('aria-label','조나단 에드워즈 하나님의 천지창조 목적 전체 상세 요약 읽기');
+    link.style.cssText='display:inline-block;margin-top:14px;color:#216f69;font-size:12px;font-weight:800;text-decoration:none;border-bottom:1px solid #a3c8b7;text-underline-offset:3px';
+    link.addEventListener('click',function(e){e.stopPropagation();});
+    var info=card.querySelector('.book-info')||card;
+    var note=document.createElement('div');
+    note.textContent='에드워즈 『하나님의 천지창조 목적』';
+    note.style.cssText='margin-top:13px;font-size:11px;color:#697d7a;font-weight:650';
+    info.appendChild(note);
+    link.style.marginTop='3px';
+    info.appendChild(link);
+    card.style.cursor='pointer';
+    card.setAttribute('role','link');
+    card.setAttribute('tabindex','0');
+    card.setAttribute('aria-label','하나님의 천지창조 목적 전체 상세 요약 페이지 열기');
+    card.addEventListener('click',function(e){
+      if(e.target.closest('a'))return;
+      window.location.href=dest;
+    });
+    card.addEventListener('keydown',function(e){
+      if(e.target===card && (e.key==='Enter'||e.key===' ')){
+        e.preventDefault();window.location.href=dest;
+      }
+    });
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',function(){setTimeout(connectEdwardsCreationEnd,20);});
+  }else setTimeout(connectEdwardsCreationEnd,20);
+})();
