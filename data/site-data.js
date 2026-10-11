@@ -519,4 +519,4 @@ window.REVIVAL_SITE = {
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(connectEdwardsCard,0)});
   else setTimeout(connectEdwardsCard,0);
 })();
-
+<script src="edwards-concert-link.js"></script>
