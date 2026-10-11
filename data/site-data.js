@@ -396,7 +396,9 @@ window.REVIVAL_SITE = {
       links.forEach(function(x){
         var a=document.createElement('a');
         a.href=x.href;a.textContent=x.title;
-        a.style.cssText='display:inline-block;padding:8px 12px;border:1px solid #bdd7ca;border-radius:7px;background:#f2f8f4;color:#176858;text-decoration:none;font-size:12px;font-weight:800;line-height:1.5';
+        a.style.cssText=title==='부흥관 바로 세우기'
+          ?'display:inline-block;color:#216f69;font-size:12px;font-weight:800;text-decoration:none;border-bottom:1px solid #a3c8b7'
+          :'display:inline-block;padding:8px 12px;border:1px solid #bdd7ca;border-radius:7px;background:#f2f8f4;color:#176858;text-decoration:none;font-size:12px;font-weight:800;line-height:1.5';
         a.addEventListener('click',function(e){e.stopPropagation()});
         box.appendChild(a);
       });
@@ -408,7 +410,7 @@ window.REVIVAL_SITE = {
     }
     // 박용규 카드는 index.html에서 전체 카드가 링크이므로 중첩 링크를 추가하지 않습니다.
     attach('부흥관 바로 세우기',[
-      {title:'전체 요약 읽기 →',href:'iain-murray-full-summary.html'}
+      {title:'전체 상세 요약 읽기 →',href:'iain-murray-full-summary.html'}
     ],'iain-murray-full-summary.html');
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){setTimeout(attachResearchPages,0)});
