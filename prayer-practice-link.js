@@ -21,3 +21,15 @@
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);else run();
 })();
+
+/* 『기도합주회』 도서 카드 링크 복구: 기존 index.html 변경 없이 연결 파일 실행 */
+(function(){
+  'use strict';
+  var scripts=Array.prototype.slice.call(document.querySelectorAll('script[src]'));
+  var exists=scripts.some(function(s){return /(?:^|\/)edwards-concert-link\.js(?:\?.*)?$/.test(s.getAttribute('src')||'');});
+  if(exists)return;
+  var script=document.createElement('script');
+  script.src='edwards-concert-link.js';
+  script.async=false;
+  document.body.appendChild(script);
+})();
