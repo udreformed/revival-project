@@ -1,4 +1,3 @@
-<script src="edwards-concert-link.js"></script>
 window.REVIVAL_SITE = {
   "topics": [
     {
