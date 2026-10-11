@@ -296,7 +296,7 @@ window.REVIVAL_SITE = {
       "category": "영적 갱신 · 부흥신학",
       "title": "온전한 영성",
       "author": "리처드 러블레이스",
-      "note": "원제 Renewal as a Way of Life(1985), 한국어판 2008. Dynamics of Spiritual Life(1979)는 별도의 저서입니다."
+      "note": "하나님 중심·하나님 나라 중심의 삶에서 출발해 육·세상·사탄을 진단하고, 그리스도의 승리와 칭의·성화·성령의 내주, 선교·기도·공동체로 이어지는 영적 갱신의 흐름을 설명합니다."
     },
     {
       "category": "부흥 설교",
@@ -565,3 +565,4 @@ window.REVIVAL_SITE = {
     document.addEventListener('DOMContentLoaded',function(){setTimeout(connectEdwardsCreationEnd,20);});
   }else setTimeout(connectEdwardsCreationEnd,20);
 })();
+
