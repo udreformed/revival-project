@@ -10,9 +10,20 @@ main{min-width:0}.overview,.chapter,.afterword{background:var(--paper);border:1p
 @media(max-width:900px){.shell{display:block}nav{position:static;max-height:240px;margin-bottom:20px}.overview,.chapter,.afterword{padding:24px 20px}.chapter p{text-align:left}}
 @media print{header,nav,.toolbar,.chapter summary{display:none}.shell{display:block;margin:0;padding:0}.overview,.chapter,.afterword{border:0;padding:0;margin:0;box-shadow:none}.chapter{page-break-before:always}.chapter details{display:block}.chapter details>*{display:block}.chapter p{font-size:10pt}}
 
+
+/* 저자·책 소개: 본문의 긴 단락형 문체와 기존 사이트 디자인을 유지 */
+.about-intro{scroll-margin-top:20px}
+.about-intro .intro-section{padding:0 0 17px;margin:0 0 19px;border-bottom:1px solid var(--line)}
+.about-intro .intro-section:last-of-type{margin-bottom:12px;border-bottom:0;padding-bottom:0}
+.about-intro h3{margin:7px 0 10px;font-size:1.06rem;letter-spacing:-.02em;color:var(--accent)}
+.about-intro p{margin:0;line-height:1.94;word-break:keep-all;overflow-wrap:break-word}
+.about-intro .intro-sources{margin-top:20px;padding-top:12px;border-top:1px solid var(--line);font-size:.78rem;color:var(--muted);line-height:1.8}
+.about-intro .intro-sources a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+nav .nav-about{font-weight:750;color:var(--accent);padding-bottom:9px;margin-bottom:7px;border-bottom:1px solid var(--line)}
+@media print{.about-intro{break-after:avoid}}
 </style></head><body>
 <header><div class="inner"><a class="back-home" href="index.html#library">← 부흥 프로젝트 · 도서 자료실로 돌아가기</a><h1>마틴 로이드 존스 『부흥』</h1><p>제1–24장 전체 상세 요약 · 2006년 한국어판 기준</p><p class="book-meta">도서의 핵심 논증과 장별 흐름을 따라 읽는 통합 편집본</p><div class="toolbar"><button onclick="document.querySelectorAll('.chapter details').forEach(x=>x.open=true)">전체 펼치기</button><button onclick="document.querySelectorAll('.chapter details').forEach(x=>x.open=false)">전체 접기</button><button onclick="window.print()">인쇄하기</button></div></div></header>
-<div class="shell"><nav><h2>전체 목차</h2>
+<div class="shell"><nav><h2>전체 목차</h2><a class="nav-about" href="#about">저자·책 소개</a>
 <p>제1–7장 · 교회의 위기와 생명을 막는 장애물</p>
 <a href="#ch1">제1장 · 오늘날 부흥이 긴급히 필요하다</a>
 <a href="#ch2">제2장 · 부흥의 장애물</a>
@@ -41,7 +52,19 @@ main{min-width:0}.overview,.chapter,.afterword{background:var(--paper);border:1p
 <a href="#ch22">제22장 · 부흥을 위한 위대한 기도</a>
 <a href="#ch23">제23장 · 강렬한 열정으로 부흥을 위해 기도하라</a>
 <a href="#ch24">제24장 · 부흥, 하나님의 영이 우리 가운데 임하시는 일</a>
-<a href="#ending">맺음말</a><p><a href="index.html#library">← 도서 자료실</a></p></nav><main><section class="overview"><h2>전체 논증의 흐름</h2>
+<a href="#ending">맺음말</a><p><a href="index.html#library">← 도서 자료실</a></p></nav><main><section class="overview about-intro" id="about">
+<h2>저자와 책 소개</h2>
+<div class="intro-section">
+<h3>저자 소개</h3>
+<p>데이비드 마틴 로이드 존스(David Martyn Lloyd-Jones, 1899–1981)는 웨일스 출신의 의사이자 설교자로, 20세기 개혁주의 복음주의에 큰 영향을 미친 인물입니다. 런던에서 의학을 공부하고 의사로 활동하던 중 설교 사역에 헌신하기로 결심하여, 1927년 웨일스 애버라본의 샌드필즈 교회에서 목회를 시작했습니다. 1939년 런던 웨스트민스터 채플로 옮긴 뒤 1968년 은퇴할 때까지 약 30년 동안 사역했습니다. 성경 본문의 의미를 치밀하게 해석하고 복음의 핵심 교리를 선포하는 강해설교로 알려져 있으며, 교회가 인간의 능력과 방법을 신뢰하는 대신 성령의 역사와 하나님 자신의 영광을 구해야 한다는 점을 일관되게 강조했습니다.</p>
+</div>
+<div class="intro-section">
+<h3>책 소개</h3>
+<p>『부흥』(<i>Revival</i>)은 1859년의 대규모 복음주의 부흥으로부터 100년이 지난 1959년, 런던 웨스트민스터 채플에서 선포된 부흥에 관한 설교 24편을 엮은 책입니다. 교회의 영적 침체를 제도나 활동의 부족만으로 설명할 수 없다는 문제의식에서 출발하여, 불신앙과 교리의 왜곡, 생명력을 잃은 정통신앙을 진단합니다. 이어 요단강의 기념 돌을 통해 과거 부흥의 역사를 기억하고 부흥의 특징과 목적을 살피며, 출애굽기 32–34장의 모세의 중보기도를 통해 하나님의 임재와 영광을 구하는 신앙으로 논증을 발전시킵니다. 마지막으로 이사야 62–64장의 기도에서 교회의 회복을 위한 간구가 하나님께서 친히 임하시기를 구하는 기도로 깊어집니다. 이 책에서 부흥은 인간이 기법이나 조직으로 만들어 내는 성과가 아니라, 하나님께서 성령으로 특별하게 역사하셔서 자신의 이름을 영화롭게 하시고 교회를 새롭게 하시는 사건입니다.</p>
+</div>
+<p class="intro-sources">저자 및 설교 배경 확인: <a href="https://www.mljtrust.org/meet-mlj/" target="_blank" rel="noopener noreferrer">마틴 로이드 존스 트러스트</a> · <a href="https://banneroftruth.org/uk/about/banner-authors/d-martyn-lloyd-jones/" target="_blank" rel="noopener noreferrer">배너 오브 트루스 저자 소개</a> · <a href="https://www.mljtrust.org/topic/revival/" target="_blank" rel="noopener noreferrer">1959년 부흥 설교 시리즈</a></p>
+</section>
+<section class="overview"><h2>전체 논증의 흐름</h2>
 <h3>제1–7장 · 교회의 위기와 생명을 막는 장애물</h3><p>제1–7장은 마가복음 9장의 무력한 제자들과 창세기 26장의 막힌 우물을 통해 교회의 위기를 진단합니다. 불신앙과 복음을 흐리는 교리, 살아 있는 능력을 잃은 정통신앙과 신자의 자기만족이 어떻게 영적 생명을 가리는지 차례로 살펴봅니다. 교회의 문제는 단순히 외적인 조직과 방법이 부족한 데 있지 않으며, 그러한 장애물을 제거하고 말씀과 성령의 능력으로 돌아가야 합니다.</p>
 <h3>제8–11장 · 부흥의 역사와 특징, 목적 및 분별</h3><p>제8–11장은 요단강의 기념 돌을 통해 과거 하나님의 역사를 기억하고, 역사적인 부흥의 다양한 모습에서 그분의 주권적인 은혜를 살펴봅니다. 부흥은 인간의 기법으로 생산할 수 없으며, 그 목적은 세상과 교회가 하나님의 영광과 능력을 아는 데 있습니다. 특별한 체험과 부가적인 현상은 성경의 진리, 회개, 그리스도께 대한 믿음과 삶의 열매로 분별해야 합니다.</p>
 <h3>제12–19장 · 모세의 중보기도와 하나님의 영광</h3><p>제12–19장은 출애굽기 32–34장의 금송아지 사건과 모세의 중보기도로 논증을 심화합니다. 죄를 깨달은 백성은 하나님의 특별한 동행을 구해야 하며, 부흥의 가장 깊은 목적은 하나님 자신의 영광을 아는 데 있습니다. 그 영광은 하나님의 이름과 성품에서 계시되며, 예수 그리스도의 성육신과 십자가, 부활 안에서 가장 선명하게 나타납니다.</p>

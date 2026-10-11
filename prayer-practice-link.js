@@ -46,7 +46,12 @@
       var para=el.querySelector('p');
       return title && title.textContent.trim()==='부흥' && para && para.textContent.indexOf('마틴 로이드 존스')!==-1;
     });
-    if(!card||card.dataset.lloydJonesLinked==='1')return;
+    if(!card)return;
+    // '도서 카드 설명'을 전체 24편의 주제에 맞는 안내문으로 교체합니다.
+    // 기존 data/site-data.js는 손대지 않아 다른 도서 정보와 기존 연결을 보호합니다.
+    var bookNote=card.querySelector('.book-info .note')||card.querySelector('.note');
+    if(bookNote) bookNote.textContent='부흥의 장애물과 성령의 특별한 역사, 하나님의 영광과 중보기도를 성경과 교회사에 비추어 다룬 24편의 설교.';
+    if(card.dataset.lloydJonesLinked==='1')return;
     card.dataset.lloydJonesLinked='1';
     var url='lloyd-jones-revival.html';
     var a=document.createElement('a');
