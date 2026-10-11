@@ -33,3 +33,25 @@
   script.async=false;
   document.body.appendChild(script);
 })();
+
+/* 2026-10-11: 헤이킨 읽기자료를 홈페이지의 기존 3개 자료 다음에 추가.
+   index.html을 덮어쓰지 않아도 작동하며, 앞선 기도회·도서 카드 연결은 그대로 유지한다. */
+(function(){
+  'use strict';
+  function addHaykinReading(){
+    var section=document.getElementById('readings');
+    if(!section)return;
+    var tiles=section.querySelector('.tiles');
+    if(!tiles||tiles.querySelector('#reading-04-home'))return;
+    var card=document.createElement('article');
+    card.className='tile';
+    card.id='reading-04-home';
+    card.innerHTML='<label>04 · 부흥신학</label>'+
+       '<h3>개혁주의 전통에서 발견하는 성령의 역사와 교회의 갱신</h3>'+
+       '<p>마이클 A. G. 헤이킨의 연구를 중심으로 성령의 주권, 말씀과 회심, 기도와 선교로 이어지는 교회의 갱신을 살펴봅니다.</p>'+
+       '<a class="text-link" href="haykin-revival-reading.html">본문 읽기 →</a>';
+    tiles.appendChild(card);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addHaykinReading);
+  else addHaykinReading();
+})();
