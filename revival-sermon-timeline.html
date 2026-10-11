@@ -192,7 +192,11 @@ selectEvent(EVENTS[0].id,false);
  if(!document.documentElement.classList.contains('atlas-home-embedded'))return;
  let previousHeight=0;
  const report=function(){
-   const h=Math.ceil(Math.max(document.body.scrollHeight,document.documentElement.scrollHeight));
+   const main=document.querySelector('main');
+   if(!main)return;
+   // The iframe viewport may be taller than its content. Measuring body.scrollHeight
+   // would include that viewport and prevent the frame from shrinking afterward.
+   const h=Math.ceil(main.getBoundingClientRect().bottom + window.scrollY + 2);
    if(Math.abs(h-previousHeight)>1){
      previousHeight=h;
      window.parent.postMessage({type:'revival-atlas:height',height:h},window.location.origin);
