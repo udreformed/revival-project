@@ -172,4 +172,17 @@ header{background:#fff;border-bottom:1px solid var(--line)}.header-inner{max-wid
 </article></div>
 <p class="foot">각 글은 원문을 복제하지 않은 독자적인 한국어 해설입니다. 편집자의 신학적 판단은 별도로 표시했습니다. 저작권이 있는 원문은 각 발행처의 링크를 이용해 주십시오.</p>
 <p class="stamp">읽기 자료 ③ 게시 전 원문 대조·교정 반영 · 2026. 10. 11.</p>
-</main></body></html>
+</main><script>
+(function(){
+ function openLinkedArticle(){
+   var id=window.location.hash.slice(1);
+   if(!/^reading-0[123]$/.test(id))return;
+   var article=document.getElementById(id);
+   var detail=article&&article.querySelector('details.more');
+   if(detail)detail.open=true;
+ }
+ window.addEventListener('hashchange',openLinkedArticle);
+ openLinkedArticle();
+})();
+</script>
+</body></html>
