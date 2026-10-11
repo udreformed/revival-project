@@ -34,86 +34,24 @@
   document.body.appendChild(script);
 })();
 
-/* 『부흥』 마틴 로이드 존스 — 도서 카드 상세 요약 페이지 연결 */
+/* 2026-10-11: 헤이킨 읽기자료를 홈페이지의 기존 3개 자료 다음에 추가.
+   index.html을 덮어쓰지 않아도 작동하며, 앞선 기도회·도서 카드 연결은 그대로 유지한다. */
 (function(){
   'use strict';
-  function linkLloydJonesBook(){
-    var library=document.getElementById('books');
-    if(!library)return;
-    var cards=Array.prototype.slice.call(library.querySelectorAll('.book'));
-    var card=cards.find(function(el){
-      var title=el.querySelector('h3');
-      var para=el.querySelector('p');
-      return title && title.textContent.trim()==='부흥' && para && para.textContent.indexOf('마틴 로이드 존스')!==-1;
-    });
-    if(!card)return;
-    // '도서 카드 설명'을 전체 24편의 주제에 맞는 안내문으로 교체합니다.
-    // 기존 data/site-data.js는 손대지 않아 다른 도서 정보와 기존 연결을 보호합니다.
-    var bookNote=card.querySelector('.book-info .note')||card.querySelector('.note');
-    if(bookNote) bookNote.textContent='부흥의 장애물과 성령의 특별한 역사, 하나님의 영광과 중보기도를 성경과 교회사에 비추어 다룬 24편의 설교.';
-    if(card.dataset.lloydJonesLinked==='1')return;
-    card.dataset.lloydJonesLinked='1';
-    var url='lloyd-jones-revival.html';
-    var a=document.createElement('a');
-    a.className='lloyd-summary-link';
-    a.href=url;
-    a.textContent='전체 상세 요약 읽기';
-    a.setAttribute('aria-label','마틴 로이드 존스 부흥 전체 24장 상세 요약 읽기');
-    a.style.cssText='display:inline-block;max-width:100%;margin-top:12px;padding:0 0 2px;color:#216f69;font-size:13px;line-height:1.65;font-weight:800;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;overflow-wrap:anywhere';
-    // 표지 카드(display:grid)는 자식 두 개(표지 + 도서 정보)만 갖습니다.
-    // 링크를 card 자체에 추가하면 세 번째 그리드 셀이 되어 왼쪽 표지 아래에 표시됩니다.
-    // 표지가 이미 설치된 경우 오른쪽 .book-info 안에 넣고,
-    // 표지 설치 전에는 card에 넣어 나중에 표지 스크립트가 정보 영역으로 옮기도록 합니다.
-    (card.querySelector('.book-info') || card).appendChild(a);
-    card.style.cursor='pointer';
-    card.setAttribute('tabindex','0');
-    card.setAttribute('role','link');
-    card.setAttribute('aria-label','마틴 로이드 존스 부흥 전체 상세 요약 페이지 열기');
-    card.addEventListener('click',function(event){
-      if(event.target.closest('a,button'))return;
-      window.location.href=url;
-    });
-    card.addEventListener('keydown',function(event){
-      if(event.target===card&&(event.key==='Enter'||event.key===' ')){
-        event.preventDefault();window.location.href=url;
-      }
-    });
+  function addHaykinReading(){
+    var section=document.getElementById('readings');
+    if(!section)return;
+    var tiles=section.querySelector('.tiles');
+    if(!tiles||tiles.querySelector('#reading-04-home'))return;
+    var card=document.createElement('article');
+    card.className='tile';
+    card.id='reading-04-home';
+    card.innerHTML='<label>04 · 부흥신학</label>'+
+       '<h3>개혁주의 전통에서 발견하는 성령의 역사와 교회의 갱신</h3>'+
+       '<p>마이클 A. G. 헤이킨의 연구를 중심으로 성령의 주권, 말씀과 회심, 기도와 선교로 이어지는 교회의 갱신을 살펴봅니다.</p>'+
+       '<a class="text-link" href="haykin-revival-reading.html">본문 읽기 →</a>';
+    tiles.appendChild(card);
   }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(linkLloydJonesBook,0);});
-  else setTimeout(linkLloydJonesBook,0);
-})();
-
-/* 전체 도서 카드 공통 마우스 오버 효과 (현재 카드 + 향후 추가 카드 자동 적용) */
-(function(){
-  'use strict';
-  var styleId='revival-library-card-hover-style';
-  if(document.getElementById(styleId))return;
-  var style=document.createElement('style');
-  style.id=styleId;
-  style.textContent=[
-    '/* 링크가 연결된 카드와 일반 도서 카드에 동일한 부드러운 이동 효과. */',
-    '#library .books > .book{',
-      'transform:translateY(0);',
-      'transition:transform .23s cubic-bezier(.2,.75,.3,1), box-shadow .23s ease, border-color .23s ease;',
-      'box-shadow:0 1px 3px rgba(24,59,70,.025);',
-    '}',
-    '@media (hover:hover) and (pointer:fine){',
-      '#library .books > .book:hover{',
-        'transform:translateY(-5px);',
-        'box-shadow:0 10px 24px rgba(24,59,70,.12);',
-        'border-color:#91b7aa;',
-      '}',
-    '}',
-    '#library .books > .book:focus-visible, #library .books > .book:focus-within{',
-      'transform:translateY(-5px);',
-      'box-shadow:0 10px 24px rgba(24,59,70,.12);',
-      'border-color:#91b7aa;',
-      'outline-offset:3px;',
-    '}',
-    '@media (prefers-reduced-motion:reduce){',
-      '#library .books > .book{transition:none;}',
-      '#library .books > .book:hover, #library .books > .book:focus-visible, #library .books > .book:focus-within{transform:none;}',
-    '}',
-  ].join('');
-  (document.head||document.documentElement).appendChild(style);
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addHaykinReading);
+  else addHaykinReading();
 })();
