@@ -27,22 +27,38 @@ details.chapter[open]>summary::before{content:'－'}
 details.chapter[open] .chapter-state::before{content:'접기'}
 .chapter-body{padding:26px 38px 34px}
 details.chapter.appendix .chapter-heading .chapter-title{color:#5d557e}
-.chapter-controls{display:flex;justify-content:flex-end;gap:8px;margin:-14px 0 18px}
+.chapter-controls{display:flex;justify-content:flex-start;gap:8px;margin:-14px 0 18px}
 .chapter-controls button{border:1px solid #b9d1c8;background:#fff;color:#216f69;border-radius:7px;padding:8px 12px;font-size:11px;font-weight:800;cursor:pointer}
 .chapter-controls button:hover{background:#eef6f2}
 .chapter-body .flow{margin:20px 0}
-@media(max-width:720px){details.chapter>summary{padding:17px 15px;gap:9px}.chapter-heading .chapter-title{font-size:19px}.chapter-state{display:none}.chapter-body{padding:19px 18px 25px}.chapter-controls{justify-content:stretch}.chapter-controls button{flex:1}}
+@media(max-width:720px){details.chapter>summary{padding:17px 15px;gap:9px}.chapter-heading .chapter-title{font-size:19px}.chapter-state{display:none}.chapter-body{padding:19px 18px 25px}.chapter-controls{justify-content:flex-start}.chapter-controls button{flex:0 0 auto}}
 
 details.chapter.always-open>summary{cursor:default;pointer-events:none;background:#eef5f2;border-bottom:1px solid var(--line)}
 details.chapter.always-open>summary::before{display:none}
 details.chapter.always-open .chapter-state{display:none}
-details.chapter.always-open .diagram-card{margin:4px 0 26px;padding:12px}
+details.chapter.always-open .diagram-card{
+  margin:4px 0 26px;
+  padding:10px;
+  width:68%;
+  max-width:650px;
+}
+details.chapter.always-open .diagram-card img{
+  width:100%;
+  height:auto;
+}
+@media(max-width:720px){
+  details.chapter.always-open .diagram-card{
+    width:100%;
+    max-width:none;
+  }
+}
 
 .video-jump{
   display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:18px;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-start;
+  gap:10px;
   margin:0 0 22px;
   padding:4px 2px 18px;
   border-bottom:1px solid var(--line);
@@ -80,7 +96,7 @@ details.chapter.always-open .diagram-card{margin:4px 0 26px;padding:12px}
     gap:10px;
   }
   .video-jump-button{
-    width:100%;
+    width:auto;
   }
 }
 
