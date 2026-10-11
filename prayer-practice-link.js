@@ -34,23 +34,33 @@
   document.body.appendChild(script);
 })();
 
-/* 2026-10-11: 헤이킨 읽기자료를 홈페이지의 기존 3개 자료 다음에 추가.
-   index.html을 덮어쓰지 않아도 작동하며, 앞선 기도회·도서 카드 연결은 그대로 유지한다. */
+/* 부흥 프로젝트 읽기 자료 ⑦: 기존 ①–⑥과 동일한 전체 클릭 카드로 연결.
+   사이트의 index.html에 이미 정의된 .tile-link의 hover/keyboard 효과를 그대로 활용한다.
+   기도회 및 기도합주회 링크는 위의 기존 코드 그대로 보존한다. */
 (function(){
   'use strict';
   function addHaykinReading(){
     var section=document.getElementById('readings');
     if(!section)return;
     var tiles=section.querySelector('.tiles');
-    if(!tiles||tiles.querySelector('#reading-04-home'))return;
-    var card=document.createElement('article');
-    card.className='tile';
-    card.id='reading-04-home';
-    card.innerHTML='<label>04 · 부흥신학</label>'+
-       '<h3>개혁주의 전통에서 발견하는 성령의 역사와 교회의 갱신</h3>'+
-       '<p>마이클 A. G. 헤이킨의 연구를 중심으로 성령의 주권, 말씀과 회심, 기도와 선교로 이어지는 교회의 갱신을 살펴봅니다.</p>'+
-       '<a class="text-link" href="haykin-revival-reading.html">본문 읽기 →</a>';
-    tiles.appendChild(card);
+    if(!tiles)return;
+
+    var link=document.createElement('a');
+    link.className='tile tile-link';
+    link.id='reading-07-home';
+    link.href='haykin-revival-reading.html';
+    link.setAttribute('aria-label','읽기 자료 7번: 개혁주의 전통에서 발견하는 성령의 역사와 교회의 갱신 — 본문 읽기');
+    link.innerHTML='<span class="tile-kicker">07 · 개혁주의 부흥신학</span>'+
+      '<h3>개혁주의 전통에서 발견하는 성령의 역사와 교회의 갱신</h3>'+
+      '<p>마이클 A. G. 헤이킨의 연구를 중심으로 성령의 주권, 말씀과 회심, 기도와 선교로 이어지는 교회의 갱신을 살펴봅니다.</p>'+
+      '<span class="text-link" aria-hidden="true">본문 읽기 →</span>';
+
+    // 이전 ④번 동적 카드가 존재하더라도 중복 표시하지 않는다.
+    var previous=tiles.querySelector('#reading-04-home, #reading-07-home, a[href="haykin-revival-reading.html"]');
+    if(previous)previous.replaceWith(link);
+    else tiles.appendChild(link);
+    // 이미 ①–⑥이 놓인 그리드의 마지막(⑦번)에 배치한다.
+    if(tiles.lastElementChild!==link)tiles.appendChild(link);
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addHaykinReading);
   else addHaykinReading();
