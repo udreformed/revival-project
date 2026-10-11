@@ -54,8 +54,12 @@
     a.href=url;
     a.textContent='전체 상세 요약 읽기';
     a.setAttribute('aria-label','마틴 로이드 존스 부흥 전체 24장 상세 요약 읽기');
-    a.style.cssText='display:inline-block;margin-top:10px;padding:0 0 2px;color:#216f69;font-size:13px;font-weight:800;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px';
-    card.appendChild(a);
+    a.style.cssText='display:inline-block;max-width:100%;margin-top:12px;padding:0 0 2px;color:#216f69;font-size:13px;line-height:1.65;font-weight:800;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;overflow-wrap:anywhere';
+    // 표지 카드(display:grid)는 자식 두 개(표지 + 도서 정보)만 갖습니다.
+    // 링크를 card 자체에 추가하면 세 번째 그리드 셀이 되어 왼쪽 표지 아래에 표시됩니다.
+    // 표지가 이미 설치된 경우 오른쪽 .book-info 안에 넣고,
+    // 표지 설치 전에는 card에 넣어 나중에 표지 스크립트가 정보 영역으로 옮기도록 합니다.
+    (card.querySelector('.book-info') || card).appendChild(a);
     card.style.cursor='pointer';
     card.setAttribute('tabindex','0');
     card.setAttribute('role','link');
