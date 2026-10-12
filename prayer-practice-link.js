@@ -34,116 +34,33 @@
   document.body.appendChild(script);
 })();
 
-/* 『부흥』 마틴 로이드 존스 — 도서 카드 상세 요약 페이지 연결 */
-(function(){
-  'use strict';
-  function linkLloydJonesBook(){
-    var library=document.getElementById('books');
-    if(!library)return;
-    var cards=Array.prototype.slice.call(library.querySelectorAll('.book'));
-    var card=cards.find(function(el){
-      var title=el.querySelector('h3');
-      var para=el.querySelector('p');
-      return title && title.textContent.trim()==='부흥' && para && para.textContent.indexOf('마틴 로이드 존스')!==-1;
-    });
-    if(!card)return;
-    // '도서 카드 설명'을 전체 24편의 주제에 맞는 안내문으로 교체합니다.
-    // 기존 data/site-data.js는 손대지 않아 다른 도서 정보와 기존 연결을 보호합니다.
-    var bookNote=card.querySelector('.book-info .note')||card.querySelector('.note');
-    if(bookNote) bookNote.textContent='부흥의 장애물과 성령의 특별한 역사, 하나님의 영광과 중보기도를 성경과 교회사에 비추어 다룬 24편의 설교.';
-    if(card.dataset.lloydJonesLinked==='1')return;
-    card.dataset.lloydJonesLinked='1';
-    var url='lloyd-jones-revival.html';
-    var a=document.createElement('a');
-    a.className='lloyd-summary-link';
-    a.href=url;
-    a.textContent='전체 상세 요약 읽기';
-    a.setAttribute('aria-label','마틴 로이드 존스 부흥 전체 24장 상세 요약 읽기');
-    a.style.cssText='display:inline-block;max-width:100%;margin-top:12px;padding:0 0 2px;color:#216f69;font-size:13px;line-height:1.65;font-weight:800;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;overflow-wrap:anywhere';
-    // 표지 카드(display:grid)는 자식 두 개(표지 + 도서 정보)만 갖습니다.
-    // 링크를 card 자체에 추가하면 세 번째 그리드 셀이 되어 왼쪽 표지 아래에 표시됩니다.
-    // 표지가 이미 설치된 경우 오른쪽 .book-info 안에 넣고,
-    // 표지 설치 전에는 card에 넣어 나중에 표지 스크립트가 정보 영역으로 옮기도록 합니다.
-    (card.querySelector('.book-info') || card).appendChild(a);
-    card.style.cursor='pointer';
-    card.setAttribute('tabindex','0');
-    card.setAttribute('role','link');
-    card.setAttribute('aria-label','마틴 로이드 존스 부흥 전체 상세 요약 페이지 열기');
-    card.addEventListener('click',function(event){
-      if(event.target.closest('a,button'))return;
-      window.location.href=url;
-    });
-    card.addEventListener('keydown',function(event){
-      if(event.target===card&&(event.key==='Enter'||event.key===' ')){
-        event.preventDefault();window.location.href=url;
-      }
-    });
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(linkLloydJonesBook,0);});
-  else setTimeout(linkLloydJonesBook,0);
-})();
-
-/* 도서 카드 8종 공통 호버 규격 v8: 기존 개별 JS의 inline 전환 속도까지 동일하게 덮어씀. */
-(function(){
-  'use strict';
-  var styleId='revival-library-card-hover-style';
-  if(document.getElementById(styleId))return;
-  var style=document.createElement('style');
-  style.id=styleId;
-  style.textContent=[
-    '/* 링크가 연결된 카드와 일반 도서 카드에 동일한 부드러운 이동 효과. */',
-    '#library .books > .book{',
-      'transform:translateY(0) !important;',
-      'transition:transform .23s cubic-bezier(.2,.75,.3,1), box-shadow .23s ease, border-color .23s ease !important;',
-      'box-shadow:0 1px 3px rgba(24,59,70,.025) !important;',
-    '}',
-    '@media (hover:hover) and (pointer:fine){',
-      '#library .books > .book:hover{',
-        'transform:translateY(-5px) !important;',
-        'box-shadow:0 10px 24px rgba(24,59,70,.12) !important;',
-        'border-color:#91b7aa !important;',
-      '}',
-    '}',
-    '#library .books > .book:focus-visible, #library .books > .book:focus-within{',
-      'transform:translateY(-5px) !important;',
-      'box-shadow:0 10px 24px rgba(24,59,70,.12) !important;',
-      'border-color:#91b7aa !important;',
-      'outline-offset:3px;',
-    '}',
-    '@media (prefers-reduced-motion:reduce){',
-      '#library .books > .book{transition:none !important;}',
-      '#library .books > .book:hover, #library .books > .book:focus-visible, #library .books > .book:focus-within{transform:none !important;}',
-    '}',
-  ].join('');
-  (document.head||document.documentElement).appendChild(style);
-})();
-
-
-/* 최신 읽기자료 추가 기능 보존: 다른 자료 업로드 시 추가된 헤이킨 자료. */
+/* 부흥 프로젝트 읽기 자료 ⑦: 기존 ①–⑥과 동일한 전체 클릭 카드로 연결.
+   사이트의 index.html에 이미 정의된 .tile-link의 hover/keyboard 효과를 그대로 활용한다.
+   기도회 및 기도합주회 링크는 위의 기존 코드 그대로 보존한다. */
 (function(){
   'use strict';
   function addHaykinReading(){
     var section=document.getElementById('readings');
     if(!section)return;
     var tiles=section.querySelector('.tiles');
-    if(!tiles || tiles.querySelector('#reading-haykin-home') ||
-       tiles.querySelector('a[href="haykin-revival-reading.html"]'))return;
-    var existing=tiles.querySelectorAll(':scope > .tile').length;
-    var card=document.createElement('article');
-    card.className='tile';
-    card.id='reading-haykin-home';
-    var label=document.createElement('label');
-    label.textContent=String(existing+1).padStart(2,'0')+' · 부흥신학';
-    var h=document.createElement('h3');
-    h.textContent='개혁주의 전통에서 발견하는 성령의 역사와 교회의 갱신';
-    var description=document.createElement('p');
-    description.textContent='마이클 A. G. 헤이킨의 연구를 중심으로 성령의 주권, 말씀과 회심, 기도와 선교로 이어지는 교회의 갱신을 살펴봅니다.';
-    var a=document.createElement('a');
-    a.className='text-link';
-    a.href='haykin-revival-reading.html';
-    a.textContent='본문 읽기 →';
-    card.append(label,h,description,a);
-    tiles.appendChild(card);
+    if(!tiles)return;
+
+    var link=document.createElement('a');
+    link.className='tile tile-link';
+    link.id='reading-07-home';
+    link.href='haykin-revival-reading.html';
+    link.setAttribute('aria-label','읽기 자료 7번: 개혁주의 전통에서 발견하는 성령의 역사와 교회의 갱신 — 본문 읽기');
+    link.innerHTML='<span class="tile-kicker">07 · 개혁주의 부흥신학</span>'+
+      '<h3>개혁주의 전통에서 발견하는 성령의 역사와 교회의 갱신</h3>'+
+      '<p>마이클 A. G. 헤이킨의 연구를 중심으로 성령의 주권, 말씀과 회심, 기도와 선교로 이어지는 교회의 갱신을 살펴봅니다.</p>'+
+      '<span class="text-link" aria-hidden="true">본문 읽기 →</span>';
+
+    // 이전 ④번 동적 카드가 존재하더라도 중복 표시하지 않는다.
+    var previous=tiles.querySelector('#reading-04-home, #reading-07-home, a[href="haykin-revival-reading.html"]');
+    if(previous)previous.replaceWith(link);
+    else tiles.appendChild(link);
+    // 이미 ①–⑥이 놓인 그리드의 마지막(⑦번)에 배치한다.
+    if(tiles.lastElementChild!==link)tiles.appendChild(link);
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addHaykinReading);
   else addHaykinReading();
