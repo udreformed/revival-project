@@ -65,3 +65,88 @@
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addHaykinReading);
   else addHaykinReading();
 })();
+
+/* 복구 2026-10-12: index.html을 다시 덮어쓰지 않고 기도 카드 배치 복구.
+   기존 독립형 대형 카드를 제거하고 두 번째 카드에서 24편 기도문으로 연결.
+   도서 카드·읽기 자료·역사 연대표의 기존 기능은 수정하거나 초기화하지 않습니다. */
+(function(){
+  'use strict';
+  function restorePrayerCard(){
+    var section=document.getElementById('prayer');
+    if(!section)return;
+
+    // 잘못 별도로 들어간 대형 대표기도문 카드만 제거합니다.
+    var separate=section.querySelector('.revival-prayers-feature');
+    if(separate)separate.remove();
+    Array.prototype.slice.call(section.querySelectorAll('style')).forEach(function(node){
+      if((node.textContent||'').indexOf('.revival-prayers-feature')!==-1)node.remove();
+    });
+
+    var card=Array.prototype.find.call(section.querySelectorAll('.tile'),function(node){
+      var label=node.querySelector('label');
+      return label&&label.textContent.trim()==='02';
+    });
+    if(!card)return;
+    if(card.matches('a.prayer-card-link[href="revival-prayers.html"]'))return;
+
+    var replacement=document.createElement('a');
+    replacement.className='tile prayer-card-link';
+    replacement.href='revival-prayers.html';
+    replacement.setAttribute('aria-label','부흥을 갈망하는 기도, 24편 전체 대표기도문 읽기');
+    replacement.innerHTML='<label>02</label><h3>부흥을 갈망하는 기도</h3>'+
+      '<p>마틴 로이드 존스의 『부흥』을 따라 드리는 24편의 대표기도문입니다.</p>'+
+      '<span class="prayer-card-open">24편 전체 기도문 읽기 →</span>';
+    card.replaceWith(replacement);
+
+    if(!document.getElementById('restored-prayer-card-css')){
+      var style=document.createElement('style');
+      style.id='restored-prayer-card-css';
+      style.textContent='#prayer .prayer-card-link{display:flex;flex-direction:column;'+
+        'color:inherit;text-decoration:none;cursor:pointer;min-width:0;'+
+        'transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}'+
+        '#prayer .prayer-card-link:hover,#prayer .prayer-card-link:focus-visible{'+
+        'transform:translateY(-5px);border-color:#99bcb1;box-shadow:0 12px 28px rgba(24,59,70,.13)}'+
+        '#prayer .prayer-card-link:focus-visible{outline:3px solid #216f69;outline-offset:3px}'+
+        '#prayer .prayer-card-open{align-self:flex-start;display:inline-block;margin-top:auto;'+
+        'padding-top:12px;font-size:12px;font-weight:800;color:#216f69;'+
+        'text-decoration:underline;text-underline-offset:3px}'+
+        '@media(prefers-reduced-motion:reduce){#prayer .prayer-card-link{transition:none}'+
+        '#prayer .prayer-card-link:hover,#prayer .prayer-card-link:focus-visible{transform:none}}';
+      document.head.appendChild(style);
+    }
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',restorePrayerCard);
+  else restorePrayerCard();
+})();
+
+/* 『부흥』 도서 카드의 상세 요약 링크 복구. 다른 도서 카드에 영향 없음. */
+(function(){
+  'use strict';
+  function restoreLloydJonesBook(){
+    var shelf=document.getElementById('books');
+    if(!shelf)return;
+    var card=Array.prototype.find.call(shelf.querySelectorAll('.book'),function(node){
+      var heading=node.querySelector('h3');return heading&&heading.textContent.trim()==='부흥';
+    });
+    if(!card||card.dataset.lloydSummaryRestored==='1')return;
+    card.dataset.lloydSummaryRestored='1';
+    var href='lloyd-jones-revival.html';
+    var anchor=card.querySelector('a[href*="lloyd-jones-revival"]');
+    if(!anchor){
+      anchor=document.createElement('a');
+      anchor.href=href;anchor.textContent='전체 상세 요약 읽기 →';
+      anchor.style.cssText='display:inline-block;margin-top:13px;font-size:12px;'+
+        'font-weight:800;color:#216f69;text-decoration:none;border-bottom:1px solid #a3c8b7';
+      (card.querySelector('.book-info')||card).appendChild(anchor);
+    }
+    card.style.cursor='pointer';card.setAttribute('role','link');card.tabIndex=0;
+    card.setAttribute('aria-label','마틴 로이드 존스 부흥 전체 상세 요약 읽기');
+    card.addEventListener('click',function(e){if(!e.target.closest('a'))window.location.href=href;});
+    card.addEventListener('keydown',function(e){
+      if(e.target===card&&(e.key==='Enter'||e.key===' ')){e.preventDefault();window.location.href=href;}
+    });
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',function(){setTimeout(restoreLloydJonesBook,90)});
+  }else setTimeout(restoreLloydJonesBook,90);
+})();
