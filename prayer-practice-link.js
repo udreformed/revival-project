@@ -170,3 +170,40 @@
   ].join('\n');
   document.head.appendChild(style);
 })();
+
+/* 읽기 자료 ⑧ — 스펄전, 『교회가 다시 살아나려면』.
+ * ⑦ 카드와 기존 교회·기도회·도서 기능을 보존하고, ⑧ 카드만 추가한다.
+ * 전체 카드가 기본 a 링크이며 기존 .tile-link hover·키보드 스타일을 재사용한다.
+ */
+(function(){
+  'use strict';
+  function addSpurgeonReading(){
+    var section=document.getElementById('readings');
+    if(!section)return;
+    var tiles=section.querySelector('.tiles');
+    if(!tiles)return;
+    var link=tiles.querySelector('#reading-08-home, a[href="spurgeon-five-revivals.html"]');
+    if(!link){
+      link=document.createElement('a');
+      link.className='tile tile-link';
+      link.id='reading-08-home';
+    }
+    link.className='tile tile-link';
+    link.id='reading-08-home';
+    link.href='spurgeon-five-revivals.html';
+    link.setAttribute('aria-label','읽기 자료 8번: 교회가 다시 살아나려면 — 본문 읽기');
+    link.innerHTML='<span class="tile-kicker">08 · 교회의 부흥과 갱신</span>'+
+      '<h3>교회가 다시 살아나려면</h3>'+
+      '<p>스펄전의 권면을 따라 성령의 능력, 복음의 진리, 거룩한 삶과 가정, 신실한 믿음을 돌아봅니다.</p>'+
+      '<span class="text-link" aria-hidden="true">본문 읽기 →</span>';
+    // 다른 카드를 삭제하거나 변경하지 않고 ⑦ 바로 뒤에 배치한다.
+    var seven=tiles.querySelector('#reading-07-home');
+    if(seven){
+      seven.insertAdjacentElement('afterend',link);
+    }else if(tiles.lastElementChild!==link){
+      tiles.appendChild(link);
+    }
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addSpurgeonReading);
+  else addSpurgeonReading();
+})();
