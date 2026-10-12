@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>부흥프로젝트 - 기도 카드 위치 수정</title>
+<style>
+:root{--ink:#183b46;--teal:#216f69;--paper:#f6f6f0;--line:#dce6df}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.75 "Apple SD Gothic Neo","Noto Sans KR",sans-serif}.wrap{max-width:750px;margin:45px auto;padding:0 20px}.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px}h1{font-size:25px;line-height:1.45;margin:0 0 9px}p{color:#5a7470;margin:10px 0 18px}strong{color:#173b42}.note{font-size:13px;background:#f1f6f2;border:1px solid #dae9dd;border-radius:7px;padding:14px;margin-top:24px}input{width:100%;padding:12px;border:1px solid #9dbab1;border-radius:7px;max-width:100%;background:#fff}button{border:0;border-radius:7px;background:var(--teal);color:white;padding:12px 18px;font-size:15px;font-weight:750;cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}button:hover:not(:disabled){background:#183b46}.buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.status{white-space:pre-wrap;font-size:13px;margin-top:18px;padding:10px;color:#183b46}.preview{margin-top:18px;border:1px solid #dce6df;border-radius:9px;padding:18px;display:none}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.card{border:1px solid #dce6df;border-radius:8px;padding:13px}.card small{color:#b69661}.card h3{font-size:15px;margin:8px 0}.card p{font-size:12px;margin:8px 0}.card.active{border-color:#8ba89e;box-shadow:0 3px 16px #183b4613}@media(max-width:600px){.wrap{margin:18px auto}.panel{padding:20px}.cards{grid-template-columns:1fr}}
+</style>
+</head>
+<body><div class="wrap"><div class="panel">
+<h1>대표기도문 카드 위치 수정</h1>
+<p>홈페이지 상단에 별도로 나온 큰 대표기도문 카드를 제거하고, <strong>「공동체의 회개와 사랑」</strong> 카드를 <strong>「부흥을 갈망하는 기도」</strong>로 교체합니다. 나머지 HTML은 그대로 보존합니다.</p>
+<label for="source"><strong>1. GitHub에서 내려받은 최신 index.html 선택</strong></label>
+<input id="source" type="file" accept=".html,text/html">
+<div class="buttons"><button id="generate" type="button" disabled>2. 수정된 index.html 내려받기</button></div>
+<div class="status" id="status" role="status" aria-live="polite">파일을 선택하면 자동으로 검사합니다.</div>
+<div class="preview" id="preview"><strong>수정 후 ‘말씀에서 기도와 실천으로’ 카드 구성</strong><div class="cards"><div class="card"><small>01</small><h3>하나님의 영광을 구하는 기도</h3><p>기존 그대로 유지</p></div><div class="card active"><small>02</small><h3>부흥을 갈망하는 기도</h3><p>대표기도문 24편 읽기 →</p></div><div class="card"><small>03</small><h3>복음과 선교</h3><p>기존 그대로 유지</p></div></div></div>
+<div class="note"><strong>게시:</strong> 생성된 <code>index.html</code>을 GitHub 저장소의 기존 <code>index.html</code>과 교체하여 커밋하시면 됩니다. <code>revival-prayers.html</code> 파일은 수정하거나 다시 올릴 필요가 없습니다. 이 도구는 파일 내용을 서버로 전송하지 않고 브라우저 내부에서 처리합니다.</div>
+</div></div>
+<script>
+(()=>{'use strict';
+const input=document.getElementById('source'),button=document.getElementById('generate'),status=document.getElementById('status'),preview=document.getElementById('preview');
+const markerStart='<!-- 부흥프로젝트: 24편 대표기도문 카드 시작 -->';
+const markerEnd='<!-- 부흥프로젝트: 24편 대표기도문 카드 끝 -->';
+const old='<article class="tile"><label>02</label><h3>공동체의 회개와 사랑</h3><p>말씀의 가르침과 기도, 서로의 필요를 돌아보는 삶을 회복합니다.</p></article>';
+const revised='<a class="tile prayer-card-link" href="revival-prayers.html" aria-label="부흥을 갈망하는 기도, 24편 대표기도문 읽기"><label>02</label><h3>부흥을 갈망하는 기도</h3><p>마틴 로이드 존스의 『부흥』을 따라 드리는 24편의 대표기도문입니다.</p><span class="prayer-card-open">24편 전체 기도문 읽기 →</span></a>';
+const css=`<style>
+/* 제2 기도 카드: 기존 카드 안에서 24편 기도문 링크 */
+#prayer .prayer-card-link{display:flex;flex-direction:column;min-width:0;height:100%;color:var(--ink);text-decoration:none;cursor:pointer;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease,background .22s ease}
+#prayer .prayer-card-link:visited{color:var(--ink)}
+#prayer .prayer-card-link .prayer-card-open{align-self:flex-start;display:inline-block;margin-top:auto;padding-top:12px;color:var(--teal);font-size:13px;font-weight:750;text-decoration:underline;text-underline-offset:3px}
+#prayer .prayer-card-link:hover,#prayer .prayer-card-link:focus-visible{transform:translateY(-5px);border-color:#99bcb1;background:#fff;box-shadow:0 12px 28px rgba(24,59,70,.13)}
+#prayer .prayer-card-link:hover h3,#prayer .prayer-card-link:focus-visible h3{color:var(--teal)}
+#prayer .prayer-card-link:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+#prayer .prayer-card-link:active{transform:translateY(-2px)}
+@media(prefers-reduced-motion:reduce){#prayer .prayer-card-link{transition:none}#prayer .prayer-card-link:hover,#prayer .prayer-card-link:focus-visible,#prayer .prayer-card-link:active{transform:none}}
+</style>`;
+let result='';
+function fix(source){
+ if(!source.includes('<section class="block" id="prayer">'))throw Error('기도모임 영역을 찾지 못했습니다. 최신 홈페이지 index.html 파일인지 확인해 주십시오.');
+ const a=source.indexOf(markerStart),b=source.indexOf(markerEnd);
+ if(a<0||b<a)throw Error('삭제할 독립형 기도문 카드를 찾지 못했습니다. 해당 카드가 있는 홈페이지 버전을 선택해 주십시오.');
+ if(source.split(old).length!==2)throw Error('교체할 「공동체의 회개와 사랑」 카드가 정확히 1개인지 확인해 주십시오.');
+ let next=source.slice(0,a)+source.slice(b+markerEnd.length).replace(/^\s*\n/,'');
+ next=next.replace(old,revised);
+ next=next.replace('<section class="block" id="prayer">','<section class="block" id="prayer">'+css);
+ if(next.includes('revival-prayers-feature')||next.includes('공동체의 회개와 사랑'))throw Error('기존 카드의 흔적이 남았습니다. 변경을 중단합니다.');
+ for(const part of ['하나님의 영광을 구하는 기도','복음과 선교','id="readings"','id="library"'])if(!next.includes(part))throw Error('보존해야 할 홈페이지 내용이 누락되어 중단합니다: '+part);
+ if((next.match(/class="tile prayer-card-link"/g)||[]).length!==1)throw Error('새 카드 개수가 올바르지 않습니다.');
+ return next;
+}
+input.addEventListener('change',async()=>{button.disabled=true;preview.style.display='none';result='';const f=input.files?.[0];if(!f)return;try{result=fix(await f.text());button.disabled=false;preview.style.display='block';status.textContent='검사 완료. 별도 큰 카드 삭제, 두 번째 카드 교체, 나머지 카드 유지. 아래 버튼을 눌러 최종 index.html을 저장하십시오.'}catch(e){status.textContent='수정 중단: '+e.message}});
+button.addEventListener('click',()=>{if(!result)return;const blob=new Blob([result],{type:'text/html;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='index.html';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);status.textContent='index.html 다운로드를 요청했습니다. GitHub의 기존 index.html을 이 파일로 교체하십시오.'});
+})();
+</script></body></html>
