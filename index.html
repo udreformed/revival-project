@@ -67,7 +67,7 @@
 <div class="wrap"><div class="features"><div><span>THEOLOGY</span><b>개혁주의</b><small>성경과 신앙고백을 기준으로</small></div><div><span>RESEARCH ATLAS</span><b>10개의 중심 주제</b><small>연구와 함께 성장하는 지도</small></div><div><span>SERMON SERIES</span><b>01 · 시작</b><small>설교 순서는 하나씩 확정합니다</small></div></div>
 <details class="home-revival-atlas" id="homeRevivalAtlas">
 <summary><span class="atlas-title-text">역사속의 부흥 사례 살펴 보기</span><span class="atlas-summary-actions"><button type="button" class="atlas-copy-btn" id="homeRevivalCopyLink" aria-label="펼쳐진 역사속 부흥 사례 연대표 링크 복사" title="연대표가 열린 상태의 주소 복사"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"></rect><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path></svg><span id="homeRevivalCopyLabel" aria-live="polite">링크 복사</span></button><span class="atlas-caret" aria-hidden="true"></span></span></summary>
-<div class="atlas-embed-shell"><iframe class="atlas-embed-frame" id="homeRevivalAtlasFrame" title="역사속의 부흥 사례 살펴 보기: 16개 부흥 사건 연대표" loading="lazy" data-src="revival-sermon-timeline.html?embed=1" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+<div class="atlas-embed-shell"><iframe class="atlas-embed-frame" id="homeRevivalAtlasFrame" allow="clipboard-write" title="역사속의 부흥 사례 살펴 보기: 16개 부흥 사건 연대표" loading="lazy" data-src="revival-sermon-timeline.html?embed=1" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
 </details>
 <section class="block" id="mindmap"><div class="section-head"><div class="cap">RESEARCH ATLAS / 연구와 실천의 지도</div><h2>부흥을 이해하는 <em>열 가지 길</em></h2><p>주제를 선택하면 세부 내용이 열립니다. ‘역사 속의 부흥’을 누르면 세계 부흥 운동사 연표로 이동합니다.</p></div>
 <div class="atlas"><div class="mind"><input class="search" id="search" placeholder="주제나 설명 검색" aria-label="주제 검색"><div class="mind-main"><div class="root">부흥<br>하나님의<br>영광을 봄</div><div class="branches" id="branches"></div></div></div><aside class="detail" id="detail"><span class="cap">중심 주제</span><h3>부흥 — 하나님의 영광을 봄</h3><p>열 가지 영역 중 하나를 선택하세요.</p></aside></div></section>
@@ -98,16 +98,34 @@
   const copyButton=document.getElementById('homeRevivalCopyLink');
   const copyLabel=document.getElementById('homeRevivalCopyLabel');
   let feedbackTimeout;
+  function sharedEventId(){
+    const match=window.location.hash.match(/^#revival-event-([a-z0-9_-]+)$/);
+    return match?match[1]:null;
+  }
   function loadFrame(){
-    if(box.open && !frame.getAttribute('src'))frame.setAttribute('src',frame.dataset.src);
+    if(!box.open||frame.getAttribute('src'))return;
+    const url=new URL(frame.dataset.src,window.location.href);
+    const eventId=sharedEventId();
+    if(eventId)url.searchParams.set('event',eventId);
+    frame.setAttribute('src',url.href);
   }
   function openLinkedAtlas(){
-    if(window.location.hash!=='#homeRevivalAtlas')return;
+    const eventId=sharedEventId();
+    if(window.location.hash!=='#homeRevivalAtlas'&&!eventId)return;
     box.open=true;
     loadFrame();
+    if(eventId&&frame.contentWindow){
+      frame.contentWindow.postMessage({type:'revival-atlas:select',id:eventId},window.location.origin);
+    }
     window.requestAnimationFrame(function(){box.scrollIntoView({block:'start',behavior:'auto'});});
   }
   box.addEventListener('toggle',loadFrame);
+  frame.addEventListener('load',function(){
+    const eventId=sharedEventId();
+    if(eventId&&frame.contentWindow){
+      frame.contentWindow.postMessage({type:'revival-atlas:select',id:eventId},window.location.origin);
+    }
+  });
   window.addEventListener('hashchange',openLinkedAtlas);
   openLinkedAtlas();
   if(copyButton){
