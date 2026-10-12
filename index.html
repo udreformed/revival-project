@@ -152,7 +152,7 @@
     if(!data||typeof data!=='object')return;
     if(data.type==='revival-atlas:height'){
       const value=Number(data.height);
-      if(Number.isFinite(value))frame.style.height=Math.max(620,Math.min(6400,Math.ceil(value+5)))+'px';
+      if(Number.isFinite(value))frame.style.height=Math.max(620,Math.min(30000,Math.ceil(value+5)))+'px';
     }
     if(data.type==='revival-atlas:focus'){
       const offset=Number(data.offset);
