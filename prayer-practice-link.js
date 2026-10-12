@@ -150,3 +150,23 @@
     document.addEventListener('DOMContentLoaded',function(){setTimeout(restoreLloydJonesBook,90)});
   }else setTimeout(restoreLloydJonesBook,90);
 })();
+
+
+/* 2026-10-12: 도서 8종 hover 일괄 적용.
+ * 기존 홈페이지 index.html, 연대표, 도서 카드 링크 및 표지 코드는 수정하지 않습니다.
+ * data/site-data.js가 도서 카드를 렌더링한 뒤에도 적용되는 CSS 방식입니다.
+ */
+(function(){
+  'use strict';
+  if(document.getElementById('revival-all-book-hover-style'))return;
+  var style=document.createElement('style');
+  style.id='revival-all-book-hover-style';
+  style.textContent=[
+    '#library #books > .book{position:relative;transform:translateY(0);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease,background-color .22s ease}',
+    '#library #books > .book:hover,#library #books > .book:focus-visible,#library #books > .book:focus-within{transform:translateY(-5px)!important;border-color:#99bcb1!important;box-shadow:0 12px 28px rgba(24,59,70,.13)!important;background-color:#fff}',
+    '#library #books > .book:focus-visible{outline:3px solid #216f69;outline-offset:3px}',
+    '#library #books > .book:active{transform:translateY(-2px)!important}',
+    '@media(prefers-reduced-motion:reduce){#library #books > .book{transition:none}#library #books > .book:hover,#library #books > .book:focus-visible,#library #books > .book:focus-within,#library #books > .book:active{transform:none!important}}'
+  ].join('\n');
+  document.head.appendChild(style);
+})();
