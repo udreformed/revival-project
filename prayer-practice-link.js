@@ -207,3 +207,32 @@
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addSpurgeonReading);
   else addSpurgeonReading();
 })();
+
+/* 읽기 자료 ⑨ — 존 H. 암스트롱, 현대 부흥주의와 ‘나 중심 신앙’의 위험.
+ * ①–⑧ 카드·도서 링크·기도 자료 연결 및 기존 스크립트는 그대로 유지.
+ * ⑧ 바로 다음에 전체 클릭 가능한 카드 하나만 추가한다.
+ */
+(function(){
+  'use strict';
+  function addArmstrongReading(){
+    var section=document.getElementById('readings');
+    if(!section)return;
+    var tiles=section.querySelector('.tiles');
+    if(!tiles)return;
+    var link=tiles.querySelector('#reading-09-home, a[href="armstrong-revivalism-me-generation.html"]');
+    if(!link){link=document.createElement('a');}
+    link.className='tile tile-link';
+    link.id='reading-09-home';
+    link.href='armstrong-revivalism-me-generation.html';
+    link.setAttribute('aria-label','읽기 자료 9번: 현대 부흥주의와 나 중심 신앙의 위험 — 본문 읽기');
+    link.innerHTML='<span class="tile-kicker">09 · 부흥주의와 신앙의 분별</span>'+
+      '<h3>현대 부흥주의와 ‘나 중심 신앙’의 위험</h3>'+
+      '<p>체험과 자기만족에 치우친 부흥주의를 넘어, 성경의 권위와 그리스도의 복음으로 돌아가는 길을 살펴봅니다.</p>'+
+      '<span class="text-link" aria-hidden="true">본문 읽기 →</span>';
+    var eight=tiles.querySelector('#reading-08-home');
+    if(eight){eight.insertAdjacentElement('afterend',link);}
+    else if(tiles.lastElementChild!==link){tiles.appendChild(link);}
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addArmstrongReading);
+  else addArmstrongReading();
+})();
