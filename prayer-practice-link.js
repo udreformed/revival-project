@@ -208,31 +208,43 @@
   else addSpurgeonReading();
 })();
 
-/* 읽기 자료 ⑨ — 존 H. 암스트롱, 현대 부흥주의와 ‘나 중심 신앙’의 위험.
- * ①–⑧ 카드·도서 링크·기도 자료 연결 및 기존 스크립트는 그대로 유지.
- * ⑧ 바로 다음에 전체 클릭 가능한 카드 하나만 추가한다.
+
+/* 기도와 실천 ③ — 스펄전의 부흥기도 읽기자료.
+ * 기존 ① 연합기도회·② 로이드 존스 24편·읽기자료 ⑦⑧ 및 도서 카드 기능을 보존합니다.
+ * ③ 카드 전체를 링크로 변경하고 기존 ②번과 동일한 hover 동작을 사용합니다.
  */
 (function(){
   'use strict';
-  function addArmstrongReading(){
-    var section=document.getElementById('readings');
+  function addSpurgeonPrayerCard(){
+    var section=document.getElementById('prayer');
     if(!section)return;
     var tiles=section.querySelector('.tiles');
     if(!tiles)return;
-    var link=tiles.querySelector('#reading-09-home, a[href="armstrong-revivalism-me-generation.html"]');
-    if(!link){link=document.createElement('a');}
-    link.className='tile tile-link';
-    link.id='reading-09-home';
-    link.href='armstrong-revivalism-me-generation.html';
-    link.setAttribute('aria-label','읽기 자료 9번: 현대 부흥주의와 나 중심 신앙의 위험 — 본문 읽기');
-    link.innerHTML='<span class="tile-kicker">09 · 부흥주의와 신앙의 분별</span>'+
-      '<h3>현대 부흥주의와 ‘나 중심 신앙’의 위험</h3>'+
-      '<p>체험과 자기만족에 치우친 부흥주의를 넘어, 성경의 권위와 그리스도의 복음으로 돌아가는 길을 살펴봅니다.</p>'+
-      '<span class="text-link" aria-hidden="true">본문 읽기 →</span>';
-    var eight=tiles.querySelector('#reading-08-home');
-    if(eight){eight.insertAdjacentElement('afterend',link);}
-    else if(tiles.lastElementChild!==link){tiles.appendChild(link);}
+    var old=Array.prototype.find.call(tiles.children,function(node){
+      var label=node.querySelector('label');
+      return label&&label.textContent.trim()==='03';
+    });
+    if(!old)return;
+    var href='spurgeon-prayer-for-revival-reading.html';
+    var link=document.createElement('a');
+    link.className='tile prayer-card-link';
+    link.href=href;
+    link.setAttribute('aria-label','다시 우리를 살리소서 — 스펄전에게 배우는 부흥을 위한 기도 읽기');
+    link.innerHTML='<label>03</label>'+
+      '<h3>다시 우리를 살리소서</h3>'+
+      '<p>스펄전에게 배우는 부흥을 위한 기도. 하나님의 주권을 의지하며 말씀과 공동 기도, 회개와 순종 속에서 교회의 갱신을 구합니다.</p>'+
+      '<span class="prayer-card-open">부흥을 위한 기도 읽기 →</span>';
+    old.replaceWith(link);
+    // ② 카드가 제공하는 hover 스타일을 공유하되 실행 순서와 관계없이 유지합니다.
+    if(!document.getElementById('restored-prayer-card-css') && !document.getElementById('spurgeon-prayer-card-style')){
+      var style=document.createElement('style');
+      style.id='spurgeon-prayer-card-style';
+      style.textContent='#prayer .prayer-card-link{display:flex;flex-direction:column;color:inherit;text-decoration:none;cursor:pointer;min-width:0;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}'+
+        '#prayer .prayer-card-link:hover,#prayer .prayer-card-link:focus-visible{transform:translateY(-5px);border-color:#99bcb1;box-shadow:0 12px 28px rgba(24,59,70,.13)}'+
+        '#prayer .prayer-card-open{align-self:flex-start;display:inline-block;margin-top:auto;padding-top:12px;font-size:12px;font-weight:800;color:#216f69;text-decoration:underline;text-underline-offset:3px}';
+      document.head.appendChild(style);
+    }
   }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addArmstrongReading);
-  else addArmstrongReading();
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addSpurgeonPrayerCard);
+  else addSpurgeonPrayerCard();
 })();
