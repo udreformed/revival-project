@@ -248,3 +248,43 @@
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addSpurgeonPrayerCard);
   else addSpurgeonPrayerCard();
 })();
+
+
+/* 기도와 실천 ④ — 앤드루 머리 『쉬지 말고 기도하라』 31일 한국어 번역.
+ * 기도 ①–③, 읽기 자료 ⑦⑧, 도서·연대표 등 기존 기능은 변경하지 않습니다.
+ * index.html을 교체하지 않고 네 번째 카드만 추가합니다.
+ */
+(function(){
+  'use strict';
+  function addMurrayPrayerCard(){
+    var section=document.getElementById('prayer');
+    if(!section)return;
+    var tiles=section.querySelector('.tiles');
+    if(!tiles)return;
+    var href='murray-intercession-31days-ko.html';
+    var link=tiles.querySelector('#murray-intercession-prayer-card, a[href="'+href+'"]');
+    if(!link){
+      link=document.createElement('a');
+      link.id='murray-intercession-prayer-card';
+    }
+    link.className='tile prayer-card-link';
+    link.href=href;
+    link.setAttribute('aria-label','쉬지 말고 기도하라 — 앤드루 머리 31일 중보기도 지침 및 편집자 주 읽기');
+    link.innerHTML='<label>04</label>'+
+      '<h3>쉬지 말고 기도하라</h3>'+
+      '<p>앤드루 머리의 31일 중보기도 지침 완역. 성경 말씀과 기도 주제, 실천 안내 및 신학적 편집자 주를 함께 읽습니다.</p>'+
+      '<span class="prayer-card-open">31일 중보기도 자료 읽기 →</span>';
+    var third=Array.prototype.find.call(tiles.children,function(node){
+      var label=node.querySelector('label');
+      return label&&label.textContent.trim()==='03';
+    });
+    if(third){
+      if(third.nextElementSibling!==link)third.insertAdjacentElement('afterend',link);
+    }else if(tiles.lastElementChild!==link){
+      tiles.appendChild(link);
+    }
+    // Uses the same .prayer-card-link hover + keyboard focus styles as ② and ③.
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addMurrayPrayerCard);
+  else addMurrayPrayerCard();
+})();
