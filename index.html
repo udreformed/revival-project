@@ -89,26 +89,30 @@
 #prayer a.daily-gospel-card:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
 #prayer a.daily-gospel-card .prayer-card-open{display:inline-block;align-self:flex-start;margin-top:auto;padding-top:12px;color:var(--teal);font-weight:800;font-size:12px;text-decoration:underline;text-underline-offset:3px}
 @media(prefers-reduced-motion:reduce){#prayer a.daily-gospel-card{transition:none}#prayer a.daily-gospel-card:hover{transform:none}}
-/* 하단 안내 · 저작권 · 운영규칙 */
-.site-footer{padding:31px 22px 33px}
-.site-footer .footer-summary{margin:10px 0 7px;line-height:1.85;white-space:nowrap}
-.site-footer .footer-divider{display:inline-block;padding:0 12px;color:#91b4a8}
-.site-footer .footer-contact{margin:7px 0 0;color:#d0e1da;font-size:12px;line-height:1.8}
+/* 하단 문의 및 운영규칙: 같은 행에 배치 (2026-10-13) */
+.site-footer{padding:25px 22px 27px}
+.site-footer .footer-bar{width:100%;max-width:1120px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:12px 24px;flex-wrap:wrap}
+.site-footer .footer-contact{margin:0;color:#d0e1da;font-size:12px;line-height:1.85;text-align:left}
 .site-footer .footer-contact a{color:#eef8f2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
-.site-footer .footer-rules{max-width:760px;margin:17px auto 0;padding-top:12px;border-top:1px solid rgba(255,255,255,.18)}
-.site-footer .footer-rules>summary{display:inline-flex;align-items:center;gap:7px;cursor:pointer;list-style:none;color:#edf6f1;font-weight:750;font-size:12px}
+.site-footer .footer-rules{margin:0 0 0 auto;flex:0 0 auto;max-width:100%;text-align:right}
+.site-footer .footer-rules[open]{flex:0 1 620px}
+.site-footer .footer-rules>summary{display:inline-flex;align-items:center;justify-content:flex-end;gap:7px;cursor:pointer;list-style:none;color:#edf6f1;font-weight:750;font-size:12px;line-height:1.85}
 .site-footer .footer-rules>summary::-webkit-details-marker{display:none}
 .site-footer .footer-rules>summary::after{content:'⌄';display:inline-block;font-size:16px;line-height:1;transition:transform .18s ease}
 .site-footer .footer-rules[open]>summary::after{transform:rotate(180deg)}
 .site-footer .footer-rules>summary:hover{text-decoration:underline;text-underline-offset:3px}
 .site-footer .footer-rules>summary:focus-visible,.site-footer .footer-contact a:focus-visible{outline:3px solid #cbaa72;outline-offset:4px;border-radius:3px}
-.site-footer .footer-rules-body{margin:13px auto 0;padding:13px 18px;border:1px solid rgba(255,255,255,.20);background:rgba(255,255,255,.055);border-radius:8px;text-align:left}
+.site-footer .footer-rules-body{margin:12px 0 0;padding:13px 18px;border:1px solid rgba(255,255,255,.20);background:rgba(255,255,255,.055);border-radius:8px;text-align:left}
 .site-footer .footer-rules-body ol{margin:0;padding-left:21px}
 .site-footer .footer-rules-body li{margin:5px 0;line-height:1.85;color:#d8e8e0;font-size:12px}
 .site-footer .footer-rules-body li strong{font-size:12px;color:#fff}
-@media(max-width:1000px){.site-footer .footer-summary{white-space:normal}}
-@media(max-width:700px){.site-footer{padding:25px 17px 28px}.site-footer .footer-divider{padding:0 5px}.site-footer .footer-summary{line-height:1.95}}
+@media(max-width:700px){.site-footer{padding:20px 16px 24px}.site-footer .footer-bar{gap:8px 12px}.site-footer .footer-contact{font-size:11px}.site-footer .footer-rules[open]{flex-basis:100%}}
 @media(prefers-reduced-motion:reduce){.site-footer .footer-rules>summary::after{transition:none}}
+
+/* 동적 삽입되는 '오늘의 기도' 버튼과 상단 링크 높이·글꼴·정렬 일치. */
+header .top nav{align-items:center}
+header .top nav > a,header .top nav > button.daily-nav-trigger{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-height:30px;margin:0;padding:0;border:0;background:transparent;color:inherit;font-family:inherit;font-size:inherit;font-weight:650;line-height:1.5;letter-spacing:inherit;white-space:nowrap}
+header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-nav-trigger:focus-visible{border:0;color:var(--teal);text-decoration:underline;text-underline-offset:3px}
 </style><link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="/assets/revival-logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -146,8 +150,7 @@
 </div></section>
 <section class="block" id="library"><div class="section-head"><div class="cap">READING & SOURCES / 도서자료</div><h2>부흥을 더 깊이 <em>이해하기 위한 도서</em></h2><p>인용은 판본과 실제 쪽수를 확인한 뒤 게시합니다. 확보하지 않은 원전은 별도로 표시합니다.</p></div><div class="books" id="books"></div></section></div>
 <footer class="site-footer" aria-label="부흥 프로젝트 안내">
-  <strong>부흥 프로젝트</strong>
-  <p class="footer-summary">하나님의 영광 · 복음적 회심 · 공동체의 갱신 · 선교지 교회개척<span class="footer-divider" aria-hidden="true">|</span>지속적으로 보완하는 공개 연구 및 실천 자료입니다.</p>
+  <div class="footer-bar">
   <p class="footer-contact">© YONGJIN CHOI <span aria-hidden="true">·</span> 문의: <a href="mailto:thaigodpleasing@naver.com">thaigodpleasing@naver.com</a></p>
   <details class="footer-rules">
     <summary>운영규칙 보기</summary>
@@ -160,6 +163,7 @@
       </ol>
     </div>
   </details>
+  </div>
 </footer>
 <script src="data/site-data.js"></script>
 <script>
