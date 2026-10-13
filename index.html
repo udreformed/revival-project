@@ -94,25 +94,48 @@
 .site-footer .footer-bar{width:100%;max-width:1120px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:12px 24px;flex-wrap:wrap}
 .site-footer .footer-contact{margin:0;color:#d0e1da;font-size:12px;line-height:1.85;text-align:left}
 .site-footer .footer-contact a{color:#eef8f2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
-.site-footer .footer-rules{margin:0 0 0 auto;flex:0 0 auto;max-width:100%;text-align:right}
-.site-footer .footer-rules[open]{flex:0 1 620px}
+.site-footer .footer-rules{margin:0 0 0 auto;flex:0 0 auto;max-width:100%;text-align:right;position:relative}
+.site-footer .footer-rules[open]{flex:0 0 auto}
 .site-footer .footer-rules>summary{display:inline-flex;align-items:center;justify-content:flex-end;gap:7px;cursor:pointer;list-style:none;color:#edf6f1;font-weight:750;font-size:12px;line-height:1.85}
 .site-footer .footer-rules>summary::-webkit-details-marker{display:none}
 .site-footer .footer-rules>summary::after{content:'⌄';display:inline-block;font-size:16px;line-height:1;transition:transform .18s ease}
 .site-footer .footer-rules[open]>summary::after{transform:rotate(180deg)}
 .site-footer .footer-rules>summary:hover{text-decoration:underline;text-underline-offset:3px}
 .site-footer .footer-rules>summary:focus-visible,.site-footer .footer-contact a:focus-visible{outline:3px solid #cbaa72;outline-offset:4px;border-radius:3px}
-.site-footer .footer-rules-body{margin:12px 0 0;padding:13px 18px;border:1px solid rgba(255,255,255,.20);background:rgba(255,255,255,.055);border-radius:8px;text-align:left}
+.site-footer .footer-rules-body{position:absolute;right:0;bottom:calc(100% + 12px);z-index:30;box-sizing:border-box;width:min(600px,calc(100vw - 32px));max-height:min(65vh,440px);overflow-y:auto;overscroll-behavior:contain;margin:0;padding:13px 18px;border:1px solid rgba(255,255,255,.25);background:#234854;border-radius:8px;text-align:left;box-shadow:0 15px 35px rgba(8,26,29,.3)}
 .site-footer .footer-rules-body ol{margin:0;padding-left:21px}
 .site-footer .footer-rules-body li{margin:5px 0;line-height:1.85;color:#d8e8e0;font-size:12px}
 .site-footer .footer-rules-body li strong{font-size:12px;color:#fff}
-@media(max-width:700px){.site-footer{padding:20px 16px 24px}.site-footer .footer-bar{gap:8px 12px}.site-footer .footer-contact{font-size:11px}.site-footer .footer-rules[open]{flex-basis:100%}}
+@media(max-width:700px){.site-footer{padding:20px 16px 24px}.site-footer .footer-bar{gap:8px 12px}.site-footer .footer-contact{font-size:11px}.site-footer .footer-rules[open]{flex-basis:auto}}
 @media(prefers-reduced-motion:reduce){.site-footer .footer-rules>summary::after{transition:none}}
 
 /* 동적 삽입되는 '오늘의 기도' 버튼과 상단 링크 높이·글꼴·정렬 일치. */
 header .top nav{align-items:center}
 header .top nav > a,header .top nav > button.daily-nav-trigger{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-height:30px;margin:0;padding:0;border:0;background:transparent;color:inherit;font-family:inherit;font-size:inherit;font-weight:650;line-height:1.5;letter-spacing:inherit;white-space:nowrap}
 header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-nav-trigger:focus-visible{border:0;color:var(--teal);text-decoration:underline;text-underline-offset:3px}
+
+/* 2026-10-13 | Compact prayer + readings grids; content and card links retained. */
+#prayer .tiles, #readings .tiles{gap:12px}
+#prayer .tiles>.tile, #readings .tiles>.tile{padding:18px 20px;min-height:0}
+#prayer .tiles>.tile h3, #readings .tiles>.tile h3{
+  margin:7px 0 7px;font-size:16px;line-height:1.47;letter-spacing:-.025em
+}
+#prayer .tiles>.tile p, #readings .tiles>.tile p{
+  margin:0 0 8px;font-size:12.5px;line-height:1.68
+}
+#prayer .tiles>.tile label, #readings .tiles>.tile .tile-kicker{
+  font-size:11.5px;line-height:1.45
+}
+#prayer .tiles>.tile .prayer-card-open,
+#readings .tiles>.tile .text-link{
+  padding-top:8px;line-height:1.55;text-decoration:underline;text-underline-offset:3px
+}
+/* This link is injected by prayer-practice-link.js; it must not appear. */
+#prayer #murray-intercession-prayer-card .murray-download-btn{display:none!important}
+@media(max-width:700px){
+  #prayer .tiles>.tile,#readings .tiles>.tile{padding:16px 17px}
+  #prayer .tiles>.tile h3,#readings .tiles>.tile h3{font-size:16px}
+}
 </style><link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="/assets/revival-logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -285,6 +308,23 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
     host.appendChild(card);
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(install,60)});else setTimeout(install,60);
+})();
+</script>
+
+<script>
+/* Remove the dynamically generated Murray PDF button without changing the
+   independent prayer-practice-link.js or the 31-day reading destination. */
+(function(){
+  'use strict';
+  function removeMurrayDownload(){
+    var card=document.getElementById('murray-intercession-prayer-card');
+    if(!card)return;
+    var download=card.querySelector('a.murray-download-btn');
+    if(download)download.remove();
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',removeMurrayDownload);
+  }else{removeMurrayDownload();}
 })();
 </script>
 </body></html>
