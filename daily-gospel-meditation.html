@@ -34,17 +34,12 @@ a{color:var(--teal);text-decoration:none}button{font:inherit;cursor:pointer}
 @media(max-width:600px){.site-top{padding:9px 14px}.brand{font-size:14px}.brand img{width:32px;height:32px}.wrap{padding:22px 12px 35px}.intro{padding:0 5px}.intro h1{font-size:28px}.layout{gap:15px;margin-top:19px}.daily{padding:22px 19px}.daily h2{font-size:23px}.daily p{font-size:14px;line-height:2.05}.prayer-box{padding:19px}.side{padding:18px 13px}.month-toggle{padding:11px 12px}.editor{padding:21px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 
-/* 날짜별 유튜브 묵상: 묵상 본문 및 기도문 다음, 클릭할 때만 iframe 요청 */
+/* 날짜별 유튜브 영상: 기도문 다음에 플레이어를 항상 표시하고 재생은 사용자 클릭으로 시작 */
 .video-box{margin:25px 0 0;border:1px solid #d9e6de;border-radius:10px;background:#f8faf8;padding:18px 22px}
 .video-box[hidden]{display:none}
 .video-box h3{margin:0 0 7px;color:#24655c;font:800 16px/1.5 "Noto Serif KR",serif}
 .video-box .video-name{font-size:13px;color:#3e625a;line-height:1.8;margin:0 0 13px}
-.video-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.video-play{border:0;border-radius:7px;background:#216f69;color:#fff;padding:9px 16px;font-size:12px;font-weight:800}
-.video-play:hover,.video-play:focus-visible{background:#164e4b}
-.video-external{font-size:12px;text-underline-offset:3px;text-decoration:underline;font-weight:750}
-.video-embed{margin-top:17px;width:min(100%,355px);aspect-ratio:9/16;border-radius:9px;overflow:hidden;background:#0f2121}
-.video-embed[hidden]{display:none}
+.video-embed{width:min(100%,355px);aspect-ratio:9/16;border-radius:9px;overflow:hidden;background:#0f2121}
 .video-embed iframe{border:0;width:100%;height:100%;display:block}
 @media(max-width:600px){.video-box{padding:16px}.video-embed{width:min(100%,325px)}}
 </style></head>
@@ -56,11 +51,7 @@ a{color:var(--teal);text-decoration:none}button{font:inherit;cursor:pointer}
 <section class="prayer-box" id="prayerBox"><h3>기도</h3><div id="entryPrayer"></div></section><section class="video-box" id="videoBox" hidden aria-label="날짜별 유튜브 영상 묵상">
   <h3>영상으로 보는 오늘의 묵상</h3>
   <p class="video-name" id="videoName"></p>
-  <div class="video-actions">
-    <button type="button" class="video-play" id="playVideo">▶ 영상 재생</button>
-    <a class="video-external" id="openVideo" href="https://www.youtube.com/playlist?list=PLBUpqEom8gNw" target="_blank" rel="noopener noreferrer">유튜브에서 보기 ↗</a>
-  </div>
-  <div class="video-embed" id="videoEmbed" hidden></div>
+  <div class="video-embed" id="videoEmbed"></div>
 </section>
 <div class="available-note" id="notReady" hidden></div></article>
 </div>
@@ -79,34 +70,32 @@ const months=document.getElementById('months');
 const videoBox=document.getElementById('videoBox');
 const videoName=document.getElementById('videoName');
 const videoEmbed=document.getElementById('videoEmbed');
-const openVideo=document.getElementById('openVideo');
-const playVideo=document.getElementById('playVideo');
 const VIDEO_ID=/^[A-Za-z0-9_-]{11}$/;
 let videoMap={};
 let currentVideo=null;
 function renderVideo(m,d,hasText){
-  videoEmbed.replaceChildren();videoEmbed.hidden=true;
-  if(!hasText){videoBox.hidden=true;currentVideo=null;return;}
+  if(!hasText){
+    videoEmbed.replaceChildren();videoBox.hidden=true;currentVideo=null;return;
+  }
   const key=String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0');
   const video=videoMap[key];
-  if(!video||!VIDEO_ID.test(video.id)){videoBox.hidden=true;currentVideo=null;return;}
-  currentVideo=video.id;
+  if(!video||!VIDEO_ID.test(video.id)){
+    videoEmbed.replaceChildren();videoBox.hidden=true;currentVideo=null;return;
+  }
   videoName.textContent=video.title||m+'월 '+d+'일 복음묵상';
-  openVideo.href='https://www.youtube.com/watch?v='+encodeURIComponent(video.id);
-  playVideo.hidden=false;videoBox.hidden=false;
-}
-playVideo.addEventListener('click',function(){
-  if(!currentVideo)return;
+  videoBox.hidden=false;
+  // 연결 목록만 새로고침된 경우 현재 재생 중인 영상을 끊지 않습니다.
+  if(currentVideo===video.id&&videoEmbed.querySelector('iframe'))return;
+  currentVideo=video.id;
   const frame=document.createElement('iframe');
-  frame.src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(currentVideo)+'?autoplay=1&playsinline=1&rel=0';
-  frame.title=videoName.textContent+' — 유튜브 영상';
+  frame.src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(video.id)+'?playsinline=1&rel=0';
+  frame.title=videoName.textContent+' — 유튜브 영상 플레이어';
   frame.loading='lazy';
   frame.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
   frame.referrerPolicy='strict-origin-when-cross-origin';
   frame.allowFullscreen=true;
-  videoEmbed.replaceChildren(frame);videoEmbed.hidden=false;
-  playVideo.hidden=true;
-});
+  videoEmbed.replaceChildren(frame);
+}
 async function refreshVideoMap(){
   try{
     const response=await fetch('data/daily-gospel-video-map.json',{cache:'no-store'});
