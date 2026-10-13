@@ -1,1 +1,65 @@
-
+/* 부흥프로젝트 · 오늘의 기도 · Cloudflare Pages Functions
+   날짜별 HTML 파일 397개 대신 하나의 동적 공유 페이지를 제공합니다.
+   카카오톡 미리보기(OG 태그)는 서버에서 즉시 생성하며 JavaScript 실행이 필요 없습니다.
+   원고 수정 시 daily-prayer-data.js의 제목/첫 문장을 바꾼 경우 이 메타데이터도 함께 업데이트하십시오.
+*/
+const PRAYERS=[{"day":1,"title":"주님, 다시 저희를 살리소서","references":["시편 85:6","에베소서 3:16–19"],"excerpt":"생명의 하나님 아버지, 주께서는 죽은 자를 살리시고 굳어진 마음을 새롭게 하시는 분이십니다. 죄와 허물로 죽었던 저희를 그리스도 안에서 부르시고, 십자가의 은혜로 용서하시며 주님의 백성으로 삼아 주셨습니다. 저희가 세운 적 없는 교회를 주께서 세우셨고…"},{"day":2,"title":"하나님을 향한 갈망을 회복시켜 주시옵소서","references":["시편 42:1–2","빌립보서 3:8–10"],"excerpt":"저희의 참된 기쁨이신 하나님 아버지, 세상의 모든 선물이 주께로부터 왔지만 그 선물보다 더 귀한 것은 하나님 자신이십니다. 죄인이었던 저희를 그리스도 안에서 화목하게 하시고 아버지라 부르며 나아가게 하셨으니, 이보다 큰 복이 어디 있겠습니까. 주님의…"},{"day":3,"title":"주님의 말씀 앞에서 저희를 깨워 주시옵소서","references":["느헤미야 8:8–12","데살로니가전서 1:5"],"excerpt":"진리의 하나님 아버지, 저희에게 생명의 말씀을 주시니 감사합니다. 세상의 생각은 끊임없이 바뀌어도 주님의 말씀은 변하지 않습니다. 그 말씀으로 저희의 죄를 드러내시고, 예수 그리스도 안에 있는 구원을 알리시며, 믿음의 길로 인도해 오셨습니다. 오늘도…"},{"day":4,"title":"굳어진 마음을 돌이켜 주시옵소서","references":["시편 51:10–12","요한일서 1:8–9"],"excerpt":"거룩하신 하나님 아버지, 주님 앞에는 감출 수 있는 죄가 없습니다. 저희의 행동뿐 아니라 아무도 모르는 생각과 욕망까지 주께서 아십니다. 그런데도 저희를 오래 참으시고 그리스도의 십자가를 통해 용서의 길을 열어 주셨습니다. 저희가 오늘 회개할 수 있는…"},{"day":5,"title":"식어 가는 사랑을 다시 일으켜 주시옵소서","references":["요한복음 13:34–35","에베소서 4:31–32"],"excerpt":"사랑의 하나님 아버지, 저희가 먼저 주님을 사랑한 것이 아니라 주께서 먼저 저희를 사랑하셨습니다. 원수 되었던 저희를 위해 독생자를 내어 주셨고, 그리스도의 피로 서로 다른 사람들을 한 몸의 지체로 삼아 주셨습니다. 저희가 같은 교회에서 형제자매라 부…"},{"day":6,"title":"기도의 자리를 다시 회복시켜 주시옵소서","references":["로마서 8:26–27","골로새서 4:2"],"excerpt":"기도를 들으시는 아버지 하나님, 저희가 은혜의 보좌 앞에 나아가는 것은 저희가 잘 기도하기 때문이 아닙니다. 그리스도께서 피로 길을 여셨고 지금도 자기 백성을 위하여 중보하시기 때문입니다. 무엇을 구해야 할지 모르는 연약한 때에도 성령께서 저희를 도우…"},{"day":7,"title":"말씀의 종들에게 은혜와 능력을 더하여 주시옵소서","references":["에베소서 6:19–20","디모데후서 4:1–5"],"excerpt":"교회의 머리이신 주 예수님, 연약한 사람들을 불러 생명의 말씀을 전하게 하시니 감사합니다. 그들이 전하는 복음으로 죄인을 부르시고 성도의 믿음을 세우시는 분은 주님이십니다. 오늘 주님의 말씀을 맡은 목회자와 교사들을 그 손에 올려 드립니다. 그들이 맡…"},{"day":8,"title":"지친 성도들을 다시 일으켜 주시옵소서","references":["이사야 40:29–31","히브리서 12:12–13"],"excerpt":"상한 갈대를 꺾지 않으시는 하나님 아버지, 오늘 낙심하여 고개를 들지 못하는 성도들을 위해 기도합니다. 저희가 다 알지 못하는 그들의 눈물과 탄식을 주께서는 아십니다. 고난받는 자를 외면하지 않으시며 부활하신 그리스도 안에서 영원한 소망을 주시는 주님…"},{"day":9,"title":"굳어진 영혼들을 그리스도께 돌이켜 주시옵소서","references":["에스겔 36:26–27","요한복음 6:44","로마서 10:1"],"excerpt":"죄인을 살리시는 하나님 아버지, 저희가 주님을 찾기 전에 먼저 찾아오신 은혜를 찬양합니다. 저희에게는 스스로 죄의 속박을 끊을 능력도, 구원을 얻을 공로도 없었습니다. 성령께서 어두운 마음을 밝히시고 그리스도를 믿게 하셨기에 오늘 저희가 이 자리에 있…"},{"day":10,"title":"복음이 전해지는 곳마다 교회를 세워 주시옵소서","references":["골로새서 4:2–4","마태복음 28:18–20"],"excerpt":"모든 민족의 주인이신 하나님 아버지, 주께서 복음의 문을 여셔서 저희에게까지 생명의 말씀이 전해지게 하셨습니다. 이름도 모르는 수많은 성도의 기도와 수고를 사용하여 그리스도의 구원을 알게 하셨으니 감사합니다. 오늘도 여러 언어와 문화 속에서 복음을 전…"},{"day":11,"title":"추수할 일꾼을 보내 주시옵소서","references":["마태복음 9:36–38","디모데후서 2:2"],"excerpt":"추수의 주인이신 하나님 아버지, 목자 없는 양처럼 방황하던 저희를 불쌍히 여기시고 복음의 말씀을 들려주셨습니다. 저희를 위하여 기도하고 오래 가르치며 믿음의 길로 이끌었던 종들을 기억합니다. 그들의 작은 수고 속에서 친히 역사하신 주님께 감사드립니다.…"},{"day":12,"title":"죄를 깨닫지 못하는 영혼들을 깨워 주시옵소서","references":["요한복음 16:8–11","사도행전 2:37–39"],"excerpt":"거룩하고 자비로우신 하나님 아버지, 주님의 빛 앞에서 저희의 모든 죄가 드러납니다. 그러나 그 빛 앞에서 피할 길 없는 죄인을 그리스도의 십자가로 불러 주셨습니다. 저희가 죄의 심각함을 알기도 전에 구원의 길을 마련하셨고, 성령께서 마음을 깨워 회개와…"},{"day":13,"title":"주님의 교회를 거룩하게 하여 주시옵소서","references":["에베소서 5:25–27","베드로전서 1:15–16"],"excerpt":"거룩하신 하나님 아버지, 예수 그리스도께서는 교회를 사랑하셔서 자신을 내어 주셨습니다. 저희를 피로 사시고 말씀과 성령으로 깨끗하게 하시는 그 사랑을 찬양합니다. 이 교회는 저희의 소유가 아니라 주님의 것입니다. 주님께서 귀히 여기시는 교회를 저희도…"},{"day":14,"title":"저희의 자녀들이 주님을 알게 하여 주시옵소서","references":["시편 78:4–7","디모데후서 3:14–15"],"excerpt":"세대를 이어 신실하신 하나님 아버지, 저희에게 복음이 전해지도록 먼저 믿은 사람들의 입술과 삶을 사용하셨습니다. 그 은혜를 감사하며 오늘 저희의 자녀들과 다음 세대를 주께 맡깁니다. 저희 세대에서 찬양하던 하나님을 그들도 알고 사랑하며, 저희보다 더…"},{"day":15,"title":"배움의 자리에도 주님의 빛을 비추어 주시옵소서","references":["잠언 2:6","야고보서 1:5","골로새서 2:3"],"excerpt":"모든 지혜의 근원이신 하나님 아버지, 저희에게 배우고 깨달을 수 있는 마음을 주시니 감사합니다. 지으신 세상의 질서를 알아 갈 때마다 창조주의 지혜를 기억하게 하시고, 새로운 지식을 얻을수록 자신이 얼마나 모르는 것이 많은지 깨닫게 하여 주시옵소서.…"},{"day":16,"title":"어린 영혼들을 주님의 사랑으로 품어 주시옵소서","references":["마가복음 10:13–16","디모데후서 3:15"],"excerpt":"어린아이들을 품에 안으신 주 예수님, 작고 연약한 아이들을 귀히 여기시는 그 사랑을 찬양합니다. 아이들의 마음과 형편을 아시는 주님께 오늘 교회와 마을의 어린이들을 맡깁니다. 한 아이도 주님의 사랑 밖에 있지 않음을 믿으며 간구합니다."},{"day":17,"title":"이 땅의 지도자들에게 공의와 지혜를 주시옵소서","references":["디모데전서 2:1–4","잠언 21:1"],"excerpt":"모든 나라 위에 계신 하나님 아버지, 세상의 어떤 권세도 주님의 다스리심 밖에 있지 않습니다. 지도자의 계획과 사람의 지혜는 불완전하지만 주님은 모든 일을 의롭게 판단하십니다. 저희가 살아가는 나라와 여러 나라의 통치자와 공직자들을 주께 맡기며, 이…"},{"day":18,"title":"전쟁과 미움 가운데 있는 세상을 긍휼히 여겨 주시옵소서","references":["마태복음 5:9","에베소서 2:14–18"],"excerpt":"화평의 하나님 아버지, 원수 되었던 저희를 그리스도의 십자가로 하나님과 화목하게 하셨습니다. 주께서 베푸신 그 화평을 기억하며, 오늘 전쟁과 폭력으로 고통받는 사람들을 위해 간구합니다. 먼 곳의 소식을 다 헤아릴 수 없으나, 집과 가족을 잃은 이들의…"},{"day":19,"title":"경건의 모양에 만족하는 저희를 깨워 주시옵소서","references":["요한계시록 3:1–3","디모데후서 3:5"],"excerpt":"살아 계신 하나님 아버지, 사람의 눈에 드러난 모습뿐 아니라 마음의 깊은 곳까지 살피시는 주님 앞에 나아갑니다. 오래된 교회의 이름이나 익숙한 예배의 형식이 저희를 살릴 수 없음을 압니다. 주님의 말씀으로 저희를 다시 깨워 주시옵소서."},{"day":20,"title":"복음의 빛이 닿지 않은 곳에 은혜를 베풀어 주시옵소서","references":["시편 67:1–7","로마서 10:14–15","요한계시록 7:9–10"],"excerpt":"모든 민족의 하나님 아버지, 각 나라와 언어와 문화 속에 살아가는 모든 사람이 주님의 형상대로 지음받았음을 고백합니다. 저희가 복음을 듣고 구원의 은혜를 누린 것은 다른 사람보다 나아서가 아닙니다. 주님의 긍휼이 저희에게까지 이르렀기 때문입니다. 오늘…"},{"day":21,"title":"이스라엘과 모든 민족에게 구원의 은혜를 베풀어 주시옵소서","references":["로마서 10:1","로마서 11:17–24","에베소서 2:14–18"],"excerpt":"언약에 신실하신 하나님 아버지, 아브라함에게 주신 약속을 기억하시고 때가 차매 예수 그리스도를 보내셨습니다. 그리스도의 십자가로 멀리 있던 이방인에게도 구원의 길을 여셨으니, 저희가 받은 이 은혜를 어찌 자랑할 수 있겠습니까. 모든 것이 주님의 긍휼입…"},{"day":22,"title":"고난받는 주님의 백성을 붙들어 주시옵소서","references":["히브리서 13:3","고린도후서 1:3–5","로마서 12:15"],"excerpt":"모든 위로의 하나님 아버지, 오늘 고난의 시간을 지나고 있는 형제자매들을 주님의 손에 맡깁니다. 주께서는 그들의 밤과 눈물을 아시며, 사람들이 알지 못하는 마음의 무게까지 헤아리십니다. 고난을 친히 받으시고 죽음에서 부활하신 예수 그리스도를 바라보며,…"},{"day":23,"title":"맡겨진 사역에 주님의 은혜를 더하여 주시옵소서","references":["골로새서 1:28–29","고린도전서 15:58"],"excerpt":"저희를 부르시고 사용하시는 하나님 아버지, 주께서는 연약하고 부족한 사람의 손을 통해서도 자신의 뜻을 이루십니다. 저희가 특별히 뛰어나서 일꾼이 된 것이 아니라 값없이 은혜를 받았기 때문임을 고백합니다. 오늘 말씀을 가르치고 사람을 돌보며 이름 없이…"},{"day":24,"title":"주님, 저희 교회에 다시 생명의 은혜를 베풀어 주시옵소서","references":["사도행전 2:42–47","에베소서 4:11–16","시편 85:6"],"excerpt":"교회의 머리이신 예수 그리스도, 주께서 피로 사신 이 교회를 주님 앞에 올려 드립니다. 함께 예배하며 말씀을 듣고 서로의 이름을 부르는 공동체를 주셨으니 감사합니다. 그러나 이 교회는 저희의 소유가 아닙니다. 주께서 친히 세우시고 지금까지 지켜 오셨으…"},{"day":25,"title":"아직 주님께 돌아오지 않은 영혼들을 긍휼히 여겨 주시옵소서","references":["고린도후서 4:4–6","요한복음 6:37","에스겔 36:26"],"excerpt":"죄인을 찾아 구원하시는 하나님 아버지, 어두운 저희 마음에 빛을 비추시고 예수 그리스도의 영광을 보게 하셨습니다. 저희가 먼저 주님을 붙든 것이 아니라 주께서 먼저 저희를 불러 주셨습니다. 믿음도 회개도 은혜로 주셨으니, 오늘 그 자비를 의지하여 아직…"},{"day":26,"title":"새롭게 믿는 성도들을 굳게 세워 주시옵소서","references":["에베소서 1:13–14","골로새서 2:6–7","베드로전서 2:2"],"excerpt":"믿음의 시작과 완성을 이루시는 하나님 아버지, 죄인을 불러 새 생명을 주시니 감사합니다. 이제 막 예수 그리스도를 믿는다고 고백한 성도들을 주께 맡깁니다. 처음 복음을 깨달았던 기쁨이 뿌리 깊은 믿음으로 자라게 하시고, 그리스도 안에 굳게 서도록 친히…"},{"day":27,"title":"받은 은혜를 이웃에게 나누게 하여 주시옵소서","references":["에베소서 2:8–10","마태복음 5:14–16","갈라디아서 6:9–10"],"excerpt":"모든 은혜의 하나님 아버지, 아무 공로 없는 저희를 그리스도 안에서 구원하시고 지금까지 돌보아 주셨습니다. 저희가 누리는 생명과 평안, 가진 시간과 재능도 모두 주께 받은 선물입니다. 그 크신 은혜를 감사하며, 저희의 손이 이웃을 향해 열리기를 구합니…"},{"day":28,"title":"성령으로 충만하여 그리스도를 닮게 하여 주시옵소서","references":["에베소서 5:18–21","갈라디아서 5:22–23","요한복음 16:14"],"excerpt":"성부와 성자와 함께 영광을 받으시는 성령 하나님, 저희의 어두운 마음을 밝혀 그리스도를 믿게 하시고 지금도 그분께로 이끌어 주시니 감사합니다. 저희에게 생명을 주신 성령께서 거룩한 삶으로 자라게 하시는 은혜를 의지합니다. 오늘도 저희를 충만하게 하여…"},{"day":29,"title":"쉬지 않고 기도하는 교회를 세워 주시옵소서","references":["누가복음 18:1–8","골로새서 4:2","에베소서 6:18"],"excerpt":"기도를 들으시는 하나님 아버지, 저희가 주님의 보좌 앞에 나아가는 것은 오직 그리스도의 은혜 때문입니다. 저희의 기도가 부족하고 마음이 흔들릴 때에도 살아 계신 구주께서 자기 백성을 위하여 중보하십니다. 그 신실하심을 의지하여 오늘도 담대히 간구합니다…"},{"day":30,"title":"복음의 말씀이 능력 있게 전파되게 하여 주시옵소서","references":["데살로니가전서 1:5","고린도후서 4:5–6","고린도전서 1:18"],"excerpt":"말씀의 하나님 아버지, 주께서는 십자가에 달리신 그리스도의 복음을 구원의 능력으로 삼으셨습니다. 사람에게 어리석게 보이는 그 말씀으로 죄인을 부르시고 죽은 영혼을 살리십니다. 저희가 복음을 듣고 믿게 된 은혜를 기억하며, 오늘도 그 말씀이 전해지는 모…"},{"day":31,"title":"주님, 저희가 하나님을 더욱 기뻐하게 하여 주시옵소서","references":["시편 85:6","요한복음 15:4–5","요한계시록 7:9–12"],"excerpt":"영광과 존귀를 받으시기에 합당하신 하나님 아버지, 저희에게 생명과 구원의 은혜를 베풀어 주시니 감사합니다. 아무 공로 없는 저희를 그리스도 안에서 받아 주셨고, 성령으로 새 생명을 주셔서 아버지라 부르며 나아가게 하셨습니다. 지난날 저희가 얼마나 연약…"}];
+const MAIN_URL='https://revival-project.pages.dev';
+const LOGO_URL=MAIN_URL+'/assets/revival-logo-512.png';
+function escapeHtml(str){return String(str).replace(/[&<>"']/g,function(x){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x];});}
+function dateValid(year,month,day){
+ if(!Number.isInteger(year)||year<2000||year>9999||month<1||month>12||day<1||day>31)return false;
+ const date=new Date(Date.UTC(year,month-1,day));
+ return date.getUTCFullYear()===year&&date.getUTCMonth()+1===month&&date.getUTCDate()===day;
+}
+function daysInAnyYear(month,day){return dateValid(2024,month,day);}
+export function onRequestGet(context){
+ const url=new URL(context.request.url);
+ let match=url.pathname.match(/^\/prayer-share\/(\d{2})-(\d{2})\.html$/);
+ let month, day;
+ if(match){month=Number(match[1]);day=Number(match[2]);}
+ else {match=url.pathname.match(/^\/prayer-share\/(\d{2})\.html$/);if(!match)return new Response('Not found',{status:404});month=null;day=Number(match[1]);}
+ if(day<1||day>31||(month!==null&&!daysInAnyYear(month,day)))return new Response('날짜를 확인해 주세요.',{status:404});
+ const prayer=PRAYERS[day-1];if(!prayer)return new Response('Not found',{status:404});
+ const claimedDate=url.searchParams.get('date')||'';
+ const parsed=/^(\d{4})-(\d{2})-(\d{2})$/.exec(claimedDate);
+ let validDate='';
+ if(parsed){
+   const y=+parsed[1],m=+parsed[2],d=+parsed[3];
+   if(dateValid(y,m,d)&&d===day&&(month===null||m===month))validDate=claimedDate;
+ }
+ // A valid explicit calendar date takes priority. Without it, still show correct month/day.
+ const label=(month===null?(validDate?Number(validDate.slice(5,7))+'월 ':'매월 '):month+'월 ')+day+'일';
+ const headline=label+' | '+prayer.title;
+ const refs=prayer.references.join(' · ');
+ const excerpt=prayer.excerpt;
+ const descr=headline+' · '+refs+' · '+excerpt;
+ const canonical=MAIN_URL+url.pathname;
+ const link=validDate?'/?prayer-date='+encodeURIComponent(validDate):'/?prayer-day='+day;
+ const title='부흥을 위한 오늘의 기도';
+ const body=`<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${escapeHtml(title+' — '+headline)}</title>
+<meta name="description" content="${escapeHtml(descr)}">
+<meta property="og:type" content="article"><meta property="og:site_name" content="부흥 프로젝트"><meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="${escapeHtml(title)}">
+<meta property="og:description" content="${escapeHtml(descr)}">
+<meta property="og:url" content="${escapeHtml(canonical)}">
+<meta property="og:image" content="${escapeHtml(LOGO_URL)}"><meta property="og:image:width" content="512"><meta property="og:image:height" content="512"><meta property="og:image:alt" content="부흥프로젝트 메인 로고">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="${escapeHtml(title)}"><meta name="twitter:description" content="${escapeHtml(descr)}"><meta name="twitter:image" content="${escapeHtml(LOGO_URL)}">
+<link rel="canonical" href="${escapeHtml(canonical)}">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f6f1;color:#1e3d43;font:15px/1.8 'Apple SD Gothic Neo','Noto Sans KR',sans-serif}
+.share-wrap{width:min(600px,calc(100vw - 30px));margin:min(12vh,85px) auto;background:#fff;border:1px solid #d6e4da;border-radius:16px;padding:28px 25px;box-shadow:0 14px 42px #1d403d13}
+.share-head{display:flex;gap:14px;align-items:flex-start}.share-icon{flex:none;width:54px;height:54px;object-fit:contain;border-radius:7px}
+.share-lines{min-width:0;flex:1}.share-kicker{font-size:15px;font-weight:800;color:#28635d;line-height:1.6;margin:0 0 2px}
+.share-title{font-size:21px;font-weight:800;line-height:1.5;word-break:keep-all;margin:0 0 8px}
+.share-refs{font-size:13px;color:#59746a;margin:0}.share-excerpt{font-family:'Noto Serif KR','Nanum Myeongjo',serif;font-size:15px;line-height:1.9;color:#344d4a;margin:21px 0 19px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:keep-all}
+.share-actions{display:flex;justify-content:flex-end}.share-read{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 20px;background:#216f69;color:white;border-radius:8px;text-decoration:none;font-size:14px;font-weight:800}
+.share-read:hover,.share-read:focus-visible{background:#194e4b}.share-site{border-top:1px solid #e1e9e1;padding-top:13px;margin:20px 0 0;font-size:12px;color:#688078}
+@media(max-width:500px){.share-wrap{margin:30px auto;padding:20px 16px}.share-icon{width:47px;height:47px}.share-head{gap:10px}.share-kicker{font-size:13px}.share-title{font-size:17px}.share-refs{font-size:12px}}
+</style></head><body>
+<main class="share-wrap"><div class="share-head"><img class="share-icon" src="/assets/revival-logo-512.png" width="54" height="54" alt="부흥프로젝트 로고"><div class="share-lines"><p class="share-kicker">${escapeHtml(title)}</p><h1 class="share-title">${escapeHtml(headline)}</h1><p class="share-refs">${escapeHtml(refs)}</p></div></div>
+<p class="share-excerpt">${escapeHtml(excerpt)}</p><div class="share-actions"><a class="share-read" href="${escapeHtml(link)}">이어서 보기 →</a></div><p class="share-site">부흥 프로젝트 · REVIVAL PROJECT</p></main></body></html>`;
+ return new Response(body,{status:200,headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'public, max-age=600','X-Content-Type-Options':'nosniff'}});
+}
