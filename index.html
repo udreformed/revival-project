@@ -89,6 +89,26 @@
 #prayer a.daily-gospel-card:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
 #prayer a.daily-gospel-card .prayer-card-open{display:inline-block;align-self:flex-start;margin-top:auto;padding-top:12px;color:var(--teal);font-weight:800;font-size:12px;text-decoration:underline;text-underline-offset:3px}
 @media(prefers-reduced-motion:reduce){#prayer a.daily-gospel-card{transition:none}#prayer a.daily-gospel-card:hover{transform:none}}
+/* 하단 안내 · 저작권 · 운영규칙 */
+.site-footer{padding:31px 22px 33px}
+.site-footer .footer-summary{margin:10px 0 7px;line-height:1.85;white-space:nowrap}
+.site-footer .footer-divider{display:inline-block;padding:0 12px;color:#91b4a8}
+.site-footer .footer-contact{margin:7px 0 0;color:#d0e1da;font-size:12px;line-height:1.8}
+.site-footer .footer-contact a{color:#eef8f2;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.site-footer .footer-rules{max-width:760px;margin:17px auto 0;padding-top:12px;border-top:1px solid rgba(255,255,255,.18)}
+.site-footer .footer-rules>summary{display:inline-flex;align-items:center;gap:7px;cursor:pointer;list-style:none;color:#edf6f1;font-weight:750;font-size:12px}
+.site-footer .footer-rules>summary::-webkit-details-marker{display:none}
+.site-footer .footer-rules>summary::after{content:'⌄';display:inline-block;font-size:16px;line-height:1;transition:transform .18s ease}
+.site-footer .footer-rules[open]>summary::after{transform:rotate(180deg)}
+.site-footer .footer-rules>summary:hover{text-decoration:underline;text-underline-offset:3px}
+.site-footer .footer-rules>summary:focus-visible,.site-footer .footer-contact a:focus-visible{outline:3px solid #cbaa72;outline-offset:4px;border-radius:3px}
+.site-footer .footer-rules-body{margin:13px auto 0;padding:13px 18px;border:1px solid rgba(255,255,255,.20);background:rgba(255,255,255,.055);border-radius:8px;text-align:left}
+.site-footer .footer-rules-body ol{margin:0;padding-left:21px}
+.site-footer .footer-rules-body li{margin:5px 0;line-height:1.85;color:#d8e8e0;font-size:12px}
+.site-footer .footer-rules-body li strong{font-size:12px;color:#fff}
+@media(max-width:1000px){.site-footer .footer-summary{white-space:normal}}
+@media(max-width:700px){.site-footer{padding:25px 17px 28px}.site-footer .footer-divider{padding:0 5px}.site-footer .footer-summary{line-height:1.95}}
+@media(prefers-reduced-motion:reduce){.site-footer .footer-rules>summary::after{transition:none}}
 </style><link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="/assets/revival-logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -124,8 +144,23 @@
 <a class="tile tile-link" href="readings.html#reading-06" aria-label="성령 세례와 성령 충만을 어떻게 이해할 것인가? — 본문 읽기"><span class="tile-kicker">06 · 성령 세례와 충만</span><h3>성령 세례와 성령 충만을 어떻게 이해할 것인가?</h3><p>오순절의 단회성과 오늘날 교회가 사모해야 할 성령의 은혜를 살펴봅니다.</p><span class="text-link" aria-hidden="true">본문 읽기 →</span></a>
 <a class="tile tile-link" id="reading-09-home" href="armstrong-revivalism-me-generation.html" aria-label="읽기 자료 9번: 현대 부흥주의와 ‘나 중심 신앙’의 위험 — 본문 읽기"><span class="tile-kicker">09 · 현대 부흥주의의 분별</span><h3>현대 부흥주의와 ‘나 중심 신앙’의 위험</h3><p>존 H. 암스트롱의 연구를 따라 인간 중심 부흥주의와 종교적 체험을 분별하고, 성경의 권위와 그리스도의 복음, 교회의 참된 갱신을 살펴봅니다.</p><span class="text-link" aria-hidden="true">본문 읽기 →</span></a>
 </div></section>
-<section class="block" id="library"><div class="section-head"><div class="cap">READING & SOURCES / 도서자료</div><h2>부흥을 더 깊이 <em>이해하기 위한 도서</em></h2><p>인용은 판본과 실제 쪽수를 확인한 뒤 게시합니다. 확보하지 않은 원전은 별도로 표시합니다.</p></div><div class="books" id="books"></div><p class="copyright">저작권이 있는 스캔 도서·비공개 연구자료 원문은 홈페이지에 공개하지 않습니다. 부흥에 대한 해석은 성경과 개혁주의 신앙고백에 비추어 검토합니다.</p></section></div>
-<footer><strong>부흥 프로젝트</strong><p>하나님의 영광 · 복음적 회심 · 공동체의 갱신 · 선교지 교회개척</p><p>지속적으로 보완하는 공개 연구 및 실천 자료입니다.</p></footer>
+<section class="block" id="library"><div class="section-head"><div class="cap">READING & SOURCES / 도서자료</div><h2>부흥을 더 깊이 <em>이해하기 위한 도서</em></h2><p>인용은 판본과 실제 쪽수를 확인한 뒤 게시합니다. 확보하지 않은 원전은 별도로 표시합니다.</p></div><div class="books" id="books"></div></section></div>
+<footer class="site-footer" aria-label="부흥 프로젝트 안내">
+  <strong>부흥 프로젝트</strong>
+  <p class="footer-summary">하나님의 영광 · 복음적 회심 · 공동체의 갱신 · 선교지 교회개척<span class="footer-divider" aria-hidden="true">|</span>지속적으로 보완하는 공개 연구 및 실천 자료입니다.</p>
+  <p class="footer-contact">© YONGJIN CHOI <span aria-hidden="true">·</span> 문의: <a href="mailto:thaigodpleasing@naver.com">thaigodpleasing@naver.com</a></p>
+  <details class="footer-rules">
+    <summary>운영규칙 보기</summary>
+    <div class="footer-rules-body">
+      <ol>
+        <li><strong>연구 목적:</strong> 성경과 개혁주의 신앙고백에 기초하여 부흥, 영적 갱신, 기도와 실천을 연구합니다.</li>
+        <li><strong>출처와 해설:</strong> 확인 가능한 자료를 바탕으로 출처를 밝히며, 인용·요약·편집자의 평가를 구분합니다.</li>
+        <li><strong>신학적 분별:</strong> 역사적 사실과 해석을 구별하고, 성경에 비추어 신학적 주장을 검토합니다.</li>
+        <li><strong>저작권과 수정:</strong> 원저작자의 권리를 존중하며, 오류가 확인되면 내용을 수정·보완합니다. 문의와 정정 제안은 위 이메일로 받습니다.</li>
+      </ol>
+    </div>
+  </details>
+</footer>
 <script src="data/site-data.js"></script>
 <script>
 (function(){const d=window.REVIVAL_SITE;if(!d){document.getElementById('detail').innerHTML='<p>연구 데이터를 불러오지 못했습니다.</p>';return;}const branches=document.getElementById('branches'),detail=document.getElementById('detail'),books=document.getElementById('books'),search=document.getElementById('search');const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));let active=null;function show(n){active=n.id;branches.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.id===active)));detail.innerHTML='<span class="cap">연구 주제</span><h3>'+esc(n.title)+'</h3><p>'+esc(n.description)+'</p><div class="topics">'+(n.children||[]).map(x=>'<button data-sub="'+esc(x.id)+'">'+esc(x.title)+' →</button>').join('')+'</div><div class="notice">세부 항목은 연구 및 설교가 추가될 때마다 확장됩니다.</div>';detail.querySelectorAll('[data-sub]').forEach(b=>b.addEventListener('click',()=>{const x=(n.children||[]).find(x=>x.id===b.dataset.sub);if(x){detail.innerHTML='<span class="cap">세부 연구 항목</span><h3>'+esc(x.title)+'</h3><p>'+esc(x.description)+'</p><button id="back" class="branch">← 상위 주제로 돌아가기</button>';document.getElementById('back').onclick=()=>show(n)}}))}function render(q=''){branches.innerHTML='';d.topics.filter(n=>(n.title+' '+n.description+' '+(n.children||[]).map(c=>c.title).join(' ')).toLowerCase().includes(q.toLowerCase())).forEach(n=>{const history=n.id==='history';const b=document.createElement(history?'a':'button');b.className='branch'+(history?' branch-history':'');b.innerHTML='<i>✦</i>'+esc(n.title)+(history?' ↗':'');if(history){b.href='world-revival-history.html';b.setAttribute('aria-label','역사 속의 부흥: 세계 부흥 운동사 연표 열기')}else{b.setAttribute('aria-pressed',String(n.id===active));b.dataset.id=n.id;b.onclick=()=>show(n)}branches.appendChild(b)})}search.oninput=()=>render(search.value);render();if(d.topics[0])show(d.topics[0]);books.innerHTML=d.books.map(b=>{const history=b.author==='박용규'&&b.title==='세계 부흥 운동사';return (history?'<a class="book book-history" href="world-revival-history.html" aria-label="박용규 세계 부흥 운동사 연표 열기">':'<article class="book">')+'<small>'+esc(b.category)+'</small><h3>'+esc(b.title)+'</h3><p>'+esc(b.author)+'</p><p class="note">'+esc(b.note)+'</p>'+(history?'<span class="book-open">세계 부흥 운동사 연표 보기 →</span></a>':'</article>')}).join('')})();
