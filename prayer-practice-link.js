@@ -250,9 +250,10 @@
 })();
 
 
-/* 기도와 실천 ④ — 앤드루 머리 『쉬지 말고 기도하라』 31일 한국어 번역.
- * 기도 ①–③, 읽기 자료 ⑦⑧, 도서·연대표 등 기존 기능은 변경하지 않습니다.
- * index.html을 교체하지 않고 네 번째 카드만 추가합니다.
+/* 기도와 실천 ④ — 앤드루 머리 『쉬지 말고 기도하라』.
+ * 번역 페이지 링크는 카드 전체에 유지하고, 카드 맨 아래에 새로 집필한 31편 기도문 PDF 다운로드 버튼을 별도로 둡니다.
+ * 하나의 <a> 안에 또 다른 <a>를 중첩하지 않아 클릭·키보드 동작이 모두 올바릅니다.
+ * 다른 카드, 도서, 읽기 자료와 「오늘의 기도」 메뉴는 변경하지 않습니다.
  */
 (function(){
   'use strict';
@@ -262,28 +263,50 @@
     var tiles=section.querySelector('.tiles');
     if(!tiles)return;
     var href='murray-intercession-31days-ko.html';
-    var link=tiles.querySelector('#murray-intercession-prayer-card, a[href="'+href+'"]');
-    if(!link){
-      link=document.createElement('a');
-      link.id='murray-intercession-prayer-card';
+    var old=tiles.querySelector('#murray-intercession-prayer-card, a[href="'+href+'"]');
+    var card;
+    if(old && old.tagName.toLowerCase()==='article') card=old;
+    else {
+      card=document.createElement('article');
+      if(old) old.replaceWith(card);
     }
-    link.className='tile prayer-card-link';
-    link.href=href;
-    link.setAttribute('aria-label','쉬지 말고 기도하라 — 앤드루 머리 31일 중보기도 지침 및 편집자 주 읽기');
-    link.innerHTML='<label>04</label>'+
-      '<h3>쉬지 말고 기도하라</h3>'+
-      '<p>앤드루 머리의 31일 중보기도 지침 완역. 성경 말씀과 기도 주제, 실천 안내 및 신학적 편집자 주를 함께 읽습니다.</p>'+
-      '<span class="prayer-card-open">31일 중보기도 자료 읽기 →</span>';
+    card.id='murray-intercession-prayer-card';
+    card.className='tile prayer-card-link murray-download-card';
+    card.innerHTML=
+      '<a class="murray-card-main" href="'+href+'" aria-label="쉬지 말고 기도하라 — 31일 중보기도 지침 전체 읽기">'+
+        '<label>04</label>'+
+        '<h3>쉬지 말고 기도하라</h3>'+
+        '<p>앤드루 머리의 31일 중보기도 지침 완역. 성경 말씀과 기도 주제, 실천 안내 및 신학적 편집자 주를 함께 읽습니다.</p>'+
+        '<span class="prayer-card-open">31일 중보기도 자료 읽기 →</span>'+
+      '</a>'+
+      '<a class="murray-download-btn" href="daily-revival-prayers-31.pdf" download="부흥을_위한_매일의_기도_31편.pdf" aria-label="새롭게 집필한 31편 기도문 PDF 다운로드">'+
+        '31편 기도문 PDF 다운로드 <span aria-hidden="true">↓</span>'+
+      '</a>';
     var third=Array.prototype.find.call(tiles.children,function(node){
       var label=node.querySelector('label');
       return label&&label.textContent.trim()==='03';
     });
     if(third){
-      if(third.nextElementSibling!==link)third.insertAdjacentElement('afterend',link);
-    }else if(tiles.lastElementChild!==link){
-      tiles.appendChild(link);
+      if(third.nextElementSibling!==card)third.insertAdjacentElement('afterend',card);
+    }else if(tiles.lastElementChild!==card){tiles.appendChild(card);}
+    if(!document.getElementById('murray-prayer-download-css')){
+      var style=document.createElement('style');
+      style.id='murray-prayer-download-css';
+      style.textContent=
+        '#prayer .murray-download-card{position:relative}'+
+        '#prayer .murray-card-main{display:flex;flex-direction:column;flex:1;color:inherit;text-decoration:none;min-width:0}'+
+        '#prayer .murray-card-main::before{content:"";position:absolute;inset:0;z-index:1}'+
+        '#prayer .murray-download-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;'+
+          'position:relative;z-index:2;align-self:stretch;margin-top:17px;padding:11px 12px;'+
+          'border:1px solid #bdd5c9;background:#edf5f0;border-radius:7px;'+
+          'text-align:center;text-decoration:none;color:#216f69;font-weight:800;font-size:12px;line-height:1.55;'+
+          'transition:background .15s,border-color .15s}'+
+        '#prayer .murray-download-btn:hover{background:#dcefe5;border-color:#76a994}'+
+        '#prayer .murray-download-card:focus-within{outline:2px solid #216f69;outline-offset:3px}'+
+        '#prayer .murray-download-btn:focus-visible{outline:3px solid #b69661;outline-offset:3px}'+
+        '@media(prefers-reduced-motion:reduce){#prayer .murray-download-btn{transition:none}}';
+      document.head.appendChild(style);
     }
-    // Uses the same .prayer-card-link hover + keyboard focus styles as ② and ③.
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addMurrayPrayerCard);
   else addMurrayPrayerCard();
