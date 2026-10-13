@@ -60,6 +60,54 @@
 #prayer a.spurgeon-prayer-card:focus-visible{outline:3px solid #216f69;outline-offset:3px}
 #prayer a.spurgeon-prayer-card .prayer-card-open{display:inline-block;align-self:flex-start;margin-top:auto;padding-top:12px;color:var(--teal);font-size:12px;font-weight:800;text-decoration:underline;text-underline-offset:3px}
 @media (prefers-reduced-motion:reduce){#prayer a.spurgeon-prayer-card{transition:none}#prayer a.spurgeon-prayer-card:hover,#prayer a.spurgeon-prayer-card:focus-visible{transform:none}}
+
+/* 도서 자료실 아홉 번째 카드 — 싱클레어 퍼거슨, 『온전한 그리스도』 */
+#books .ferguson-whole-christ-card{
+  display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;align-items:start;
+  padding:21px;min-height:208px;color:var(--ink);text-decoration:none;cursor:pointer;
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease,background-color .22s ease;
+}
+#books .ferguson-whole-christ-card:visited{color:var(--ink)}
+#books .ferguson-whole-christ-card:hover,
+#books .ferguson-whole-christ-card:focus-visible{
+  transform:translateY(-5px);border-color:#99bcb1;
+  box-shadow:0 12px 28px rgba(24,59,70,.13);background:#fff;
+}
+#books .ferguson-whole-christ-card:focus-visible{outline:3px solid #216f69;outline-offset:3px}
+#books .ferguson-whole-christ-card:active{transform:translateY(-2px)}
+#books .ferguson-whole-christ-card .book-cover{
+  display:flex;width:96px;min-height:144px;margin:0;align-items:flex-start;
+  justify-content:center;overflow:hidden;border-radius:5px;background:#f4f5f1;
+}
+#books .ferguson-whole-christ-card .book-cover img{
+  width:96px;height:144px;display:block;object-fit:contain;object-position:center center;
+}
+#books .ferguson-whole-christ-card .book-info{min-width:0}
+#books .ferguson-whole-christ-card .book-info h3{overflow-wrap:anywhere}
+#books .ferguson-whole-christ-card .book-cover-fallback{
+  display:none;min-height:144px;width:96px;box-sizing:border-box;padding:12px 6px;
+  align-items:center;justify-content:center;flex-direction:column;gap:9px;
+  text-align:center;color:#647971;background:#eef2ed;border:1px solid #d9e3dc;
+}
+#books .ferguson-whole-christ-card .book-cover-fallback span{font-size:12px;font-weight:700;line-height:1.45}
+#books .ferguson-whole-christ-card .book-open{
+  display:inline-block;margin-top:13px;color:var(--teal);font-size:12px;
+  font-weight:800;text-decoration:underline;text-underline-offset:3px;
+}
+@media(max-width:700px){
+  #books .ferguson-whole-christ-card{grid-template-columns:86px minmax(0,1fr);gap:15px;padding:18px;min-height:0}
+  #books .ferguson-whole-christ-card .book-cover,
+  #books .ferguson-whole-christ-card .book-cover img,
+  #books .ferguson-whole-christ-card .book-cover-fallback{width:86px}
+  #books .ferguson-whole-christ-card .book-cover img,
+  #books .ferguson-whole-christ-card .book-cover-fallback{height:129px;min-height:129px}
+}
+@media(prefers-reduced-motion:reduce){
+  #books .ferguson-whole-christ-card{transition:none}
+  #books .ferguson-whole-christ-card:hover,
+  #books .ferguson-whole-christ-card:focus-visible,
+  #books .ferguson-whole-christ-card:active{transform:none!important}
+}
 </style><link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="/assets/revival-logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -195,4 +243,43 @@
 <script src="buchanan-card-link.js" defer></script>
   <script src="prayer-practice-link.js"></script>
 <script src="edwards-concert-link.js"></script>
+
+<script>
+/* 최신 홈페이지의 기존 8개 도서 데이터를 변경하지 않고 9번째 카드만 부착.
+   data/site-data.js의 기존 8개 표지 설치 이후 실행하므로 이전 표지·링크는 모두 보존. */
+(function(){
+  'use strict';
+  var retry=0;
+  function install(){
+    var host=document.getElementById('books');
+    if(!host||document.getElementById('ferguson-whole-christ-card'))return;
+    if(host.querySelectorAll(':scope > .book').length<8 && retry++<20){
+      window.setTimeout(install,50);return;
+    }
+    if(host.querySelectorAll(':scope > .book.has-cover').length<8 && retry++<20){
+      window.setTimeout(install,50);return;
+    }
+    var card=document.createElement('a');
+    card.id='ferguson-whole-christ-card';
+    card.className='book has-cover ferguson-whole-christ-card';
+    card.href='ferguson-whole-christ-summary.html';
+    card.setAttribute('aria-label','싱클레어 퍼거슨 온전한 그리스도 핵심 요약 읽기');
+    card.innerHTML='<figure class="book-cover">'+
+      '<img alt="온전한 그리스도 한국어판 도서 표지" width="96" height="144" loading="lazy" decoding="async" referrerpolicy="no-referrer" src="https://image.yes24.com/goods/63713545/XL">'+
+      '<div class="book-cover-fallback" aria-hidden="true"><span>책 표지</span><span>온전한 그리스도</span></div></figure>'+
+      '<div class="book-info"><small>복음과 은혜 · 율법</small><h3>온전한 그리스도</h3><p>싱클레어 퍼거슨</p>'+
+      '<p class="note">메로우 논쟁을 통해 복음의 자유로운 제시, 율법주의와 율법폐기주의, 구원의 확신을 살펴봅니다.</p>'+
+      '<span class="book-open">핵심 요약 읽기 →</span></div>';
+    var image=card.querySelector('img'), fallback=card.querySelector('.book-cover-fallback'),tried=false;
+    image.addEventListener('error',function(){
+      if(!tried){tried=true;image.src='https://image.yes24.com/goods/63713545/L';return;}
+      image.style.display='none';fallback.style.display='flex';
+    });
+    host.appendChild(card);
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',function(){window.setTimeout(install,60);});
+  }else window.setTimeout(install,60);
+})();
+</script>
 </body></html>
