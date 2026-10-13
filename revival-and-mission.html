@@ -50,6 +50,30 @@ section.article-text h2:first-child{margin-top:0}
 .site-footer{max-width:890px;margin:0 auto 35px;padding:0 27px;color:#71808a;font-size:12px;text-align:center}
 @media(max-width:700px){body{font-size:16px;line-height:1.9}article{margin:12px 12px 28px;padding:31px 22px 40px;border-radius:7px}.head-inner{padding:10px 15px}.head .brand img{width:30px;height:30px}.head .brand{font-size:13px}.head .return{font-size:12px}h1{font-size:1.78rem}h2{font-size:19px;margin-top:40px}.source-quote{font-size:15.5px;margin:20px 0 24px;padding:14px 15px}.footnotes li{font-size:11.8px}}
 @media print{body{background:white;color:black;font-size:11pt}.head,.site-footer{display:none}article{max-width:100%;padding:0;margin:0;border:0;box-shadow:none}h2{break-after:avoid}.source-quote{background:#f0f7f3!important;border-left-color:#216f69!important;color:#193b44!important;print-color-adjust:exact;-webkit-print-color-adjust:exact}a{text-decoration:none}}
+
+/* 서론, 1~5장, 결론: 독립적인 접힘/펼침 목차. 본문과 각주 서식은 원본 그대로. */
+.chapter-tools{display:flex;justify-content:space-between;align-items:center;gap:12px 18px;flex-wrap:wrap;margin:2px 0 22px;padding:0 2px}
+.chapter-tools p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.6}
+.chapter-tool-buttons{display:flex;gap:8px;flex-wrap:wrap}
+.chapter-tool-buttons button{font-size:12px;font-weight:700;line-height:1.5;font-family:inherit;cursor:pointer;background:#fff;color:var(--accent);border:1px solid #b8d1c6;border-radius:6px;padding:7px 12px;transition:background-color .15s,border-color .15s}
+.chapter-tool-buttons button:hover{background:#eaf4ee;border-color:var(--accent)}
+.chapter-tool-buttons button:focus-visible,.chapter summary:focus-visible{outline:3px solid #b9955d;outline-offset:3px}
+.chapter{border:1px solid var(--rule);border-radius:9px;background:#fff;margin:0 0 13px;overflow:hidden;scroll-margin-top:85px}
+.chapter[open]{border-color:#bdd6cb;box-shadow:0 4px 18px rgba(24,59,70,.045)}
+.chapter>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:19px 21px;min-height:66px;background:#fafcf9;user-select:none;-webkit-user-select:none;transition:background-color .17s}
+.chapter>summary::-webkit-details-marker{display:none}
+.chapter>summary::marker{content:''}
+.chapter>summary:hover{background:#eff6f1}
+.chapter[open]>summary{background:#eff6f1;border-bottom:1px solid var(--rule)}
+.article-text .chapter>summary h2{font:700 19px/1.55 'Noto Serif KR','Apple SD Gothic Neo',Georgia,serif;letter-spacing:-.035em;margin:0;color:var(--ink);scroll-margin-top:100px}
+.chapter-indicator{display:grid;place-items:center;flex:0 0 28px;width:28px;height:28px;border:1px solid #b8d3c5;border-radius:50%;background:#fff;color:var(--accent)}
+.chapter-indicator::after{content:'+';font:700 20px/1 Arial,sans-serif}
+.chapter[open] .chapter-indicator::after{content:'−'}
+.chapter-body{padding:27px 24px 22px}
+.article-text .chapter-body>p:last-child{margin-bottom:0}
+@media(max-width:700px){.chapter-tools{align-items:flex-start}.chapter>summary{padding:16px 15px}.article-text .chapter>summary h2{font-size:17px}.chapter-body{padding:21px 16px 19px}.chapter-indicator{width:26px;height:26px;flex-basis:26px}}
+@media print{.chapter{break-inside:auto;box-shadow:none!important}.chapter:not([open])>.chapter-body{display:block!important}.chapter>summary{background:#fff!important;border-bottom:1px solid #ddd!important}.chapter-indicator,.chapter-tools{display:none!important}.chapter-body{padding:12px 0 17px}}
+
 </style>
 </head>
 <body>
@@ -59,11 +83,22 @@ section.article-text h2:first-child{margin-top:0}
 <h1>부흥과 선교: 새로워진 교회는 왜 세상을 향하는가?</h1>
 <p class="subtitle">말씀과 성령에 의한 교회의 갱신, 복음의 확장, 하나님의 영광</p></header>
 <main class="article-text" id="article-content">
-<h2 id="overview">서론. 교회는 누구를 위해 존재하는가</h2>
+
+<div class="chapter-tools" aria-label="장 펼침과 접힘">
+<p>각 장의 제목을 누르면 내용을 펼치거나 접을 수 있습니다.</p>
+<div class="chapter-tool-buttons"><button type="button" id="expand-chapters">전체 펼치기</button><button type="button" id="collapse-chapters">전체 접기</button></div>
+</div>
+<details class="chapter" data-chapter="overview" open>
+<summary aria-controls="chapter-body-overview"><h2 id="overview">서론. 교회는 누구를 위해 존재하는가</h2><span class="chapter-indicator" aria-hidden="true"></span></summary>
+<div class="chapter-body" id="chapter-body-overview">
 <p>교회는 하나님을 예배하고, 말씀을 배우며, 성도들이 서로 사랑하고 돌보는 공동체입니다. 그러나 교회가 자기 안에서 누리는 은혜와 유익에만 만족한다면 중요한 것을 놓치고 있는 것입니다. 예수 그리스도께서는 자신의 백성을 구원하실 뿐 아니라 그들을 세상 가운데 보내어 복음을 증언하고 모든 민족을 제자로 삼게 하셨기 때문입니다.</p>
 <p>참된 부흥은 이러한 사명을 새롭게 깨닫게 합니다. 성령께서 말씀을 통해 교회를 깨우실 때, 성도들은 하나님을 향한 사랑과 함께 아직 그리스도를 알지 못하는 사람들을 향한 관심도 회복합니다. 하나님의 은혜를 깊이 경험할수록 그 은혜를 다른 사람에게도 전하고 싶어지는 것입니다.</p>
 <p>그렇다고 부흥과 선교를 동일하게 생각해서는 안 됩니다. <strong>선교는 부흥이 일어나야 비로소 시작되는 일이 아닙니다.</strong> 그리스도께서 이미 교회에 맡기신 사명입니다. 부흥은 교회가 그 사명을 새롭게 깨닫고 더욱 충실하게 감당하도록 하시는 하나님의 특별한 은혜입니다.</p>
-<h2 id="revival">1. 부흥은 먼저 교회를 복음 앞으로 돌아오게 합니다</h2>
+</div>
+</details>
+<details class="chapter" data-chapter="revival">
+<summary aria-controls="chapter-body-revival"><h2 id="revival">1. 부흥은 먼저 교회를 복음 앞으로 돌아오게 합니다</h2><span class="chapter-indicator" aria-hidden="true"></span></summary>
+<div class="chapter-body" id="chapter-body-revival">
 <p>교회가 새로워진다는 것은 새로운 프로그램을 시작하거나 종교적인 열정을 높이는 것 이상의 의미를 갖습니다. 성도들이 하나님의 거룩하심과 자신의 죄를 새롭게 깨닫고, 예수 그리스도의 구속을 더욱 깊이 의지하며, 믿음과 사랑과 순종을 회복하는 것입니다.</p>
 <p>팀 켈러는 『센터처치』에서 부흥의 본질을 이렇게 설명합니다.</p>
 <blockquote class="source-quote">
@@ -79,7 +114,11 @@ section.article-text h2:first-child{margin-top:0}
 <p>켈러 역시 부흥을 성령의 통상적인 사역이 말씀과 기도와 성례라는 은혜의 방편을 통해 더욱 강력하게 나타나는 때로 설명합니다. 부흥의 중심에는 새로운 비결이 아니라 하나님께서 이미 교회에 주신 복음과 은혜의 방편이 있습니다.</p>
 <p>러블레이스는 이러한 갱신의 열매로 기도, 성도의 교제, 선교적 관심, 신앙과 삶의 통합을 강조합니다. 복음으로 새로워진 교회는 하나님과의 관계뿐 아니라 성도들 사이의 관계와 세상을 대하는 태도에서도 변화를 나타내야 합니다.</p>
 <p><strong>참된 부흥은 단지 사람들의 감정을 뜨겁게 하는 것이 아니라, 복음이 교회의 삶을 더욱 깊이 변화시키는 역사입니다.</strong></p>
-<h2 id="outward">2. 갱신된 교회는 자기 자신만을 바라보지 않습니다</h2>
+</div>
+</details>
+<details class="chapter" data-chapter="outward">
+<summary aria-controls="chapter-body-outward"><h2 id="outward">2. 갱신된 교회는 자기 자신만을 바라보지 않습니다</h2><span class="chapter-indicator" aria-hidden="true"></span></summary>
+<div class="chapter-body" id="chapter-body-outward">
 <p>앤드류 머리는 『선교 문제의 열쇠』에서 당시 세계 선교가 충분히 진전되지 못하는 이유를 질문했습니다. 그는 선교사와 재정의 부족보다 더 근본적인 문제에 주목했습니다. 바로 복음을 전해야 할 교회 자체의 영적 상태였습니다.</p>
 <p>그는 선교 문제의 핵심 원인을 다음과 같이 진단했습니다.</p>
 <blockquote class="source-quote">
@@ -98,7 +137,11 @@ section.article-text h2:first-child{margin-top:0}
 <p>이러한 모습은 사도행전에서 분명하게 나타납니다. 예루살렘 교회는 성령의 역사 가운데 말씀과 기도와 성도의 교제에 힘썼습니다. 그러나 복음은 예루살렘 안에 머무르지 않았습니다. 박해로 흩어진 신자들은 다른 지역에서도 말씀을 전했고(행 8:4), 안디옥에는 여러 배경의 사람들이 함께 그리스도를 믿는 교회가 세워졌습니다. 이후 안디옥 교회는 성령의 인도하심을 따라 바나바와 바울을 선교사로 파송했습니다(행 13:1–3).</p>
 <p>물론 모든 성도가 같은 방식으로 선교에 참여하는 것은 아닙니다. 어떤 사람은 먼 지역으로 가서 복음을 전하고, 어떤 사람은 지역교회를 섬기며, 어떤 사람은 기도와 후원으로 선교사를 돕습니다. 가정과 일터에서 복음을 증언하고 이웃을 사랑하는 일 역시 그리스도인의 중요한 책임입니다.</p>
 <p>교회 안에는 다양한 은사와 역할이 있지만, 교회 전체는 그리스도의 복음이 전파되고 제자들이 세워지는 일에 함께 참여하도록 부름받았습니다.</p>
-<h2 id="prayer-to-mission">3. 기도하는 교회에서 보내는 교회로</h2>
+</div>
+</details>
+<details class="chapter" data-chapter="prayer-to-mission">
+<summary aria-controls="chapter-body-prayer-to-mission"><h2 id="prayer-to-mission">3. 기도하는 교회에서 보내는 교회로</h2><span class="chapter-indicator" aria-hidden="true"></span></summary>
+<div class="chapter-body" id="chapter-body-prayer-to-mission">
 <p>부흥과 선교의 관계를 보여 주는 대표적인 역사적 사례는 18세기 영국 침례교의 기도운동과 근대 선교운동의 발전입니다.</p>
 <p>조나단 에드워즈는 1747년에 출판된 『기도합주회』에서 여러 지역의 신자들이 연합하여 기도할 것을 권면했습니다. 그가 책의 제목에 밝힌 기도의 목적은 다음과 같았습니다.</p>
 <blockquote class="source-quote">
@@ -121,7 +164,11 @@ section.article-text h2:first-child{margin-top:0}
 <p>물론 근대 선교운동의 발전을 기도회 하나의 결과로 설명할 수는 없습니다. 그러나 에드워즈의 연합기도 사상, 서트클리프의 기도운동, 캐리의 선교적 실천 사이에는 분명한 역사적 연결이 있습니다.</p>
 <p>이 역사에서 우리는 중요한 교훈을 발견합니다. 교회가 하나님의 나라를 위해 간절히 기도할 때, 그 기도는 우리의 책임을 대신하지 않습니다. 오히려 하나님께서 사용하시는 방편을 더욱 성실하게 감당하도록 이끕니다.</p>
 <p><strong>부흥을 구하는 기도는 자연스럽게 복음의 확장을 구하는 기도로 이어져야 하며, 그 기도는 실제적인 순종으로 나타나야 합니다.</strong></p>
-<h2 id="discipleship">4. 선교의 열매는 사람을 얻는 데서 끝나지 않습니다</h2>
+</div>
+</details>
+<details class="chapter" data-chapter="discipleship">
+<summary aria-controls="chapter-body-discipleship"><h2 id="discipleship">4. 선교의 열매는 사람을 얻는 데서 끝나지 않습니다</h2><span class="chapter-indicator" aria-hidden="true"></span></summary>
+<div class="chapter-body" id="chapter-body-discipleship">
 <p>선교의 열매를 생각할 때 우리는 종종 회심자 숫자나 교회 성장, 선교사 파송 실적에 주목합니다. 그러나 복음 전파의 목적은 단지 사람들에게 신앙적인 결정을 하게 만드는 것이 아닙니다. 죄인을 그리스도께로 인도하고, 말씀으로 양육하며, 그들이 믿음과 사랑 안에서 성장하도록 교회를 세우는 것입니다.</p>
 <p>예수님께서는 모든 민족을 제자로 삼고, 세례를 베풀며, 자신이 명령한 모든 것을 가르쳐 지키게 하라고 말씀하셨습니다(마 28:18–20). 복음을 듣고 믿는 일은 제자도의 시작이지 끝이 아닙니다. 사도 바울도 복음을 전한 지역을 다시 방문하여 제자들을 굳게 하고, 교회마다 장로들을 세웠습니다(행 14:21–23).</p>
 <p>러블레이스는 복음의 증언과 그리스도인의 삶 사이의 관계를 다음과 같이 강조합니다.</p>
@@ -134,7 +181,11 @@ section.article-text h2:first-child{margin-top:0}
 <p>선교사는 복음을 전해야 하지만 자신의 언어와 문화, 익숙한 교회 관습까지 모두 복음과 동일시해서는 안 됩니다. 복음의 진리는 충실하게 지키면서도 현지 사람들의 언어와 문화를 배우고 존중해야 합니다. 선교의 목적은 다른 사람들을 우리와 똑같은 문화적 모습을 가진 사람으로 만드는 것이 아니라, 그들이 자신들의 언어와 문화 속에서 그리스도를 믿고 성경의 가르침에 따라 살아가도록 돕는 것입니다.</p>
 <p>따라서 건강한 선교는 복음의 선포와 제자훈련, 지역교회의 설립과 성숙을 중심으로 이루어져야 합니다. 선교사는 사람들이 자신에게 계속 의존하도록 만드는 대신, 성경을 배우고 스스로 교회를 섬기며 다음 세대에게 복음을 전할 수 있도록 돕는 일을 중요하게 여겨야 합니다.</p>
 <p>부흥의 선교적 열매도 이러한 기준으로 살펴야 합니다. 얼마나 많은 사람이 한때 모였는가만이 아니라, 그리스도를 믿는 사람들이 말씀 안에서 성장하고 서로 사랑하며 세상 속에서 신실하게 살아가는지를 함께 보아야 합니다.</p>
-<h2 id="glory">5. 부흥과 선교의 궁극적인 목적은 하나님의 영광입니다</h2>
+</div>
+</details>
+<details class="chapter" data-chapter="glory">
+<summary aria-controls="chapter-body-glory"><h2 id="glory">5. 부흥과 선교의 궁극적인 목적은 하나님의 영광입니다</h2><span class="chapter-indicator" aria-hidden="true"></span></summary>
+<div class="chapter-body" id="chapter-body-glory">
 <p>그렇다면 교회는 궁극적으로 무엇을 위해 부흥을 구하고 선교에 힘써야 합니까? 더 큰 교회를 만들거나 선교적 업적을 남기기 위해서가 아닙니다. 죄인들이 그리스도를 통해 하나님과 화목하게 되고, 그분을 알고 사랑하며 예배하게 하기 위해서입니다.</p>
 <p>존 파이퍼는 『열방이 기뻐하게 하라』를 다음과 같은 선언으로 시작합니다.</p>
 <blockquote class="source-quote">
@@ -151,13 +202,18 @@ section.article-text h2:first-child{margin-top:0}
 <p>부흥과 선교는 모두 이러한 하나님의 목적을 바라보아야 합니다. 부흥은 교회가 하나님의 영광을 더욱 깊이 알고 사랑하도록 새롭게 하시는 역사이며, 선교는 그리스도의 복음이 여러 민족에게 전파되어 하나님을 예배하는 백성이 세워지는 사역입니다.</p>
 <p>그러므로 교회는 자신의 이름이 알려지는 것보다 그리스도의 이름이 전파되는 것을 더 기뻐해야 합니다. 자신의 성장만이 아니라 다른 지역의 교회들이 세워지고 성숙해지는 것을 위해서도 기도해야 합니다.</p>
 <p><strong>교회가 부흥을 구하고 선교하는 궁극적인 이유는 하나님의 영광입니다.</strong></p>
-<h2 id="closing">결론. 은혜를 받은 교회는 세상을 향합니다</h2>
+</div>
+</details>
+<details class="chapter" data-chapter="closing">
+<summary aria-controls="chapter-body-closing"><h2 id="closing">결론. 은혜를 받은 교회는 세상을 향합니다</h2><span class="chapter-indicator" aria-hidden="true"></span></summary>
+<div class="chapter-body" id="chapter-body-closing">
 <p>참된 부흥을 사모하는 교회는 하나님께서 자신의 백성을 새롭게 하시기를 기도합니다. 그러나 그 기도는 자기 교회의 형편이 좋아지는 데서 멈추지 않습니다. 성도들이 복음을 더욱 깊이 알고 서로 사랑하며, 아직 그리스도를 알지 못하는 사람들에게 복음을 전하고 제자를 세우게 되기를 구합니다.</p>
 <p>우리는 특별한 부흥이 일어날 때까지 선교를 미루어서는 안 됩니다. 말씀을 가르치고, 기도하며, 복음을 전하고, 교회를 세우는 일은 오늘도 계속해야 할 그리스도의 명령입니다. 동시에 이러한 사역 가운데 성령께서 더욱 풍성하게 역사하시어 많은 죄인이 회심하고 교회가 새로워지기를 간절히 구해야 합니다.</p>
 <p>에드워즈는 교회의 부흥과 그리스도 나라의 확장을 위해 기도하도록 권면했습니다. 서트클리프는 기도의 지평을 자기 교회에서 먼 나라의 사람들에게까지 넓혔으며, 캐리는 그 기도를 실제적인 선교 활동으로 연결했습니다. 오늘의 교회도 같은 은혜를 구하고 같은 사명에 순종해야 합니다.</p>
 <p>부흥은 교회를 자기 자신에게 더욱 몰두하게 만드는 사건이 아닙니다. 하나님을 더욱 사랑하고 그리스도의 복음을 더욱 귀하게 여기며, 그 복음을 아직 듣지 못한 사람들에게 전하도록 새롭게 하는 은혜의 역사입니다.</p>
 <p><strong>새로워진 교회가 세상을 향하는 이유는 분명합니다. 그 교회가 사랑하게 된 주님께서 이미 세상을 향해 자신의 백성을 보내셨기 때문입니다.</strong></p>
-
+</div>
+</details>
 </main>
 <section class="footnotes" id="references" aria-labelledby="references-heading">
 <h2 id="references-heading">인용 출처와 참고문헌</h2>
@@ -173,5 +229,31 @@ section.article-text h2:first-child{margin-top:0}
 </section>
 </article>
 <footer class="site-footer">부흥프로젝트 · 부흥을 이해하고, 말씀과 기도로 교회의 갱신을 구합니다.</footer>
+
+<script>
+/* 장별 접힘 기능: 각 장 독립 조작, 전체 펼치기/접기, 앵커 직접 방문 지원. */
+(function(){
+  'use strict';
+  var chapters=Array.prototype.slice.call(document.querySelectorAll('#article-content details.chapter'));
+  var expand=document.getElementById('expand-chapters');
+  var collapse=document.getElementById('collapse-chapters');
+  if(expand)expand.addEventListener('click',function(){chapters.forEach(function(ch){ch.open=true;});});
+  if(collapse)collapse.addEventListener('click',function(){chapters.forEach(function(ch){ch.open=false;});});
+  function revealHash(){
+    if(!window.location.hash)return;
+    var id;
+    try{id=decodeURIComponent(window.location.hash.slice(1));}catch(_e){return;}
+    var target=document.getElementById(id);
+    if(!target)return;
+    var chapter=target.closest('details.chapter');
+    if(chapter)chapter.open=true;
+  }
+  window.addEventListener('hashchange',revealHash);
+  revealHash();
+  var prePrintState=null;
+  window.addEventListener('beforeprint',function(){prePrintState=chapters.map(function(ch){return ch.open;});chapters.forEach(function(ch){ch.open=true;});});
+  window.addEventListener('afterprint',function(){if(prePrintState){chapters.forEach(function(ch,i){ch.open=prePrintState[i];});prePrintState=null;}});
+})();
+</script>
 </body>
 </html>
