@@ -141,6 +141,7 @@
 <a class="tile tile-link" href="readings.html#reading-04" aria-label="부흥은 인간이 만들어 낼 수 있는가? — 본문 읽기"><span class="tile-kicker">04 · 하나님의 주권</span><h3>부흥은 인간이 만들어 낼 수 있는가?</h3><p>기도와 전도, 하나님의 주권과 인간의 책임을 함께 살펴봅니다.</p><span class="text-link" aria-hidden="true">본문 읽기 →</span></a>
 <a class="tile tile-link" href="readings.html#reading-05" aria-label="참된 부흥 분별법 — 본문 읽기"><span class="tile-kicker">05 · 참된 부흥 분별</span><h3>참된 부흥 분별법</h3><p>성령의 참된 역사를 분별하는 표지와 부흥의 열매를 정리합니다.</p><span class="text-link" aria-hidden="true">본문 읽기 →</span></a>
 <a class="tile tile-link" href="readings.html#reading-06" aria-label="성령 세례와 성령 충만을 어떻게 이해할 것인가? — 본문 읽기"><span class="tile-kicker">06 · 성령 세례와 충만</span><h3>성령 세례와 성령 충만을 어떻게 이해할 것인가?</h3><p>오순절의 단회성과 오늘날 교회가 사모해야 할 성령의 은혜를 살펴봅니다.</p><span class="text-link" aria-hidden="true">본문 읽기 →</span></a>
+<a class="tile tile-link" id="reading-09-home" href="armstrong-revivalism-me-generation.html" aria-label="읽기 자료 9번: 현대 부흥주의와 ‘나 중심 신앙’의 위험 — 본문 읽기"><span class="tile-kicker">09 · 현대 부흥주의의 분별</span><h3>현대 부흥주의와 ‘나 중심 신앙’의 위험</h3><p>존 H. 암스트롱의 연구를 따라 인간 중심 부흥주의와 종교적 체험을 분별하고, 성경의 권위와 그리스도의 복음, 교회의 참된 갱신을 살펴봅니다.</p><span class="text-link" aria-hidden="true">본문 읽기 →</span></a>
 </div></section>
 <section class="block" id="library"><div class="section-head"><div class="cap">READING & SOURCES / 연구 자료실</div><h2>부흥을 더 깊이 <em>이해하기 위한 도서</em></h2><p>인용은 판본과 실제 쪽수를 확인한 뒤 게시합니다. 확보하지 않은 원전은 별도로 표시합니다.</p></div><div class="books" id="books"></div><p class="copyright">저작권이 있는 스캔 도서·비공개 연구자료 원문은 홈페이지에 공개하지 않습니다. 부흥에 대한 해석은 성경과 개혁주의 신앙고백에 비추어 검토합니다.</p></section></div>
 <footer><strong>부흥 프로젝트</strong><p>하나님의 영광 · 복음적 회심 · 공동체의 갱신 · 선교지 교회개척</p><p>지속적으로 보완하는 공개 연구 및 실천 자료입니다.</p></footer>
@@ -242,6 +243,21 @@
 </script>
 <script src="buchanan-card-link.js" defer></script>
   <script src="prayer-practice-link.js"></script>
+<script>
+/* 기존 읽기자료 07·08은 prayer-practice-link.js가 생성합니다.
+   09는 HTML에 직접 보존하고, 동적 07·08이 추가된 후 마지막으로 정렬합니다. */
+(function(){
+  'use strict';
+  function positionReading09(){
+    var tiles=document.querySelector('#readings .tiles');
+    if(!tiles)return;
+    var nine=tiles.querySelector('#reading-09-home');
+    if(nine&&tiles.lastElementChild!==nine)tiles.appendChild(nine);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',positionReading09);
+  else positionReading09();
+})();
+</script>
 <script src="edwards-concert-link.js"></script>
 
 <script>
