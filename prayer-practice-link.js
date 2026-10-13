@@ -288,3 +288,15 @@
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addMurrayPrayerCard);
   else addMurrayPrayerCard();
 })();
+
+/* 메인 메뉴 「오늘의 기도」. 카드를 추가하지 않고 공용 31일 기도 데이터/팝업만 로드. */
+(function(){
+  'use strict';
+  function attachTodayPrayer(){
+    if(!document.querySelector('header .top nav'))return;
+    function loadScript(src){return new Promise(function(resolve,reject){var s=document.createElement('script');s.src=src;s.onload=resolve;s.onerror=reject;document.head.appendChild(s);});}
+    loadScript('daily-prayer-data.js').then(function(){return loadScript('daily-prayer-ui.js');}).catch(function(err){console.error('오늘의 기도 구성 파일을 불러오지 못했습니다.',err);});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',attachTodayPrayer);
+  else attachTodayPrayer();
+})();
