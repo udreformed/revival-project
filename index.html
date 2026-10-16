@@ -160,6 +160,23 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
     margin-right:9px;
   }
 }
+
+/* Recommended websites: simple, responsive outbound cards matching existing site styling. */
+#recommended{padding-bottom:64px}
+#recommended .section-head h2{margin-bottom:9px}
+.recommended-sites{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.recommended-site{display:flex;align-items:center;justify-content:space-between;gap:18px;min-width:0;background:#fff;border:1px solid var(--line);border-radius:9px;padding:21px 24px;color:var(--ink);text-decoration:none;transition:border-color .18s,box-shadow .18s,transform .18s}
+.recommended-site:hover{border-color:#9dbfb2;box-shadow:0 9px 24px #183b4615;transform:translateY(-2px)}
+.recommended-site:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+/* The linked site’s published favicon is discovered by the remote favicon service. */
+.recommended-site-icon-wrap{display:grid;place-items:center;flex:0 0 58px;width:58px;height:58px;padding:6px;border:1px solid #e2ebe5;border-radius:12px;background:#fafcf9}
+.recommended-site-icon{width:46px;height:46px;object-fit:contain;display:block}
+.recommended-site-text{display:flex;flex-direction:column;gap:5px;min-width:0;flex:1}
+.recommended-site-text strong{font-size:16px;font-weight:750;line-height:1.45}
+.recommended-site-text small{font-size:12px;color:var(--mute);line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+.recommended-site-arrow{width:21px;height:21px;flex:none;color:var(--teal)}
+@media(max-width:700px){#recommended{padding-bottom:40px}.recommended-sites{grid-template-columns:1fr;gap:11px}.recommended-site{padding:17px 18px;gap:12px}.recommended-site-icon-wrap{width:50px;height:50px;flex-basis:50px;padding:5px}.recommended-site-icon{width:40px;height:40px}.recommended-site-text strong{font-size:15px}}
+@media(prefers-reduced-motion:reduce){.recommended-site{transition:none}.recommended-site:hover{transform:none}}
 </style><link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="/assets/revival-logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -173,7 +190,7 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://revival-project.pages.dev/assets/og-image.jpg">
 </head><body>
-<header><div class="top"><a class="brand" href="#"><img class="brand-logo" src="/assets/revival-logo-512.png" alt="부흥 프로젝트 로고"><span class="brand-name"><span class="brand-word-1">부흥</span><span class="brand-word-2">프로젝트</span><small>REVIVAL PROJECT · SOLI DEO GLORIA</small></span></a><nav><a href="#prayer">기도/실천</a><a href="#readings">읽기 자료</a><a href="#library">도서자료</a></nav></div></header>
+<header><div class="top"><a class="brand" href="#"><img class="brand-logo" src="/assets/revival-logo-512.png" alt="부흥 프로젝트 로고"><span class="brand-name"><span class="brand-word-1">부흥</span><span class="brand-word-2">프로젝트</span><small>REVIVAL PROJECT · SOLI DEO GLORIA</small></span></a><nav><a href="#prayer">기도/실천</a><a href="#readings">읽기 자료</a><a href="#library">도서자료</a><a href="#recommended">추천사이트</a></nav></div></header>
 <div class="hero"><div class="hero-inner"><div><div class="eyebrow">REVIVAL · 하나님의 영광을 봄</div><h1>하나님의 영광을 보며<br><em>새로워지는 교회</em></h1><p>말씀과 성령으로 일어나는 참된 회심, 사랑으로 하나 되는 공동체, 선교지에 세워지는 교회. 개혁주의 부흥신학을 따라 연구하고 기도하며 함께 실천합니다.</p><div class="actions"><a class="cta" href="#mindmap">연구 마인드맵 살펴보기 ↗</a><a class="text-link" href="#sermon">첫 번째 설교 보기 →</a></div></div><div class="orbit"><strong>하나님의<br>영광</strong><span>말씀</span><span>기도</span><span>회심</span><span>공동체</span></div></div></div>
 <div class="wrap"><div class="features"><div><span>THEOLOGY</span><b>개혁주의</b><small>성경과 신앙고백을 기준으로</small></div><div><span>RESEARCH ATLAS</span><b>10개의 중심 주제</b><small>연구와 함께 성장하는 지도</small></div><div><span>SERMON SERIES</span><b>01 · 시작</b><small>설교 순서는 하나씩 확정합니다</small></div></div>
 <details class="home-revival-atlas" id="homeRevivalAtlas">
@@ -198,7 +215,22 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
 <a class="tile tile-link" href="reading-11.html" aria-label="읽기 자료 11번: 부흥은 다음 세대에 어떻게 전해지는가? — 본문 읽기"><span class="tile-kicker">11 · 신학 소논문</span><h3>부흥은 다음 세대에 어떻게 전해지는가?</h3><p>특별한 부흥의 체험과 개인의 중생을 구별하며, 성경과 교회사에 비추어 다음 세대에 복음을 전하는 책임을 살펴봅니다.</p><span class="text-link" aria-hidden="true">본문 읽기 →</span></a>
 <a class="tile tile-link" href="reading-12.html" aria-label="읽기 자료 12번: 참된 영적 회심의 표지 — 본문 읽기"><span class="tile-kicker">12 · 신학 소논문</span><h3>참된 영적 회심의 표지</h3><p>참된 회심의 본질인 믿음과 회개, 그 열매인 사랑과 순종, 그리고 구원 확신의 관계를 살펴봅니다.</p><span class="text-link" aria-hidden="true">본문 읽기 →</span></a>
 </div></section>
-<section class="block" id="library"><div class="section-head"><div class="cap">READING & SOURCES / 도서자료</div><h2><svg class="heading-outline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 20h18"/><rect x="3" y="3" width="4.5" height="15" rx="1"/><rect x="9" y="6" width="4.5" height="12" rx="1"/><path d="m15 4.5 3.8-1 3.3 14-3.8 1Z"/></svg>부흥을 더 깊이 <em>이해하기 위한 도서</em></h2><p>인용은 판본과 실제 쪽수를 확인한 뒤 게시합니다. 확보하지 않은 원전은 별도로 표시합니다.</p></div><div class="books" id="books"></div></section></div>
+<section class="block" id="library"><div class="section-head"><div class="cap">READING & SOURCES / 도서자료</div><h2><svg class="heading-outline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 20h18"/><rect x="3" y="3" width="4.5" height="15" rx="1"/><rect x="9" y="6" width="4.5" height="12" rx="1"/><path d="m15 4.5 3.8-1 3.3 14-3.8 1Z"/></svg>부흥을 더 깊이 <em>이해하기 위한 도서</em></h2><p>인용은 판본과 실제 쪽수를 확인한 뒤 게시합니다. 확보하지 않은 원전은 별도로 표시합니다.</p></div><div class="books" id="books"></div></section>
+<section class="block" id="recommended" aria-labelledby="recommended-heading">
+  <div class="section-head"><div class="cap">RECOMMENDED LINKS / 추천사이트</div><h2 id="recommended-heading">추천사이트</h2><p>함께 참고할 수 있는 사이트를 소개합니다.</p></div>
+  <div class="recommended-sites">
+    <a class="recommended-site" href="https://theo10.pages.dev/" target="_blank" rel="noopener noreferrer" aria-label="THEO 10 사이트 열기 (새 창)">
+      <span class="recommended-site-icon-wrap"><img class="recommended-site-icon" src="https://favicon.gg/api/favicon/theo10.pages.dev?size=128" data-domain="theo10.pages.dev" width="48" height="48" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" /></span>
+      <span class="recommended-site-text"><strong>THEO 10</strong><small>기독교 신앙과 교리에 관한 주제를 살펴보는 학습 자료 사이트입니다.</small></span>
+      <svg class="recommended-site-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg>
+    </a>
+    <a class="recommended-site" href="https://bible-66-commentary.pages.dev/" target="_blank" rel="noopener noreferrer" aria-label="성경 66권 해설 사이트 열기 (새 창)">
+      <span class="recommended-site-icon-wrap"><img class="recommended-site-icon" src="https://favicon.gg/api/favicon/bible-66-commentary.pages.dev?size=128" data-domain="bible-66-commentary.pages.dev" width="48" height="48" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" /></span>
+      <span class="recommended-site-text"><strong>성경 66권 해설</strong><small>성경 각 권의 내용과 흐름을 살펴보며 말씀을 이해하도록 돕는 해설 자료입니다.</small></span>
+      <svg class="recommended-site-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg>
+    </a>
+  </div>
+</section></div>
 <footer class="site-footer" aria-label="부흥 프로젝트 안내">
   <div class="footer-bar">
   <p class="footer-contact">© YONGJIN CHOI <span aria-hidden="true">·</span> 문의: <a href="mailto:thaigodpleasing@naver.com">thaigodpleasing@naver.com</a></p>
@@ -359,6 +391,17 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
   if(document.readyState==='loading'){
     document.addEventListener('DOMContentLoaded',removeMurrayDownload);
   }else{removeMurrayDownload();}
+})();
+</script>
+<script>
+(function(){
+  document.querySelectorAll('#recommended .recommended-site-icon').forEach(function(img){
+    img.addEventListener('error',function(){
+      if(img.dataset.iconFallback)return;
+      img.dataset.iconFallback='1';
+      img.src='https://www.google.com/s2/favicons?domain='+encodeURIComponent(img.dataset.domain)+'&sz=128';
+    });
+  });
 })();
 </script>
 </body></html>
