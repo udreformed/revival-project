@@ -179,6 +179,20 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
 .recommended-site-arrow{width:21px;height:21px;flex:none;color:var(--teal)}
 @media(max-width:700px){#recommended{padding-bottom:40px}.recommended-sites{grid-template-columns:1fr;gap:11px}.recommended-site{padding:17px 18px;gap:12px}.recommended-site-icon-wrap{width:56px;height:56px;flex-basis:56px;padding:4px}.recommended-site-icon{width:46px;height:46px}.recommended-site-icon.icon-theo{width:44px;height:44px}.recommended-site-icon.icon-commentary{width:43px;height:43px}.recommended-site-text strong{font-size:15px}}
 @media(prefers-reduced-motion:reduce){.recommended-site{transition:none}.recommended-site:hover{transform:none}}
+
+/* CORE_15_BOOKS_START */
+/* 15권 도서목록: 칸 높이를 줄이고 저자명을 책 제목 바로 옆에 배치 */
+#core-summary-list .core-summary-rows{margin:0;padding:0;list-style:none;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:white}
+#core-summary-list .core-summary-rows li+li{border-top:1px solid #edf0ed}
+#core-summary-list .core-summary-rows a{display:grid;grid-template-columns:23px minmax(0,1fr);align-items:center;column-gap:9px;padding:6px 14px;min-height:0;color:var(--ink);text-decoration:none;line-height:1.42;transition:background-color .16s,color .16s}
+#core-summary-list .core-summary-rows a:hover,#core-summary-list .core-summary-rows a:focus-visible{background:#edf5ee;color:var(--teal)}
+#core-summary-list .core-summary-rows a:focus-visible{outline:2px solid var(--teal);outline-offset:-2px}
+#core-summary-list .core-summary-no{font-size:11px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
+#core-summary-list .core-summary-info{display:block;min-width:0;font-size:13.5px;line-height:1.45}
+#core-summary-list .core-summary-name{font-weight:700}
+#core-summary-list .core-summary-author{margin-left:9px;font-size:12px;font-weight:400;color:var(--mute);white-space:nowrap}
+@media(max-width:700px){#core-summary-list .core-summary-rows a{grid-template-columns:20px minmax(0,1fr);column-gap:7px;padding:5px 10px}#core-summary-list .core-summary-info{font-size:12.5px}#core-summary-list .core-summary-author{font-size:11px;margin-left:7px}}
+/* CORE_15_BOOKS_END */
 </style><link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="/assets/revival-logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -218,6 +232,30 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
 <a class="tile tile-link" href="reading-12.html" aria-label="읽기 자료 12번: 참된 영적 회심의 표지 — 본문 읽기"><span class="tile-kicker">12 · 신학 소논문</span><h3>참된 영적 회심의 표지</h3><p>참된 회심의 본질인 믿음과 회개, 그 열매인 사랑과 순종, 그리고 구원 확신의 관계를 살펴봅니다.</p><span class="text-link" aria-hidden="true">본문 읽기 →</span></a>
 </div></section>
 <section class="block" id="library"><div class="section-head"><div class="cap">READING & SOURCES / 도서자료</div><h2><svg class="heading-outline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 20h18"/><rect x="3" y="3" width="4.5" height="15" rx="1"/><rect x="9" y="6" width="4.5" height="12" rx="1"/><path d="m15 4.5 3.8-1 3.3 14-3.8 1Z"/></svg>부흥을 더 깊이 <em>이해하기 위한 도서</em></h2><p>인용은 판본과 실제 쪽수를 확인한 뒤 게시합니다. 확보하지 않은 원전은 별도로 표시합니다.</p></div><div class="books" id="books"></div></section>
+
+<section class="block" id="core-summary-list" aria-labelledby="core-summary-heading">
+  <div class="section-head">
+    <div class="cap">CORE BOOK SUMMARIES / 핵심 도서 요약</div>
+    <h2 id="core-summary-heading">핵심도서요약: <em>하나님의 성품과 구원의 영광</em></h2>
+  </div>
+  <ol class="core-summary-rows" aria-label="핵심 신학도서 15권의 요약 링크">
+    <li><a href="core-book-summaries.html#book-01" aria-label="하나님의 존재와 속성 — 스티븐 차녹, 요약과 중요 주제 읽기"><span class="core-summary-no">01</span><span class="core-summary-info"><span class="core-summary-name">하나님의 존재와 속성</span><span class="core-summary-author">스티븐 차녹</span></span></a></li>
+    <li><a href="core-book-summaries.html#book-02" aria-label="하나님을 아는 지식 — J. I. 패커, 요약과 중요 주제 읽기"><span class="core-summary-no">02</span><span class="core-summary-info"><span class="core-summary-name">하나님을 아는 지식</span><span class="core-summary-author">J. I. 패커</span></span></a></li>
+    <li><a href="core-book-summaries.html#book-03" aria-label="선하신 하나님: 삼위일체 — 마이클 리브스, 요약과 중요 주제 읽기"><span class="core-summary-no">03</span><span class="core-summary-info"><span class="core-summary-name">선하신 하나님: 삼위일체</span><span class="core-summary-author">마이클 리브스</span></span></a></li>
+    <li><a href="core-book-summaries.html#book-04" aria-label="개혁주의 조직신학 제1권: 계시와 하나님 — 조엘 비키·폴 스몰리, 요약과 중요 주제 읽기"><span class="core-summary-no">04</span><span class="core-summary-info"><span class="core-summary-name">개혁주의 조직신학 제1권: 계시와 하나님</span><span class="core-summary-author">조엘 비키·폴 스몰리</span></span></a></li>
+    <li><a href="core-book-summaries.html#book-05" aria-label="하나님의 거룩하심 — R. C. 스프로울, 요약과 중요 주제 읽기"><span class="core-summary-no">05</span><span class="core-summary-info"><span class="core-summary-name">하나님의 거룩하심</span><span class="core-summary-author">R. C. 스프로울</span></span></a></li>
+    <li><a href="core-book-summaries.html#book-06" aria-label="성도와 하나님과의 교제 — 존 오웬, 요약과 중요 주제 읽기"><span class="core-summary-no">06</span><span class="core-summary-info"><span class="core-summary-name">성도와 하나님과의 교제</span><span class="core-summary-author">존 오웬</span></span></a></li>
+    <li><a href="core-book-summaries.html#book-07" aria-label="하나님의 영광을 위한 하나님의 열심 — 조나단 에드워즈·존 파이퍼, 요약과 중요 주제 읽기"><span class="core-summary-no">07</span><span class="core-summary-info"><span class="core-summary-name">하나님의 영광을 위한 하나님의 열심</span><span class="core-summary-author">조나단 에드워즈·존 파이퍼</span></span></a></li>
+    <li><a href="core-book-summaries.html#book-08" aria-label="하나님이 복음이다 — 존 파이퍼, 요약과 중요 주제 읽기"><span class="core-summary-no">08</span><span class="core-summary-info"><span class="core-summary-name">하나님이 복음이다</span><span class="core-summary-author">존 파이퍼</span></span></a></li>
+    <li><a href="core-book-summaries.html#book-09" aria-label="개혁주의 조직신학 제2권: 인간과 그리스도 — 조엘 비키·폴 스몰리, 요약과 중요 주제 읽기"><span class="core-summary-no">09</span><span class="core-summary-info"><span class="core-summary-name">개혁주의 조직신학 제2권: 인간과 그리스도</span><span class="core-summary-author">조엘 비키·폴 스몰리</span></span></a></li>
+    <li><a href="core-book-summaries.html#book-10" aria-label="하늘에 계신 그리스도의 마음 — 토머스 굿윈, 요약과 중요 주제 읽기"><span class="core-summary-no">10</span><span class="core-summary-info"><span class="core-summary-name">하늘에 계신 그리스도의 마음</span><span class="core-summary-author">토머스 굿윈</span></span></a></li>
+    <li><a href="core-book-summaries.html#book-11" aria-label="성령 — 싱클레어 퍼거슨, 요약과 중요 주제 읽기"><span class="core-summary-no">11</span><span class="core-summary-info"><span class="core-summary-name">성령</span><span class="core-summary-author">싱클레어 퍼거슨</span></span></a></li>
+    <li><a href="core-book-summaries.html#book-12" aria-label="그리스도의 영광 — 존 오웬, 요약과 중요 주제 읽기"><span class="core-summary-no">12</span><span class="core-summary-info"><span class="core-summary-name">그리스도의 영광</span><span class="core-summary-author">존 오웬</span></span></a></li>
+    <li><a href="core-book-summaries.html#book-13" aria-label="예수 그리스도를 보고 맛보라 — 존 파이퍼, 요약과 중요 주제 읽기"><span class="core-summary-no">13</span><span class="core-summary-info"><span class="core-summary-name">예수 그리스도를 보고 맛보라</span><span class="core-summary-author">존 파이퍼</span></span></a></li>
+    <li><a href="core-book-summaries.html#book-14" aria-label="그리스도, 우리의 생명 — 마이클 리브스, 요약과 중요 주제 읽기"><span class="core-summary-no">14</span><span class="core-summary-info"><span class="core-summary-name">그리스도, 우리의 생명</span><span class="core-summary-author">마이클 리브스</span></span></a></li>
+    <li><a href="core-book-summaries.html#book-15" aria-label="그리스도를 아는 지식 — 마크 존스, 요약과 중요 주제 읽기"><span class="core-summary-no">15</span><span class="core-summary-info"><span class="core-summary-name">그리스도를 아는 지식</span><span class="core-summary-author">마크 존스</span></span></a></li>
+  </ol>
+</section>
 <section class="block" id="recommended" aria-labelledby="recommended-heading">
   <div class="section-head"><div class="cap">RECOMMENDED LINKS / 추천사이트</div><h2 id="recommended-heading">추천사이트</h2><p>함께 참고할 수 있는 사이트를 소개합니다.</p></div>
   <div class="recommended-sites">
