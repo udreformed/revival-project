@@ -15,17 +15,15 @@ function render(){
  card.href='sermon-detail.html?sermon='+encodeURIComponent(s.order);
  card.setAttribute('aria-label','설교 '+s.order+'회: '+s.title+' · 상세 원고보기');
  count.textContent=String(idx+1).padStart(2,'0')+' / '+String(all.length).padStart(2,'0');
- const outline=(s.outline||[]).map(x=>'<div class="sermon-card-outline-item"><strong>'+safe(x.title)+'</strong>'+(x.content?'<p>'+safe(x.content)+'</p>':'')+'</div>').join('');
  card.innerHTML='<div class="sermon-card-left">'
    +'<span class="sermon-single-number">SERMON '+String(s.order).padStart(2,'0')+'</span>'
    +'<h3>'+safe(s.title)+'</h3>'
-   +'<p class="sermon-single-topic">성품 논점 · '+safe(s.topic||'')+'</p>'
-   +'<span class="sermon-card-open" aria-hidden="true">원고보기 ↗</span>'
+   +'<span class="sermon-card-open" aria-hidden="true">원고보기</span>'
    +'</div><div class="sermon-card-right">'
+   +'<section class="sermon-card-panel"><h4 class="sermon-panel-title">핵심 질문</h4>'
+   +'<p class="sermon-single-question">'+safe(s.question||'')+'</p></section>'
    +'<section class="sermon-card-panel"><h4 class="sermon-panel-title">주제문</h4>'
    +'<p class="sermon-single-thesis">'+safe(s.mainStatement||'')+'</p></section>'
-   +'<section class="sermon-card-panel"><h4 class="sermon-panel-title">OUTLINE</h4>'
-   +'<div class="sermon-card-outline">'+outline+'</div></section>'
    +'</div>';
 }
 function interact(){stop();}
@@ -40,5 +38,5 @@ card.addEventListener('touchend',e=>{if(sx===null)return;const dx=e.changedTouch
 card.addEventListener('click',e=>{if(swiped){e.preventDefault();swiped=false;}else stop()});
 board.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){stop();next(e.key==='ArrowLeft'?-1:1);e.preventDefault()}});
 render();
-if(!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches){timer=setInterval(()=>{if(!paused)next(1)},3000)}
+if(!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches){timer=setInterval(()=>{if(!paused)next(1)},5000)}
 })();

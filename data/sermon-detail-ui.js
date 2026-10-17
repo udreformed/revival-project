@@ -10,15 +10,21 @@ const order=Number(new URLSearchParams(location.search).get('sermon'))||1;
 const sermon=all.find(s=>s.order===order)||all[0];
 if(!sermon||!root||!nav||!popover||!verses)return;
 const safe=K.safe;
-document.title=sermon.title+' | 설교원고 준비중 | 부흥 프로젝트';
+document.title=sermon.title+' | 하나님의 성품 시리즈 설교 | 부흥 프로젝트';
 const mainRefs=sermon.primaryRefs||[];
 const extra=sermon.extraRefs||[];
 const outline=(sermon.outline||[]).map(x=>`<div class="outline-block"><strong>${safe(x.title)}</strong><p>${safe(x.content)}</p></div>`).join('');
 const refItems=extra.map((ref,i)=>`<button class="ref-button" type="button" data-ref="${i}" aria-describedby="versePopover" aria-label="${safe(ref.text)} · ${safe(ref.kind)} 본문 미리보기">${safe(ref.text)}</button>`).join('');
 const pRef=mainRefs.map(x=>x.text).join(' · ');
-const refBooks=(sermon.references||[]).map(x=>`<div class="reference-book"><strong>${safe(x.author)} — ${safe(x.title)}</strong><small>참고 주제: ${safe(x.category||'')} · 추가 원전 확인 필요</small></div>`).join('');
+const refBooks=(sermon.references||[]).map(x=>{
+  const id=/^book(0[1-9]|1[0-5])$/.test(x.id||'')?x.id.slice(4):null;
+  const bookTitle=`<strong>${safe(x.author)} — ${safe(x.title)}</strong><small>${safe(x.category||'')}</small>`;
+  return id?`<a class="reference-book" href="core-book-summaries.html#book-${id}" aria-label="${safe(x.title)} 도서요약보기">${bookTitle}<span class="reference-book-link">도서요약보기</span></a>`
+           :`<div class="reference-book">${bookTitle}</div>`;
+}).join('');
 root.innerHTML=`<header class="document-header"><small>SERMON ${String(sermon.order).padStart(2,'0')} · ${safe(sermon.topic)}</small><h1>${safe(sermon.title)}</h1><p>설교원고 준비중</p></header><div class="document-body">
 
+<section class="section"><h2>핵심 질문</h2><p class="sermon-detail-question">${safe(sermon.question||'')}</p></section>
 <section class="section"><h2>주제문</h2><p>${safe(sermon.mainStatement||'')}</p></section>
 <section class="section"><h2>성경본문 · 개역한글</h2><p class="scripture-ref-title">${safe(pRef)}</p><div class="scripture-passage" id="mainVerses"></div></section>
 <section class="section"><h2>보조·후보 성경구절</h2><div class="ref-items">${refItems||'<p>기록된 보조·후보 구절이 없습니다.</p>'}</div></section>
