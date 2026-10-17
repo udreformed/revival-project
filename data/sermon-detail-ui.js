@@ -14,7 +14,9 @@ const safe=K.safe;
 document.title=sermon.title+' | 하나님의 성품 시리즈 설교 | 부흥 프로젝트';
 const mainRefs=sermon.primaryRefs||[];
 const extra=sermon.extraRefs||[];
-const outline=(sermon.outline||[]).map(x=>`<div class="outline-block"><strong>${safe(x.title)}</strong><p>${safe(x.content)}</p></div>`).join('');
+const outline=(sermon.outline||[]).map((x,i,arr)=>`<div class="sermon-flow-item"><span class="sermon-flow-title">${safe(x.title)}</span><p class="sermon-flow-desc">${safe(x.content)}</p></div>${i<arr.length-1?'<div class="sermon-flow-arrow" aria-hidden="true">↓</div>':''}`).join('');
+const detailedOutline=sermon.order===1&&sermon.detailedOutlineHtml?`<section class="section"><h2>강단용 상세 아웃라인</h2><div class="sermon-outline-detail">${sermon.detailedOutlineHtml}</div></section>`:'';
+const manuscript=sermon.order===1&&sermon.manuscriptHtml?`<section class="section sermon-manuscript-section"><button class="sermon-read-control" id="sermonReadToggle" type="button" aria-controls="sermonFullText" aria-expanded="false">원고전체 읽기</button><div class="sermon-manuscript" id="sermonFullText" hidden>${sermon.manuscriptHtml}<button class="sermon-read-control sermon-read-bottom" id="sermonReadClose" type="button">접기 ↑</button></div></section>`:'';
 const refItems=extra.map((ref,i)=>`<button class="ref-button" type="button" data-ref="${i}" aria-describedby="versePopover" aria-label="${safe(ref.text)} · ${safe(ref.kind)} 본문 미리보기">${safe(ref.text)}</button>`).join('');
 const refBooks=(sermon.references||[]).map(x=>{
   const id=/^book(0[1-9]|1[0-5])$/.test(x.id||'')?x.id.slice(4):null;
@@ -23,15 +25,34 @@ const refBooks=(sermon.references||[]).map(x=>{
   return id?`<a class="reference-book" href="core-book-summaries.html#book-${id}" aria-label="${safe(x.title)} 도서요약보기">${bookTitle}<span class="reference-book-meta">${category}<span class="reference-book-link">도서요약보기</span></span></a>`
            :`<div class="reference-book">${bookTitle}${category}</div>`;
 }).join('');
-root.innerHTML=`<header class="document-header"><small>SERMON ${String(sermon.order).padStart(2,'0')} · ${safe(sermon.topic)}</small><h1>${safe(sermon.title)}</h1><p>설교원고 준비중</p></header><div class="document-body">
+root.innerHTML=`<header class="document-header"><small>SERMON ${String(sermon.order).padStart(2,'0')} · ${safe(sermon.topic)}</small><h1>${safe(sermon.title)}</h1><p>${sermon.order===1?'설교 원고 확정 · 강단용 상세 아웃라인 제공':'설교원고 준비중'}</p></header><div class="document-body">
 
 <section class="section"><h2>주제문</h2><p>${safe(sermon.mainStatement||'')}</p></section>
 <section class="section"><h2>성경본문 · 개역한글</h2><div class="scripture-passage" id="mainVerses"></div><button class="scripture-more-button" id="mainVersesToggle" type="button" aria-controls="mainVerses" aria-expanded="false" hidden>더 보기</button></section>
 <section class="section"><h2>보조·후보 성경구절</h2><div class="ref-items">${refItems||'<p>기록된 보조·후보 구절이 없습니다.</p>'}</div></section>
 <section class="section"><h2>주제단락</h2><p>${safe(sermon.themeParagraph||'')}</p></section>
-<section class="section"><h2>OUTLINE</h2>${outline||'<p>준비 중입니다.</p>'}</section>
+<section class="section"><h2>설교 흐름</h2><div class="sermon-flow">${outline||'<p>준비 중입니다.</p>'}</div></section>
+${detailedOutline}
+${manuscript}
 <section class="section"><h2>관련 참고 도서</h2>${refBooks||'<p>자료 확인 중입니다.</p>'}</section>
 </div>`;
+// 제1회 전용 원고 토글: 상단은 열기/접기 공용, 하단은 접기 전용.
+const readToggle=document.getElementById('sermonReadToggle');
+const readContent=document.getElementById('sermonFullText');
+const readClose=document.getElementById('sermonReadClose');
+if(readToggle&&readContent&&readClose){
+  function setReadOpen(open){
+    readContent.hidden=!open;
+    readToggle.setAttribute('aria-expanded',String(open));
+    readToggle.textContent=open?'원고 접기':'원고전체 읽기';
+  }
+  readToggle.addEventListener('click',()=>setReadOpen(readContent.hidden));
+  readClose.addEventListener('click',()=>{
+    setReadOpen(false);
+    readToggle.scrollIntoView({behavior:'auto',block:'center'});
+    readToggle.focus({preventScroll:true});
+  });
+}
 // Show five Bible verses initially. The existing KRV Bible loader is unchanged.
 const mainVerses=document.getElementById('mainVerses');
 const mainVersesToggle=document.getElementById('mainVersesToggle');
