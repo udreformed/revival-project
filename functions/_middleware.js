@@ -112,9 +112,9 @@ const oldButtonHandler = {
 export async function onRequest(context){
   const response=await context.next();
   const type=response.headers.get('content-type')||'';
-  if(context.request.method!=='GET'||response.status!==200||!/text\\/html/i.test(type))return response;
+  if(context.request.method!=='GET'||response.status!==200||!/text\/html/i.test(type))return response;
   const url=new URL(context.request.url);
-  const page=url.pathname.replace(/\\/+$/,'').split('/').pop().toLowerCase();
+  const page=url.pathname.replace(/\/+$/,'').split('/').pop().toLowerCase();
   // 연대표가 홈페이지 iframe으로 열리는 경우 iframe 자체에는 별도의 고정 버튼을 놓지 않습니다.
   if(page==='revival-sermon-timeline.html'&&url.searchParams.get('embed')==='1')return response;
 
