@@ -14,7 +14,20 @@ const safe=K.safe;
 document.title=sermon.title+' | 하나님의 성품 시리즈 설교 | 부흥 프로젝트';
 const mainRefs=sermon.primaryRefs||[];
 const extra=sermon.extraRefs||[];
-const outline=(sermon.outline||[]).map((x,i,arr)=>`<div class="sermon-flow-item"><span class="sermon-flow-title">${safe(x.title)}</span><p class="sermon-flow-desc">${safe(x.content)}</p></div>${i<arr.length-1?'<div class="sermon-flow-arrow" aria-hidden="true">↓</div>':''}`).join('');
+// 설교 흐름: 구절 표시는 숨기되 본문 참조 데이터는 보존합니다.
+// 제2~50편의 확정 전 개요에도 적용되도록 UI 표시 단계에서만 정리합니다.
+function flowNoVerses(value){
+  return String(value??'')
+    .replace(/(?:[가-힣]{1,4}\s*)?\d{1,3}:\d{1,3}(?:\s*[–~-]\s*\d{1,3})?(?:\s*[,，]\s*\d{1,3}(?:\s*[–~-]\s*\d{1,3})?)*(?:절)?(?:에서|의|과|와|부터|까지|에는|을|를|은|는|에)?/g,'')
+    .replace(/\d{1,3}\s*[–~-]\s*\d{1,3}\s*절(?:에서|의|과|와|부터|까지|에는|을|를|은|는|에)?/g,'')
+    .replace(/\d{1,3}\s*절(?:에서|의|과|와|부터|까지|에는|을|를|은|는|에)?/g,'')
+    .replace(/\d{1,3}\s*장(?:에서|의|과|와|부터|까지|에는|을|를|은|는|에)?/g,'')
+    .replace(/\s*[·]\s*/g,' · ')
+    .replace(/^[\s·,.;:–~-]+/,'')
+    .replace(/\s{2,}/g,' ')
+    .trim();
+}
+const outline=(sermon.outline||[]).map((x,i,arr)=>`<div class="sermon-flow-item"><span class="sermon-flow-title">${safe(flowNoVerses(x.title))}</span><p class="sermon-flow-desc">${safe(flowNoVerses(x.content))}</p></div>${i<arr.length-1?'<div class="sermon-flow-arrow" aria-hidden="true">↓</div>':''}`).join('');
 const detailedOutline=sermon.order===1&&sermon.detailedOutlineHtml?`<section class="section"><h2>강단용 상세 아웃라인</h2><div class="sermon-outline-detail">${sermon.detailedOutlineHtml}</div></section>`:'';
 const manuscript=sermon.order===1&&sermon.manuscriptHtml?`<section class="section sermon-manuscript-section"><button class="sermon-read-control" id="sermonReadToggle" type="button" aria-controls="sermonFullText" aria-expanded="false">원고전체 읽기</button><div class="sermon-manuscript" id="sermonFullText" hidden>${sermon.manuscriptHtml}<button class="sermon-read-control sermon-read-bottom" id="sermonReadClose" type="button">접기 ↑</button></div></section>`:'';
 const refItems=extra.map((ref,i)=>`<button class="ref-button" type="button" data-ref="${i}" aria-describedby="versePopover" aria-label="${safe(ref.text)} · ${safe(ref.kind)} 본문 미리보기">${safe(ref.text)}</button>`).join('');
@@ -25,17 +38,77 @@ const refBooks=(sermon.references||[]).map(x=>{
   return id?`<a class="reference-book" href="core-book-summaries.html#book-${id}" aria-label="${safe(x.title)} 도서요약보기">${bookTitle}<span class="reference-book-meta">${category}<span class="reference-book-link">도서요약보기</span></span></a>`
            :`<div class="reference-book">${bookTitle}${category}</div>`;
 }).join('');
-root.innerHTML=`<header class="document-header"><small>SERMON ${String(sermon.order).padStart(2,'0')} · ${safe(sermon.topic)}</small><h1>${safe(sermon.title)}</h1><p>${sermon.order===1?'설교 원고 확정 · 강단용 상세 아웃라인 제공':'설교원고 준비중'}</p></header><div class="document-body">
+root.innerHTML=`<header class="document-header"><small>SERMON ${String(sermon.order).padStart(2,'0')} · ${safe(sermon.topic)}</small><h1>${safe(sermon.title)}</h1>${sermon.question?`<p class="sermon-detail-question">${safe(sermon.question)}</p>`:''}<p class="sermon-header-status">${sermon.order===1?'설교 원고 확정 · 강단용 상세 아웃라인 제공':'설교원고 준비중'}</p></header><div class="document-body">
 
 <section class="section"><h2>주제문</h2><p>${safe(sermon.mainStatement||'')}</p></section>
 <section class="section"><h2>성경본문 · 개역한글</h2><div class="scripture-passage" id="mainVerses"></div><button class="scripture-more-button" id="mainVersesToggle" type="button" aria-controls="mainVerses" aria-expanded="false" hidden>더 보기</button></section>
-<section class="section"><h2>보조·후보 성경구절</h2><div class="ref-items">${refItems||'<p>기록된 보조·후보 구절이 없습니다.</p>'}</div></section>
+<section class="section"><h2>${sermon.order===1?'보조 성경구절':'보조·후보 성경구절'}</h2><div class="ref-items">${refItems||'<p>기록된 보조·후보 구절이 없습니다.</p>'}</div></section>
 <section class="section"><h2>주제단락</h2><p>${safe(sermon.themeParagraph||'')}</p></section>
 <section class="section"><h2>설교 흐름</h2><div class="sermon-flow">${outline||'<p>준비 중입니다.</p>'}</div></section>
 ${detailedOutline}
 ${manuscript}
 <section class="section"><h2>관련 참고 도서</h2>${refBooks||'<p>자료 확인 중입니다.</p>'}</section>
 </div>`;
+// 강단용 상세 아웃라인 내 실제 성경 장·절 표기는 그대로 보존하며
+// 보조 성경구절과 동일한 미리보기 동작을 제공합니다 (마우스/키보드/터치).
+// 장절이 없는 본문 설명이나 자연어 구절 표현은 임의로 링크하지 않습니다.
+const hoverRefs=extra.slice();
+function linkOutlineVerses(container){
+ if(!container)return;
+ const books=new Map();
+ for(const s of all){
+  for(const r of [...(s.primaryRefs||[]),...(s.extraRefs||[]),...(s.supportRefs||[])]){
+   if(r.abbr&&r.file&&r.book)books.set(r.abbr,{book:r.book,file:r.file});
+  }
+ }
+ if(!books.size)return;
+ const choices=Array.from(books.keys()).sort((a,b)=>b.length-a.length).map(s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|');
+ const re=new RegExp('('+choices+')?\\s*(\\d{1,3}):(\\d{1,3}(?:\\s*[–~-]\\s*\\d{1,3})?(?:\\s*[,，]\\s*\\d{1,3}(?:\\s*[–~-]\\s*\\d{1,3})?)*)','g');
+ const walker=document.createTreeWalker(container,NodeFilter.SHOW_TEXT);
+ const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+ for(const node of nodes){
+  const parent=node.parentElement;
+  if(!parent||parent.closest('button,a,script,style'))continue;
+  const text=node.nodeValue;
+  re.lastIndex=0;
+  if(!re.test(text))continue;
+  re.lastIndex=0;
+  const frag=document.createDocumentFragment();
+  let start=0,lastBook=null,m;
+  while((m=re.exec(text))!==null){
+   // A reference may omit the repeated abbreviation: "히 4:15; 7:25".
+   const abbr=m[1]||lastBook;
+   if(!abbr||!books.has(abbr))continue;
+   lastBook=abbr;
+   const chapter=Number(m[2]);
+   const spans=m[3].split(/\s*[,，]\s*/);
+   const parts=[];
+   for(const span of spans){
+    const nums=span.split(/\s*[–~-]\s*/).map(Number);
+    if(nums.some(n=>!Number.isInteger(n)||n<1)||nums.length>2||nums.length<1)continue;
+    const from=nums[0],to=nums[nums.length-1];
+    if(from>to||to>176)continue;
+    parts.push({startChapter:chapter,startVerse:from,endChapter:chapter,endVerse:to});
+   }
+   if(!parts.length)continue;
+   frag.append(document.createTextNode(text.slice(start,m.index)));
+   const info=books.get(abbr);
+   const visible=m[0];
+   const ref={...info,abbr,chapter,parts,text:abbr+' '+chapter+':'+m[3]};
+   const id=hoverRefs.length;hoverRefs.push(ref);
+   const btn=document.createElement('button');
+   btn.type='button';btn.className='ref-button outline-verse-link';btn.dataset.ref=String(id);
+   btn.textContent=visible;
+   btn.setAttribute('aria-label',ref.text+' · 개역한글 본문 미리보기');
+   btn.setAttribute('aria-haspopup','dialog');
+   frag.append(btn);
+   start=m.index+m[0].length;
+  }
+  frag.append(document.createTextNode(text.slice(start)));
+  if(frag.querySelector?.('button'))node.replaceWith(frag);
+ }
+}
+linkOutlineVerses(root.querySelector('.sermon-outline-detail'));
 // 제1회 전용 원고 토글: 상단은 열기/접기 공용, 하단은 접기 전용.
 const readToggle=document.getElementById('sermonReadToggle');
 const readContent=document.getElementById('sermonFullText');
@@ -116,7 +189,7 @@ function scheduleClose(){clearTimeout(closeTimeout);closeTimeout=setTimeout(()=>
  closePopover();
 },160)}
 root.querySelectorAll('button[data-ref]').forEach(btn=>{
- const ref=extra[Number(btn.dataset.ref)];if(!ref)return;
+ const ref=hoverRefs[Number(btn.dataset.ref)];if(!ref)return;
  btn.addEventListener('mouseenter',()=>{if(window.matchMedia('(hover: hover)').matches)openPopover(ref,btn)});
  btn.addEventListener('mouseleave',scheduleClose);
  btn.addEventListener('focus',()=>{if(btn.matches(':focus-visible'))openPopover(ref,btn)});

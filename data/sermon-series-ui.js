@@ -5,6 +5,13 @@ const card=document.getElementById('sermonSingleCard');
 const count=document.getElementById('sermonCount');
 const board=document.getElementById('sermonBoard');
 if(!card||!count||!board||all.length===0)return;
+// Only explicitly approved full manuscripts count as complete; planned '확정편' slots do not.
+const workState=board.querySelector('.sermon-work-state');
+if(workState){
+ const completed=all.filter(s=>s.manuscriptFinalized===true&&typeof s.manuscriptHtml==='string'&&s.manuscriptHtml.trim().length>0).length;
+ workState.textContent=`전체 ${all.length}편 중 ${completed}편 원고 확정`;
+}
+
 const safe=window.KRVBible?.safe||((s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])));
 let idx=Math.floor(Math.random()*all.length),timer=null,paused=false;
 const wrap=i=>(i+all.length)%all.length;
@@ -20,7 +27,7 @@ function render(){
    +'<h3>'+safe(s.title)+'</h3>'
    +'<span class="sermon-card-open" aria-hidden="true">원고보기</span>'
    +'</div><div class="sermon-card-right">'
-   +'<section class="sermon-card-panel"><h4 class="sermon-panel-title">핵심 질문</h4>'
+   +'<section class="sermon-card-panel">'
    +'<p class="sermon-single-question">'+safe(s.question||'')+'</p></section>'
    +'<section class="sermon-card-panel"><h4 class="sermon-panel-title">주제문</h4>'
    +'<p class="sermon-single-thesis">'+safe(s.mainStatement||'')+'</p></section>'
