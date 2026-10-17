@@ -1,0 +1,18 @@
+
+.sermon-board{position:relative;border:1px solid #dce6df;border-radius:16px;background:#fff;overflow:hidden;box-shadow:0 15px 42px #153e3d10}
+.sermon-topline{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:18px 22px;background:#f7faf7;border-bottom:1px solid #e5ece6}
+.sermon-work-state{color:#216f69;font-weight:800;font-size:12px;letter-spacing:.04em}.sermon-index{font-size:12px;color:#5c786e;font-weight:800;white-space:nowrap}
+.sermon-topic-tabs{display:flex;align-items:center;gap:8px;overflow-x:auto;scrollbar-width:thin;padding:14px 20px;border-bottom:1px solid #e6ece8;scroll-behavior:smooth}
+.sermon-topic-tab{appearance:none;border:1px solid #d6e4dc;background:#fff;color:#365e56;border-radius:999px;padding:8px 14px;font-size:12px;font-weight:750;flex-shrink:0;cursor:pointer;transition:.15s}
+.sermon-topic-tab:hover,.sermon-topic-tab:focus-visible{border-color:#216f69;background:#f1f7f2}.sermon-topic-tab[aria-pressed="true"]{background:#216f69;color:#fff;border-color:#216f69}
+.sermon-single-frame{display:grid;grid-template-columns:56px minmax(0,1fr) 56px;gap:10px;padding:20px;align-items:stretch}
+.sermon-single-arrow{align-self:center;justify-self:center;display:grid;place-items:center;width:49px;height:49px;border:1px solid #d7e5df;border-radius:50%;background:#fff;color:#216f69;font-size:24px;font-weight:650;cursor:pointer;transition:.2s}
+.sermon-single-arrow:hover{background:#e7f2eb;border-color:#216f69}
+.sermon-single-card{display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:space-between;min-height:410px;padding:54px 34px 42px;border-radius:15px;background:linear-gradient(155deg,#173944,#285d58);color:#fff;box-shadow:0 20px 40px #123b3826}
+.sermon-single-number{display:block;font-size:12px;letter-spacing:2px;color:#bfd9d0;font-weight:800}
+.sermon-single-card h3{margin:24px auto 20px;max-width:730px;font:700 clamp(26px,3.4vw,44px)/1.5 "Noto Serif KR",Georgia,serif;letter-spacing:-.05em}
+.sermon-single-topic{margin:0 auto 18px;font-size:13px;font-weight:750;color:#d7e9e1}.sermon-single-thesis{max-width:710px;margin:0 auto 24px;font-size:15px;line-height:2.05;color:#f1f7f3}
+.sermon-open-link{display:inline-block;color:#173944;background:#fff;padding:10px 24px;border-radius:7px;font-size:13px;font-weight:800;text-decoration:none}
+.sermon-bottomline{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:0 24px 22px;color:#667c73;font-size:12px;flex-wrap:wrap}
+@media(max-width:760px){.sermon-topic-tabs{padding:10px 13px}.sermon-single-frame{grid-template-columns:34px minmax(0,1fr) 34px;gap:2px;padding:10px}.sermon-single-arrow{width:34px;height:40px;font-size:18px;border-radius:9px}.sermon-single-card{min-height:420px;padding:36px 14px 30px}.sermon-single-card h3{font-size:clamp(23px,5.5vw,35px)}.sermon-single-thesis{font-size:13px;line-height:1.9}.sermon-bottomline{padding:4px 16px 16px}}
+@media (prefers-reduced-motion:reduce){.sermon-topic-tabs{scroll-behavior:auto}}
