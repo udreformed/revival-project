@@ -119,6 +119,6 @@ nav.innerHTML=`<a href="sermon-detail.html?sermon=${prev.order}">← 이전 설�
 // The current sermon itself is excluded, yielding exactly 49 other entries.
 const followingSermons=Array.from({length:all.length-1},(_,offset)=>all[(i+offset+1)%all.length]);
 following.innerHTML=`<h2>하나님의 성품 시리즈 설교 목록 <small>다음 순서부터 ${followingSermons.length}편</small></h2><ol class="sermon-following-grid">${followingSermons.map(s=>
-  `<li><a href="sermon-detail.html?sermon=${encodeURIComponent(s.order)}"><span class="sermon-following-number">${String(s.order).padStart(2,'0')}회</span><span class="sermon-following-title">${safe(s.title)}</span><span class="sermon-following-topic">성품 · ${safe(s.topic||'')}</span></a></li>`
+  `<li><a href="sermon-detail.html?sermon=${encodeURIComponent(s.order)}"><span class="sermon-following-number">${String(s.order).padStart(2,'0')}회</span><span class="sermon-following-title">${safe(s.title)}</span><span class="sermon-following-topic">${safe(s.topic||'')}</span></a></li>`
 ).join('')}</ol>`;
 })();
