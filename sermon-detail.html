@@ -18,4 +18,26 @@
 .verse-popover-body .scripture-chapter{font-size:13px}
 .sermon-detail-question{margin:0;padding:16px 19px;border-left:3px solid #216f69;background:#f6faf7;border-radius:5px;font-size:16px;line-height:1.9;color:#20463e;font-weight:700;word-break:keep-all}
 @media(max-width:700px){.verse-popover{max-height:60vh;box-shadow:0 10px 34px rgba(10,34,32,.3)}.verse-popover-body{padding:12px 13px}.sermon-detail-question{font-size:15px}}
-</style></head><body><main class="page"><div class="page-top"><span class="prep-status"><img src="/assets/revival-logo-512.png" alt="부흥 프로젝트 로고" width="30" height="30"><span>하나님의 성품 시리즈 설교</span></span><a class="back-link" href="index.html#sermon">카드로 돌아가기</a></div><article class="document" id="sermonDocument"><div class="document-header"><h1>설교 자료를 읽는 중입니다.</h1></div></article><nav class="bottom-nav" id="sermonBottomNav" aria-label="설교 이동"></nav></main><aside class="verse-popover" id="versePopover" role="tooltip" hidden><div class="verse-popover-head"><strong id="popoverTitle">성경구절</strong><button type="button" class="verse-popover-close" id="popoverClose" aria-label="미리보기 닫기">×</button></div><div class="verse-popover-body" id="popoverVerses"></div></aside><script src="data/sermon-series-data.js"></script><script src="data/sermon-bible.js"></script><script src="data/sermon-detail-ui.js?v=20261017-question-v4"></script></body></html>
+
+/* 상세페이지 미세조정 v5 */
+.scripture-passage.scripture-collapsed .scripture-extra-content{display:none!important}
+.scripture-more-button{margin-top:12px;padding:10px 18px;border:1px solid #b2d3c3;border-radius:8px;background:#f0f8f3;color:#216f69;font-size:13px;font-weight:850}
+.scripture-more-button:hover,.scripture-more-button:focus-visible{background:#e0f0e7;border-color:#216f69}
+.scripture-more-button[hidden]{display:none!important}
+.reference-book-meta{display:flex;align-items:baseline;column-gap:10px;row-gap:3px;flex-wrap:wrap;margin-top:7px}
+.reference-book-meta .reference-book-link{margin:0;white-space:nowrap}
+.top-sermon-nav{margin:0 0 16px}
+.top-sermon-nav a{display:block;min-width:0;line-height:1.6}
+.top-sermon-nav a small{display:block;font-size:12px;color:#526f64;font-weight:650;line-height:1.55;margin-top:4px;overflow-wrap:anywhere}
+.sermon-following{margin-top:30px;padding:25px 26px 28px;background:#fff;border:1px solid #dce6df;border-radius:15px}
+.sermon-following h2{font-size:22px;margin:0 0 18px;color:#183b46}
+.sermon-following h2 small{display:inline-block;margin-left:8px;font:650 12px/1.7 "Noto Sans KR",sans-serif;color:#607c71;letter-spacing:0}
+.sermon-following-grid{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 12px;margin:0;padding:0}
+.sermon-following-grid li{min-width:0}
+.sermon-following-grid a{display:grid;grid-template-columns:40px minmax(0,1fr);column-gap:11px;align-items:start;padding:12px 14px;border:1px solid #e0e9e2;border-radius:9px;text-decoration:none;background:#fbfdfb}
+.sermon-following-grid a:hover,.sermon-following-grid a:focus-visible{border-color:#81b09e;background:#eef6f0;outline-offset:2px}
+.sermon-following-number{font-size:12px;font-weight:850;color:#216f69;font-variant-numeric:tabular-nums}
+.sermon-following-title{font-size:13px;font-weight:800;line-height:1.7;color:#203f39;word-break:keep-all}
+.sermon-following-topic{grid-column:2;font-size:12px;line-height:1.7;color:#72877f;margin-top:3px}
+@media(max-width:700px){.sermon-following{padding:19px 15px}.sermon-following h2{font-size:19px}.sermon-following h2 small{display:block;margin:3px 0 0}.sermon-following-grid{grid-template-columns:minmax(0,1fr)}.sermon-following-grid a{padding:11px 12px}}
+</style></head><body><main class="page"><div class="page-top"><span class="prep-status"><img src="/assets/revival-logo-512.png" alt="부흥 프로젝트 로고" width="30" height="30"><span>하나님의 성품 시리즈 설교</span></span><a class="back-link" href="index.html#sermon">카드로 돌아가기</a></div><nav class="bottom-nav top-sermon-nav" id="sermonTopNav" aria-label="이전 설교 및 다음 설교"></nav><article class="document" id="sermonDocument"><div class="document-header"><h1>설교 자료를 읽는 중입니다.</h1></div></article><section class="sermon-following" id="sermonFollowingList" aria-label="이어지는 설교 49편 목록"></section></main><aside class="verse-popover" id="versePopover" role="tooltip" hidden><div class="verse-popover-head"><strong id="popoverTitle">성경구절</strong><button type="button" class="verse-popover-close" id="popoverClose" aria-label="미리보기 닫기">×</button></div><div class="verse-popover-body" id="popoverVerses"></div></aside><script src="data/sermon-series-data.js"></script><script src="data/sermon-bible.js"></script><script src="data/sermon-detail-ui.js?v=20261017-detail-v5"></script></body></html>
