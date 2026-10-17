@@ -184,9 +184,9 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
 /* 15권의 도서 목차: 제목·저자는 첫째 줄, 간단한 소개는 둘째 줄로 표시 */
 #core-summary-list #core-summary-heading .core-summary-subtitle{display:block;margin-top:17px;color:var(--teal);font-family:"Noto Serif KR",Georgia,serif;font-size:clamp(18px,2.1vw,22px);font-weight:650;letter-spacing:-.025em;line-height:1.5}
 #core-summary-list .section-head{margin-bottom:26px}
-#core-summary-list .core-summary-rows{margin:0;padding:0;list-style:none;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:white}
-#core-summary-list .core-summary-rows li+li{border-top:1px solid #edf0ed}
-#core-summary-list .core-summary-rows a{display:grid;grid-template-columns:26px minmax(0,1fr);align-items:center;column-gap:12px;padding:13px 17px;min-height:73px;color:var(--ink);text-decoration:none;line-height:1.5;transition:background-color .16s,color .16s}
+#core-summary-list .core-summary-rows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:0;padding:0;list-style:none;border:0;border-radius:0;overflow:visible;background:transparent}
+#core-summary-list .core-summary-rows li{min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:10px;background:white}
+#core-summary-list .core-summary-rows a{display:grid;grid-template-columns:26px minmax(0,1fr);align-items:center;column-gap:12px;padding:16px 18px;min-height:98px;height:100%;color:var(--ink);text-decoration:none;line-height:1.5;transition:background-color .16s,color .16s}
 #core-summary-list .core-summary-rows a:hover,#core-summary-list .core-summary-rows a:focus-visible{background:#edf5ee;color:var(--teal)}
 #core-summary-list .core-summary-rows a:focus-visible{outline:2px solid var(--teal);outline-offset:-2px}
 #core-summary-list .core-summary-no{font-size:12px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
@@ -195,6 +195,7 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
 #core-summary-list .core-summary-author{margin-left:10px;font-size:12px;font-weight:400;color:var(--mute);white-space:normal}
 #core-summary-list .core-summary-desc{display:block;margin:5px 0 0;color:var(--mute);font-size:12px;font-weight:400;line-height:1.55;white-space:normal;overflow-wrap:break-word}
 @media(max-width:700px){
+#core-summary-list .core-summary-rows{grid-template-columns:minmax(0,1fr);gap:10px}
 #core-summary-list #core-summary-heading .core-summary-subtitle{font-size:18px;margin-top:14px}
 #core-summary-list .core-summary-rows a{grid-template-columns:22px minmax(0,1fr);column-gap:10px;padding:13px 12px;min-height:75px}
 #core-summary-list .core-summary-info{font-size:13px}
