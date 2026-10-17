@@ -18,12 +18,12 @@ const refItems=extra.map((ref,i)=>`<button class="ref-button" type="button" data
 const pRef=mainRefs.map(x=>x.text).join(' · ');
 const refBooks=(sermon.references||[]).map(x=>`<div class="reference-book"><strong>${safe(x.author)} — ${safe(x.title)}</strong><small>참고 주제: ${safe(x.category||'')} · 추가 원전 확인 필요</small></div>`).join('');
 root.innerHTML=`<header class="document-header"><small>SERMON ${String(sermon.order).padStart(2,'0')} · ${safe(sermon.topic)}</small><h1>${safe(sermon.title)}</h1><p>설교원고 준비중</p></header><div class="document-body">
-<section class="section"><h2>핵심 질문</h2><p class="sermon-detail-question">${safe(sermon.question||'')}</p></section>
+
 <section class="section"><h2>주제문</h2><p>${safe(sermon.mainStatement||'')}</p></section>
 <section class="section"><h2>성경본문 · 개역한글</h2><p class="scripture-ref-title">${safe(pRef)}</p><div class="scripture-passage" id="mainVerses"></div></section>
 <section class="section"><h2>보조·후보 성경구절</h2><div class="ref-items">${refItems||'<p>기록된 보조·후보 구절이 없습니다.</p>'}</div></section>
 <section class="section"><h2>주제단락</h2><p>${safe(sermon.themeParagraph||'')}</p></section>
-<section class="section"><h2>아웃트라인</h2>${outline||'<p>준비 중입니다.</p>'}</section>
+<section class="section"><h2>OUTLINE</h2>${outline||'<p>준비 중입니다.</p>'}</section>
 <section class="section"><h2>관련 참고 도서</h2>${refBooks||'<p>자료 확인 중입니다.</p>'}</section>
 </div>`;
 K.show(mainRefs,document.getElementById('mainVerses'));
