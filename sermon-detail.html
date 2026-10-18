@@ -73,4 +73,26 @@
 .document-header .sermon-detail-question{margin:8px 0 0;padding:0;border:0;background:transparent;border-radius:0;color:#effbf4;font-size:clamp(16px,2.3vw,19px);font-weight:750;line-height:1.8;word-break:keep-all}
 .document-header .sermon-header-status{margin-top:12px;font-size:12px;line-height:1.55;color:#c1d8cd;font-weight:500}
 @media(max-width:700px){.document-header .sermon-detail-question{font-size:16px;line-height:1.75}}
+
+/* 관련 참고 도서: 기존 목차형 카드 유지, PC 2열 / 모바일 1열 */
+#sermonDocument .document-body > .section:last-child {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 12px;
+}
+#sermonDocument .document-body > .section:last-child > h2 {
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+#sermonDocument .document-body > .section:last-child > .reference-book {
+  min-width: 0;
+  height: 100%;
+  margin-bottom: 0;
+}
+@media (max-width: 700px) {
+  #sermonDocument .document-body > .section:last-child {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
 </style></head><body><main class="page"><div class="page-top"><span class="prep-status"><img src="/assets/revival-logo-512.png" alt="부흥 프로젝트 로고" width="30" height="30"><span>하나님의 성품 시리즈 설교</span></span><a class="back-link" href="index.html#sermon">카드로 돌아가기</a></div><nav class="bottom-nav top-sermon-nav" id="sermonTopNav" aria-label="이전 설교 및 다음 설교"></nav><article class="document" id="sermonDocument"><div class="document-header"><h1>설교 자료를 읽는 중입니다.</h1></div></article><section class="sermon-following" id="sermonFollowingList" aria-label="이어지는 설교 49편 목록"></section></main><aside class="verse-popover" id="versePopover" role="tooltip" hidden><div class="verse-popover-head"><strong id="popoverTitle">성경구절</strong><button type="button" class="verse-popover-close" id="popoverClose" aria-label="미리보기 닫기">×</button></div><div class="verse-popover-body" id="popoverVerses"></div></aside><script src="data/sermon-series-data.js"></script><script src="data/sermon-01-content.js?v=20261017-outline-hover-v11"></script><script src="data/sermon-related-books-extra.js?v=20261018-life10-v1"></script><script src="data/sermon-bible.js"></script><script src="data/sermon-detail-ui.js?v=20261017-outline-hover-v11"></script></body></html>
