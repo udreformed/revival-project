@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#183b46"><meta name="description" content="하나님의 성품과 구원의 영광: 신학도서 15권의 주요 논증과 중요 주제"><link rel="icon" href="assets/favicon-32.png"><title>하나님의 성품과 구원의 영광 | 부흥프로젝트</title>
+<style>body{margin:0;font:15px/1.9 'Noto Sans KR',sans-serif;background:#f6f6f0;color:#183b46}.loading{max-width:1080px;margin:14vh auto;padding:25px}.fallback{display:none;color:#852b2b}</style></head><body>
+<div id="library" class="loading" aria-live="polite"><h1>하나님의 성품과 구원의 영광</h1><p>도서 내용을 불러오는 중입니다.</p><p class="fallback"><a href="core-book-summaries.html">기존 도서 페이지 열기</a></p></div>
+<script>
+(async function(){
+ try{
+ const response=await fetch('core-book-summaries.html',{cache:'no-cache'});if(!response.ok)throw Error('내용을 불러오지 못했습니다.');
+ const doc=new DOMParser().parseFromString(await response.text(),'text/html');
+ // Preserve all original substantive summaries and 205 topics; only strip internal validation records.
+ for(const el of doc.querySelectorAll('details.scope,p.site-note'))el.remove();
+ const info=doc.querySelector('.hero p.desc');if(info)info.textContent='각 책 전체를 일괄적으로 압축한 자료가 아니라, 하나님의 성품 시리즈 설교와 관련된 주요 신학 논증을 선별하여 소개합니다. 하나님의 존재와 속성, 삼위일체, 그리스도와 성령의 사역을 이해하는 데 도움을 주는 글입니다.';
+ for(const el of doc.querySelectorAll('p')){
+   if(el.textContent.includes('이 글은 기존 1차 연구를 바탕으로 작성한 공개용 요약'))el.remove();
+ }
+ for(const el of doc.querySelectorAll('.book')){
+   const meta=el.querySelector('.meta');if(meta){
+      for(const span of meta.querySelectorAll('span')){
+        let t=span.textContent;
+        if(t.includes('근거한 연구')||t.includes('선행 연구')){
+           // Keep factual scope, not the editor's review history.
+           t=t.replace(/에 근거한 연구/g,'').replace(/선행 연구/g,'');
+           span.textContent=t;
+        }
+      }
+   }
+ }
+ const css=doc.querySelector('head style');if(css){const style=document.createElement('style');style.textContent=css.textContent;document.head.appendChild(style);}
+ const host=document.getElementById('library');const target=document.createElement('div');
+ const h=doc.querySelector('header'),m=doc.querySelector('main'),f=doc.querySelector('footer');
+ if(!m||m.querySelectorAll('details.book').length!==15)throw Error('기존 15권 자료 형식을 확인할 수 없습니다.');
+ for(const el of [h,m,f])if(el)target.appendChild(document.importNode(el,true));
+ host.replaceWith(target);
+ const cards=[...document.querySelectorAll('.card')],q=document.getElementById('book-search'),count=document.getElementById('result-count');
+ if(q&&count)q.addEventListener('input',()=>{let n=0;const v=q.value.trim().toLowerCase();for(const c of cards){const ok=!v||(c.dataset.search||'').includes(v);c.hidden=!ok;if(ok)n++;}count.textContent='검색 결과 '+n+'권';});
+ function hashBook(){const id=location.hash.slice(1);if(/^book-\d{2}$/.test(id)){const el=document.getElementById(id);if(el){el.open=true;setTimeout(()=>el.scrollIntoView({block:'start',behavior:'smooth'}),25);}}}
+ for(const card of cards)card.addEventListener('click',()=>{const id=card.getAttribute('href').replace('#','');const b=document.getElementById(id);if(b)b.open=true;});
+ for(const btn of document.querySelectorAll('.topic-toggle'))btn.addEventListener('click',()=>{const parent=document.getElementById(btn.dataset.target);if(!parent)return;const list=[...parent.querySelectorAll('.topic')];const show=list.some(t=>!t.open);for(const t of list)t.open=show;btn.textContent=show?'모두 접기':'모두 펼치기';});
+ window.addEventListener('hashchange',hashBook);hashBook();
+ }catch(err){const el=document.querySelector('.fallback');if(el)el.style.display='block';const p=document.querySelector('.loading p');if(p)p.textContent='도서 자료를 읽는 중 오류가 발생했습니다.';}
+})();
+</script></body></html>
