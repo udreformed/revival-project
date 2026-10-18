@@ -32,11 +32,15 @@ const detailedOutline=sermon.order===1&&sermon.detailedOutlineHtml?`<section cla
 const manuscript=sermon.order===1&&sermon.manuscriptHtml?`<section class="section sermon-manuscript-section"><button class="sermon-read-control" id="sermonReadToggle" type="button" aria-controls="sermonFullText" aria-expanded="false">원고전체 읽기</button><div class="sermon-manuscript" id="sermonFullText" hidden>${sermon.manuscriptHtml}<button class="sermon-read-control sermon-read-bottom" id="sermonReadClose" type="button">접기 ↑</button></div></section>`:'';
 const refItems=extra.map((ref,i)=>`<button class="ref-button" type="button" data-ref="${i}" aria-describedby="versePopover" aria-label="${safe(ref.text)} · ${safe(ref.kind)} 본문 미리보기">${safe(ref.text)}</button>`).join('');
 const refBooks=(sermon.references||[]).map(x=>{
-  const id=/^book(0[1-9]|1[0-5])$/.test(x.id||'')?x.id.slice(4):null;
+  const existing=/^book(0[1-9]|1[0-5])$/.exec(x.id||'');
+  const life=/^life(0[1-9]|10)$/.exec(x.id||'');
+  // 신규 10권도 기존 15권과 같은 카드 서식으로 제공합니다.
+  const href=existing?`core-book-summaries-reader.html#book-${existing[1]}`
+             :life?`life-revival-book-summaries.html#book-${life[1]}`:null;
   const bookTitle=`<strong>${safe(x.author)} — ${safe(x.title)}</strong>`;
   const category=`<small>${safe(x.category||'')}</small>`;
-  return id?`<a class="reference-book" href="core-book-summaries.html#book-${id}" aria-label="${safe(x.title)} 도서요약보기">${bookTitle}<span class="reference-book-meta">${category}<span class="reference-book-link">도서요약보기</span></span></a>`
-           :`<div class="reference-book">${bookTitle}${category}</div>`;
+  return href?`<a class="reference-book" href="${href}" aria-label="${safe(x.title)} 도서요약보기">${bookTitle}<span class="reference-book-meta">${category}<span class="reference-book-link">도서요약보기</span></span></a>`
+             :`<div class="reference-book">${bookTitle}${category}</div>`;
 }).join('');
 root.innerHTML=`<header class="document-header"><small>SERMON ${String(sermon.order).padStart(2,'0')} · ${safe(sermon.topic)}</small><h1>${safe(sermon.title)}</h1>${sermon.question?`<p class="sermon-detail-question">${safe(sermon.question)}</p>`:''}<p class="sermon-header-status">${sermon.order===1?'설교 원고 확정 · 강단용 상세 아웃라인 제공':'설교원고 준비중'}</p></header><div class="document-body">
 
