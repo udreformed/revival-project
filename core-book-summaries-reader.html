@@ -25,6 +25,15 @@
       }
    }
  }
+ const nav=doc.querySelector('header nav');
+ if(nav&&!nav.querySelector('a[href="/#core-summary-list"]')){
+   const a=doc.createElement('a');
+   a.href='/#core-summary-list';
+   a.textContent='핵심도서요약';
+   const after=nav.querySelector('a[href$="#library"]')||nav.firstElementChild;
+   if(after&&after.nextSibling) nav.insertBefore(a, after.nextSibling);
+   else nav.appendChild(a);
+ }
  const css=doc.querySelector('head style');if(css){const style=document.createElement('style');style.textContent=css.textContent;document.head.appendChild(style);}
  const host=document.getElementById('library');const target=document.createElement('div');
  const h=doc.querySelector('header'),m=doc.querySelector('main'),f=doc.querySelector('footer');
