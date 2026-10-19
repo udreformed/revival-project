@@ -271,6 +271,49 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
 @media(max-width:700px){.recommended-site-icon.icon-tflm,.recommended-site-icon.icon-confessions{width:46px;height:46px}}
 /* Keep the extra navigation item on smaller screens without horizontal overflow. */
 @media(max-width:700px){header .top nav{gap:8px;row-gap:4px}header .top nav>a{font-size:11px}}
+
+/* 2026-10-19: 도서자료 카드를 PC 2열로 정리; 기존 표지/상세페이지 링크 보존. */
+#library #books.books{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:15px 16px;
+  align-items:stretch;
+}
+#library #books.books>.book{
+  box-sizing:border-box;
+  min-width:0;
+  width:100%;
+  height:100%;
+  min-height:0;
+  padding:19px 20px;
+  overflow-wrap:break-word;
+}
+#library #books.books>.book h3{margin:6px 0 7px;line-height:1.46;font-size:16px}
+#library #books.books>.book p{margin:4px 0;line-height:1.7;font-size:12.5px}
+#library #books.books>.book .note{margin-top:8px}
+#library #books.books>.book.has-cover,
+#library #books.books>.book.ferguson-whole-christ-card{
+  display:grid;
+  grid-template-columns:90px minmax(0,1fr);
+  gap:15px;
+  align-items:start;
+}
+#library #books.books>.book .book-cover,
+#library #books.books>.book .book-cover img,
+#library #books.books>.book .book-cover-fallback{
+  width:90px;
+  min-width:0;
+}
+#library #books.books>.book .book-cover img,
+#library #books.books>.book .book-cover-fallback{height:135px;min-height:135px}
+/* 첫 번째 기도 카드에는 별도 링크 줄 없이 제목과 설명만 배치. */
+#prayer .tiles>.tile[data-prayer-practice-linked="1"]{min-height:0;padding:17px 19px}
+#prayer .tiles>.tile[data-prayer-practice-linked="1"] p{margin:0;line-height:1.75}
+@media(max-width:780px){
+  #library #books.books{grid-template-columns:minmax(0,1fr);gap:12px}
+  #library #books.books>.book{padding:16px 17px}
+  #prayer .tiles>.tile[data-prayer-practice-linked="1"]{padding:16px 17px}
+}
 </style><link href="/assets/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="/assets/revival-logo.svg" rel="icon" type="image/svg+xml"/>
 <link href="/assets/apple-touch-icon.png" rel="apple-touch-icon"/>
