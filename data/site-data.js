@@ -332,7 +332,7 @@ window.REVIVAL_SITE = {
       "category": "하나님의 영광",
       "title": "하나님의 영광을 위한 하나님의 열심",
       "author": "존 파이퍼·조나단 에드워즈",
-      "note": "편집·해설과 에드워즈의 원저를 구분하여 인용합니다."
+      "note": "에드워즈의 『하나님의 천지창조 목적』과 파이퍼의 해설을 통해, 창조의 궁극적 목적이 하나님의 영광에 있으며 그 영광과 인간의 참된 기쁨이 어떻게 연결되는지 살펴봅니다."
     },
     {
       "category": "회심과 성령",
@@ -356,21 +356,12 @@ window.REVIVAL_SITE = {
     card.style.transition='border-color .15s, box-shadow .15s, transform .15s';
     card.setAttribute('tabindex','0');
     card.setAttribute('role','link');
-    card.setAttribute('aria-label','온전한 영성 장별·소제목별 상세 요약 보기');
-    var a=document.createElement('a');
-    a.href='lovelace-renewal-summary.html';
-    a.textContent='장별·소제목별 상세 요약 보기 →';
-    a.style.display='inline-block';
-    a.style.marginTop='13px';
-    a.style.color='#216f69';
-    a.style.fontWeight='800';
-    a.style.fontSize='12px';
-    a.style.borderBottom='1px solid #a3c8b7';
-    card.appendChild(a);
+    card.setAttribute('aria-label','온전한 영성 상세 요약 페이지 열기');
+    var dest='lovelace-renewal-summary.html';
     card.addEventListener('mouseenter',function(){card.style.borderColor='#7da69a';card.style.boxShadow='0 8px 22px #214d4920';card.style.transform='translateY(-1px)';});
     card.addEventListener('mouseleave',function(){card.style.borderColor='';card.style.boxShadow='';card.style.transform='';});
-    card.addEventListener('click',function(e){if(e.target.closest('a')) return;window.location.href=a.href;});
-    card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();window.location.href=a.href;}});
+    card.addEventListener('click',function(e){if(e.target.closest('a')) return;window.location.href=dest;});
+    card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();window.location.href=dest;}});
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){setTimeout(linkLovelaceSummary,0);});
   else setTimeout(linkLovelaceSummary,0);
