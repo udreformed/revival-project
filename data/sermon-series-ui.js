@@ -13,7 +13,7 @@ if(workState){
 }
 
 const safe=window.KRVBible?.safe||((s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])));
-let idx=Math.floor(Math.random()*all.length),timer=null,paused=false;
+let idx=0,timer=null,paused=false; // 1회부터 시작, 5초마다 순차 이동
 const wrap=i=>(i+all.length)%all.length;
 function stop(){paused=true;if(timer){clearInterval(timer);timer=null;}}
 function next(delta){idx=wrap(idx+delta);render();}

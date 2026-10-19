@@ -42,6 +42,10 @@ const refBooks=(sermon.references||[]).map(x=>{
   return href?`<a class="reference-book" href="${href}" aria-label="${safe(x.title)} 도서요약보기">${bookTitle}<span class="reference-book-meta">${category}<span class="reference-book-link">도서요약보기</span></span></a>`
              :`<div class="reference-book">${bookTitle}${category}</div>`;
 }).join('');
+const research=window.SERMON_RESEARCH_SOURCES?.[String(sermon.order)]||null;
+const commentaryCards=(research?.commentaries||[]).map(x=>`<div class="reference-book sermon-research-entry"><strong>${safe(x.author)} — <i>${safe(x.title)}</i></strong><small>${safe(x.series)}</small><p>${safe(x.note)}</p></div>`).join('');
+const systematicCards=(research?.systematics||[]).map(x=>`<a class="reference-book sermon-research-entry" href="${safe(x.url)}" target="_blank" rel="noopener noreferrer"><strong>${safe(x.author)} — <i>${safe(x.title)}</i></strong><p>${safe(x.note)}</p><span class="reference-book-link">Theo10 연구 요약 읽기</span></a>`).join('');
+const researchSections=research?`<section class="section sermon-research-section"><h2>주해 참고 주석</h2><p class="sermon-research-note">실제 본문 주해에 사용한 자료 · 사용자 제공 발췌본</p>${commentaryCards}<h2 class="sermon-research-theo-heading">조직신학 연구 참고 · Theo10</h2><p class="sermon-research-note">해당 도서의 Theo10 연구 요약입니다. 저작 원문의 직접 인용과는 구분합니다.</p>${systematicCards}</section>`:'';
 root.innerHTML=`<header class="document-header"><small>SERMON ${String(sermon.order).padStart(2,'0')} · ${safe(sermon.topic)}</small><h1>${safe(sermon.title)}</h1>${sermon.question?`<p class="sermon-detail-question">${safe(sermon.question)}</p>`:''}<p class="sermon-header-status">${sermon.manuscriptFinalized?'설교 원고 확정 · 강단용 상세 아웃라인 제공':'설교원고 준비중'}</p></header><div class="document-body">
 
 <section class="section"><h2>주제문</h2><p>${safe(sermon.mainStatement||'')}</p></section>
@@ -52,6 +56,7 @@ root.innerHTML=`<header class="document-header"><small>SERMON ${String(sermon.or
 ${detailedOutline}
 ${manuscript}
 <section class="section"><h2>관련 참고 도서</h2>${refBooks||'<p>자료 확인 중입니다.</p>'}</section>
+${researchSections}
 </div>`;
 // 강단용 상세 아웃라인 내 실제 성경 장·절 표기는 그대로 보존하며
 // 보조 성경구절과 동일한 미리보기 동작을 제공합니다 (마우스/키보드/터치).
