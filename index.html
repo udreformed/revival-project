@@ -265,6 +265,15 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
 .hero .daily-gospel-entry:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .hero .daily-gospel-entry svg{width:19px;height:19px;flex:none}
 @media(prefers-reduced-motion:reduce){.hero .daily-gospel-entry{transition:none}.hero .daily-gospel-entry:hover{transform:none}}
+
+/* Additional recommended sites: original site favicon when present; crisp theme icon fallback. */
+.recommended-site-icon-source{position:relative}
+.recommended-site-symbol{display:block;width:52px;height:52px;flex:none}
+.recommended-site-favicon{position:absolute;inset:0;margin:auto;width:46px;height:46px;object-fit:contain;background:#fafcf9;border-radius:9px;display:none}
+.recommended-site-favicon.icon-loaded{display:block}
+@media(max-width:700px){.recommended-site-symbol{width:46px;height:46px}.recommended-site-favicon{width:42px;height:42px}}
+/* Keep the extra navigation item on smaller screens without horizontal overflow. */
+@media(max-width:700px){header .top nav{gap:8px;row-gap:4px}header .top nav>a{font-size:11px}}
 </style><link href="/assets/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="/assets/revival-logo.svg" rel="icon" type="image/svg+xml"/>
 <link href="/assets/apple-touch-icon.png" rel="apple-touch-icon"/>
@@ -278,7 +287,7 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://revival-project.pages.dev/assets/og-image.jpg" name="twitter:image"/>
 </head><body>
-<header><div class="top"><a class="brand" href="#"><img alt="부흥 프로젝트 로고" class="brand-logo" src="/assets/revival-logo-512.png"/><span class="brand-name"><span class="brand-word-1">부흥</span><span class="brand-word-2">프로젝트</span><small>REVIVAL PROJECT · SOLI DEO GLORIA</small></span></a><nav><a href="#prayer">기도/실천</a><a href="#readings">읽기 자료</a><a href="#library">도서자료</a></nav></div></header>
+<header><div class="top"><a class="brand" href="#"><img alt="부흥 프로젝트 로고" class="brand-logo" src="/assets/revival-logo-512.png"/><span class="brand-name"><span class="brand-word-1">부흥</span><span class="brand-word-2">프로젝트</span><small>REVIVAL PROJECT · SOLI DEO GLORIA</small></span></a><nav><a href="#prayer">기도/실천</a><a href="#readings">읽기 자료</a><a href="#library">도서자료</a><a href="#recommended">추천사이트</a></nav></div></header>
 <div class="hero"><div class="hero-inner"><div><div class="eyebrow">REVIVAL · 하나님의 영광을 봄</div><h1>하나님의 영광을 보며<br/><em>새로워지는 교회</em></h1><p>말씀과 성령으로 일어나는 참된 회심, 사랑으로 하나 되는 공동체, 선교지에 세워지는 교회. 개혁주의 부흥신학을 따라 연구하고 기도하며 함께 실천합니다.</p><a aria-label="매일 복음묵상 페이지 열기" class="daily-gospel-entry" href="https://revival-project.pages.dev/daily-gospel-meditation"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3Z"></path></svg>매일 복음묵상</a><div class="actions"><a class="cta" href="#mindmap">연구 마인드맵 살펴보기 ↗</a><a class="text-link" href="#sermon">설교 50편 보기 →</a></div></div><div class="orbit"><strong>하나님의<br/>영광</strong><span>말씀</span><span>기도</span><span>회심</span><span>공동체</span></div></div></div>
 <div class="wrap"><div class="features"><div><span>THEOLOGY</span><b>개혁주의</b><small>성경과 신앙고백을 기준으로</small></div><div><span>RESEARCH ATLAS</span><b>10개의 중심 주제</b><small>연구와 함께 성장하는 지도</small></div><div><span>SERMON SERIES</span><b>50편 · 순서 확정</b><small>설교 원고 준비중</small></div></div>
 <details class="home-revival-atlas" id="homeRevivalAtlas">
@@ -295,7 +304,7 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
 <a aria-label="하나님의 놀라운 역사 — 조나단 에드워즈의 부흥 분별" class="tile tile-link" href="reading-02.html"><span class="tile-kicker">02 · 부흥 분별</span><h3>하나님의 놀라운 역사 — 조나단 에드워즈의 부흥 분별</h3><p>참된 부흥과 성령의 역사를 어떻게 성경적으로 분별할 것인가?</p></a>
 <a aria-label="복음을 아는 교회는 어떻게 실제로 새로워지는가?" class="tile tile-link" href="reading-03.html"><span class="tile-kicker">03 · 목회 연구</span><h3>복음을 아는 교회는 어떻게 실제로 새로워지는가?</h3><p>복음 중심적 목회가 기도·공동체·선교의 실제적인 변화로 이어지는 과정.</p></a>
 <a aria-label="부흥은 인간이 만들어 낼 수 있는가?" class="tile tile-link" href="reading-04.html"><span class="tile-kicker">04 · 하나님의 주권</span><h3>부흥은 인간이 만들어 낼 수 있는가?</h3><p>기도와 전도, 하나님의 주권과 인간의 책임을 함께 살펴봅니다.</p></a>
-<a aria-label="참된 부흥 분별법" class="tile tile-link" href="reading-05.html"><span class="tile-kicker">05 · 참된 부흥 분별</span><h3>참된 부흥 분별법</h3><p>성령의 참된 역사를 분별하는 표지와 부흥의 열매를 정리합니다.</p></a>
+<a aria-label="참된 부흥 분별법" class="tile tile-link" href="reading-05.html"><span class="tile-kicker">05 · 성령의 역사와 열매</span><h3>참된 부흥 분별법</h3><p>성령의 참된 역사를 분별하는 표지와 부흥의 열매를 정리합니다.</p></a>
 <a aria-label="성령 세례와 성령 충만을 어떻게 이해할 것인가?" class="tile tile-link" href="reading-06.html"><span class="tile-kicker">06 · 성령 세례와 충만</span><h3>성령 세례와 성령 충만을 어떻게 이해할 것인가?</h3><p>오순절의 단회성과 오늘날 교회가 사모해야 할 성령의 은혜를 살펴봅니다.</p></a>
 <a aria-label="읽기 자료 9번: 현대 부흥주의와 ‘나 중심 신앙’의 위험" class="tile tile-link" href="armstrong-revivalism-me-generation.html" id="reading-09-home"><span class="tile-kicker">09 · 현대 부흥주의의 분별</span><h3>현대 부흥주의와 ‘나 중심 신앙’의 위험</h3><p>존 H. 암스트롱의 연구를 따라 인간 중심 부흥주의와 종교적 체험을 분별하고, 성경의 권위와 그리스도의 복음, 교회의 참된 갱신을 살펴봅니다.</p></a>
 <a aria-label="읽기 자료 10번: 부흥이 없는 시대에도 하나님은 일하시는가?" class="tile tile-link" href="reading-10.html"><span class="tile-kicker">10 · 신학 소논문</span><h3>부흥이 없는 시대에도 하나님은 일하시는가?</h3><p>특별한 부흥이 없는 시기에도 말씀과 은혜의 방편을 통해 자기 백성을 붙드시는 하나님의 신실하심을 살펴봅니다.</p></a>
@@ -343,6 +352,15 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
 <span class="recommended-site-text"><strong>성경 66권 해설</strong><small>성경 각 권의 흐름과 핵심 내용을 따라가며 말씀을 이해하도록 돕는 해설 자료입니다.</small></span>
 <svg aria-hidden="true" class="recommended-site-arrow" fill="none" focusable="false" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 17 17 7M8 7h9v9"></path></svg>
 </a>
+<a class="recommended-site" href="https://tflm.pages.dev/" target="_blank" rel="noopener noreferrer" aria-label="TFLM 사이트 열기 (새 창)">
+<span class="recommended-site-icon-wrap recommended-site-icon-source" data-icon-site="tflm"><svg class="recommended-site-symbol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" aria-hidden="true" focusable="false"><rect width="58" height="58" x="3" y="3" rx="14" fill="#EDF5EF"/><path d="M32 22c-7-5.2-15-6.3-23-3.6V48c8-2.5 16-.9 23 4 7-4.9 15-6.5 23-4V18.4C47 15.7 39 16.8 32 22Z" fill="#FFF" stroke="#216F69" stroke-width="2.4" stroke-linejoin="round"/><path d="M32 22v30M20 26v13m-6.5-6.5h13m17-6.5v13m-6.5-6.5h13" stroke="#216F69" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 42c4-.1 7.9 1 11 3m6 0c3.2-2 7.1-3.1 11-3" stroke="#A9BDB4" stroke-width="1.7" stroke-linecap="round"/></svg><img class="recommended-site-favicon" src="https://tflm.pages.dev/favicon.ico" alt="" loading="lazy" decoding="async" width="46" height="46" /></span>
+<span class="recommended-site-text"><strong>TFLM</strong><small>말씀과 신앙에 관한 자료를 살펴보며 공부할 때 참고할 수 있는 사이트입니다.</small></span>
+<svg class="recommended-site-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+<a class="recommended-site" href="https://982aaec9.re-confessions.pages.dev/korean/" target="_blank" rel="noopener noreferrer" aria-label="개혁주의 신앙고백서 사이트 열기 (새 창)">
+<span class="recommended-site-icon-wrap recommended-site-icon-source" data-icon-site="re-confessions"><svg class="recommended-site-symbol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" aria-hidden="true" focusable="false"><rect width="58" height="58" x="3" y="3" rx="14" fill="#F4F2E9"/><path d="M18 12h24l7 7v31a3 3 0 0 1-3 3H18a3 3 0 0 1-3-3V15a3 3 0 0 1 3-3Z" fill="#FFF" stroke="#216F69" stroke-width="2.3"/><path d="M42 12v9h8" stroke="#216F69" stroke-width="2.3" stroke-linejoin="round"/><path d="M32 26v12m-6-6h12M24 44h16" stroke="#216F69" stroke-width="2.5" stroke-linecap="round"/><path d="M23 18h11" stroke="#B69661" stroke-width="2" stroke-linecap="round"/></svg><img class="recommended-site-favicon" src="https://982aaec9.re-confessions.pages.dev/favicon.ico" alt="" loading="lazy" decoding="async" width="46" height="46" /></span>
+<span class="recommended-site-text"><strong>개혁주의 신앙고백서</strong><small>역사적 개혁주의 신앙고백과 교리문답을 한국어로 찾아 읽을 수 있는 참고 자료입니다.</small></span>
+<svg class="recommended-site-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+
 </div>
 </section></div>
 <footer aria-label="부흥 프로젝트 안내" class="site-footer">
@@ -361,7 +379,7 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
 </details>
 </div>
 </footer>
-<script src="data/site-data.js"></script>
+<script src="data/site-data.js?v=20261019-cardcopy-v1"></script>
 <script>
 (function(){const d=window.REVIVAL_SITE;if(!d){document.getElementById('detail').innerHTML='<p>연구 데이터를 불러오지 못했습니다.</p>';return;}const branches=document.getElementById('branches'),detail=document.getElementById('detail'),books=document.getElementById('books'),search=document.getElementById('search');const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));let active=null;function show(n){active=n.id;branches.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.id===active)));detail.innerHTML='<span class="cap">연구 주제</span><h3>'+esc(n.title)+'</h3><p>'+esc(n.description)+'</p><div class="topics">'+(n.children||[]).map(x=>'<button data-sub="'+esc(x.id)+'">'+esc(x.title)+' →</button>').join('')+'</div><div class="notice">세부 항목은 연구 및 설교가 추가될 때마다 확장됩니다.</div>';detail.querySelectorAll('[data-sub]').forEach(b=>b.addEventListener('click',()=>{const x=(n.children||[]).find(x=>x.id===b.dataset.sub);if(x){detail.innerHTML='<span class="cap">세부 연구 항목</span><h3>'+esc(x.title)+'</h3><p>'+esc(x.description)+'</p><button id="back" class="branch">← 상위 주제로 돌아가기</button>';document.getElementById('back').onclick=()=>show(n)}}))}function render(q=''){branches.innerHTML='';d.topics.filter(n=>(n.title+' '+n.description+' '+(n.children||[]).map(c=>c.title).join(' ')).toLowerCase().includes(q.toLowerCase())).forEach(n=>{const history=n.id==='history';const b=document.createElement(history?'a':'button');b.className='branch'+(history?' branch-history':'');b.innerHTML='<i>✦</i>'+esc(n.title)+(history?' ↗':'');if(history){b.href='world-revival-history.html';b.setAttribute('aria-label','역사 속의 부흥: 세계 부흥 운동사 연표 열기')}else{b.setAttribute('aria-pressed',String(n.id===active));b.dataset.id=n.id;b.onclick=()=>show(n)}branches.appendChild(b)})}search.oninput=()=>render(search.value);render();if(d.topics[0])show(d.topics[0]);books.innerHTML=d.books.map(b=>{const history=b.author==='박용규'&&b.title==='세계 부흥 운동사';return (history?'<a class="book book-history" href="world-revival-history.html" aria-label="박용규 세계 부흥 운동사 연표 열기">':'<article class="book">')+'<small>'+esc(b.category)+'</small><h3>'+esc(b.title)+'</h3><p>'+esc(b.author)+'</p><p class="note">'+esc(b.note)+'</p>'+(history?'</a>':'</article>')}).join('')})();
 </script>
@@ -530,4 +548,22 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
     var node=document.getElementById(id);
     if(node)new MutationObserver(cleanCards).observe(node,{childList:true,subtree:true});
   });
-})();</script></body></html>
+})();</script>
+<script>
+(function(){
+  var hosts=document.querySelectorAll('#recommended .recommended-site-icon-source');
+  hosts.forEach(function(host){
+    var img=host.querySelector('.recommended-site-favicon');
+    if(!img)return;
+    var base=(host.getAttribute('data-icon-site')==='tflm')?'https://tflm.pages.dev/':'https://982aaec9.re-confessions.pages.dev/';
+    var candidates=['favicon.ico','favicon.svg','favicon.png','assets/favicon-32.png'];
+    var idx=0;
+    function next(){ img.classList.remove('icon-loaded'); idx++; if(idx<candidates.length){img.src=base+candidates[idx]} }
+    img.addEventListener('load',function(){if(img.naturalWidth>=16&&img.naturalHeight>=16){img.classList.add('icon-loaded')}else next()});
+    img.addEventListener('error',next);
+    if(img.complete&&img.naturalWidth>=16&&img.naturalHeight>=16)img.classList.add('icon-loaded');
+    else if(img.complete&&img.naturalWidth===0)next();
+  });
+})();
+</script>
+</body></html>
