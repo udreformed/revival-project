@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
-"""Merge public dated YouTube playlist videos into the devotional JSON map.
+"""Sync dated gospel Shorts from YouTube Data API v3.
 
-Requires an API key in GitHub Actions secret YOUTUBE_API_KEY.
-Uses the official YouTube Data API rather than unreliable YouTube Atom feeds.
-Runs once a day via GitHub Actions; never destroys old video records.
+Check both the dedicated gospel playlist and the channel's *uploads* playlist.
+Look up actual video metadata with videos.list: playlistItems.list titles may
+be stale, unavailable, or different from current published video titles.
+
+Authentication: YOUTUBE_API_KEY GitHub Actions repository secret (read-only).
+Safeguards: validate channel/video/date, keep prior records on API failure,
+never log API keys, and do not erase previously mapped dates.
 """
 from __future__ import annotations
 
@@ -12,6 +16,7 @@ import json
 import os
 import re
 import sys
+import unicodedata
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -20,135 +25,184 @@ from pathlib import Path
 PLAYLIST_ID = "PLBUpqEom8gNw"
 CHANNEL_ID = "UCtTBC6WUY7cONg6jca5Zqqg"
 DATA_FILE = Path(__file__).resolve().parents[1] / "data" / "daily-gospel-video-map.json"
+API_ROOT = "https://www.googleapis.com/youtube/v3/"
 DATE_RE = re.compile(r"(?<!\d)(\d{1,2})\s*월\s*(\d{1,2})\s*일(?!\d)")
 VIDEO_RE = re.compile(r"^[A-Za-z0-9_-]{11}$")
 
 
-def parse_date_title(title):
-    if not title.startswith("복음묵상"):
-        return None
-    found = DATE_RE.search(title)
+def date_from_title(title: str) -> str | None:
+    text = unicodedata.normalize("NFC", title).strip()
+    if not re.match(r"^복음\s*묵상\b", text):
+        # \b can behave differently when there is no whitespace following
+        # Hangul; allow directly followed digits as well.
+        if not re.match(r"^복음\s*묵상(?=\s|\d)", text):
+            return None
+    found = DATE_RE.search(text)
     if not found:
         return None
-    m, d = map(int, found.groups())
+    month, day = map(int, found.groups())
     try:
-        dt.date(2024, m, d)  # leap year permits Feb 29
+        dt.date(2024, month, day)  # leap year validates Feb 29
     except ValueError:
         return None
-    return f"{m:02d}-{d:02d}"
+    return f"{month:02d}-{day:02d}"
 
 
-def utc_time(value):
-    """Return a sortable UTC datetime for both Z and +00:00 timestamps."""
+def parse_time(value):
     try:
-        date = dt.datetime.fromisoformat(str(value).replace("Z", "+00:00"))
-        if date.tzinfo is None:
-            date = date.replace(tzinfo=dt.timezone.utc)
-        return date.astimezone(dt.timezone.utc)
+        stamp = dt.datetime.fromisoformat(str(value or "").replace("Z", "+00:00"))
+        if stamp.tzinfo is None:
+            stamp = stamp.replace(tzinfo=dt.timezone.utc)
+        return stamp.astimezone(dt.timezone.utc)
     except (ValueError, TypeError, OverflowError):
         return dt.datetime.min.replace(tzinfo=dt.timezone.utc)
 
 
-def request_page(api_key, page_token=""):
-    params = {
-        "part": "snippet,contentDetails",
-        "playlistId": PLAYLIST_ID,
-        "maxResults": "50",
-        "key": api_key,
-    }
-    if page_token:
-        params["pageToken"] = page_token
-    # Do not log URL: it contains the API key.
-    url = "https://www.googleapis.com/youtube/v3/playlistItems?" + urllib.parse.urlencode(params)
+def api_get(endpoint, api_key, **params):
+    params["key"] = api_key
+    url = API_ROOT + endpoint + "?" + urllib.parse.urlencode(params)
     req = urllib.request.Request(url, headers={"Accept": "application/json"})
     try:
-        with urllib.request.urlopen(req, timeout=25) as response:
+        with urllib.request.urlopen(req, timeout=30) as response:
             return json.load(response)
     except urllib.error.HTTPError as exc:
-        if exc.code in (400, 403):
-            raise RuntimeError(f"YouTube Data API HTTP {exc.code}: verify YOUTUBE_API_KEY, API activation, API restrictions and quota") from None
-        raise RuntimeError(f"YouTube Data API HTTP {exc.code}") from None
+        # Do not output URLs: the query contains the private API key.
+        raise RuntimeError(f"YouTube Data API {endpoint} HTTP {exc.code} (check API key, quota, and restrictions)") from None
+    except (urllib.error.URLError, TimeoutError) as exc:
+        raise RuntimeError(f"YouTube Data API {endpoint} connection failed: {type(exc).__name__}") from None
 
 
-def fetch_videos(api_key):
-    gathered = {}
-    total = 0
-    page_token = ""
-    seen_tokens = set()
-    while True:
-        response = request_page(api_key, page_token)
-        if not isinstance(response.get("items"), list):
-            raise ValueError("YouTube Data API response has no items list")
-        items = response["items"]
-        total += len(items)
+def uploads_playlist(api_key):
+    obj = api_get("channels", api_key, part="contentDetails", id=CHANNEL_ID, maxResults=1)
+    items = obj.get("items") or []
+    if not items:
+        raise ValueError("Authorized channel not found in YouTube Data API")
+    channel = items[0]
+    if channel.get("id") != CHANNEL_ID:
+        raise ValueError("Unexpected YouTube channel returned")
+    uploads = ((channel.get("contentDetails") or {}).get("relatedPlaylists") or {}).get("uploads")
+    if not uploads:
+        raise ValueError("Channel uploads playlist not found")
+    return uploads
+
+
+def playlist_video_ids(api_key, playlist_id, max_items):
+    ids = []
+    token = ""
+    seen = set()
+    while len(ids) < max_items:
+        args = {"part": "snippet,contentDetails", "playlistId": playlist_id, "maxResults": min(50, max_items - len(ids))}
+        if token:
+            args["pageToken"] = token
+        data = api_get("playlistItems", api_key, **args)
+        items = data.get("items")
+        if not isinstance(items, list):
+            raise ValueError("Malformed playlistItems response")
         for entry in items:
             snippet = entry.get("snippet") or {}
             details = entry.get("contentDetails") or {}
-            title = (snippet.get("title") or "").strip()
-            key = parse_date_title(title)
-            resource = snippet.get("resourceId") or {}
-            vid = (resource.get("videoId") or details.get("videoId") or "").strip()
-            owner = snippet.get("videoOwnerChannelId")
-            if not key or not VIDEO_RE.fullmatch(vid):
-                continue
-            if owner and owner != CHANNEL_ID:
-                continue
-            published = details.get("videoPublishedAt") or snippet.get("publishedAt") or ""
-            candidate = {"id": vid, "title": title, "published": published}
-            prev = gathered.get(key)
-            if not prev or utc_time(published) > utc_time(prev["published"]):
-                gathered[key] = candidate
-        next_token = response.get("nextPageToken") or ""
+            video_id = ((snippet.get("resourceId") or {}).get("videoId") or details.get("videoId") or "")
+            if VIDEO_RE.fullmatch(video_id):
+                ids.append(video_id)
+        next_token = data.get("nextPageToken") or ""
         if not next_token:
             break
-        if next_token in seen_tokens:
-            raise ValueError("YouTube returned a repeated page token")
-        seen_tokens.add(next_token)
-        page_token = next_token
-    if not gathered:
-        raise RuntimeError(f"YouTube returned {total} playlist items but no valid dated gospel videos; existing map untouched")
-    print(f"YouTube API: scanned {total} playlist items; matched {len(gathered)} distinct dates")
-    return gathered
+        if next_token in seen:
+            raise ValueError("YouTube returned repeated pagination token")
+        seen.add(next_token)
+        token = next_token
+    return ids
 
 
-def merge_map(previous, videos):
-    if previous.get("playlist_id") != PLAYLIST_ID or not isinstance(previous.get("videos"), dict):
-        raise ValueError("Existing video map is invalid or refers to a different playlist")
-    merged = dict(previous["videos"])
-    changes = []
-    for key, item in videos.items():
-        old = merged.get(key)
-        if old is not None:
-            if old.get("id") == item["id"]:
-                continue  # preserve existing titles/timestamps; avoid unnecessary commits
-            if utc_time(item["published"]) < utc_time(old.get("published")):
+def fetch_videos(api_key):
+    ids, errors = [], []
+    try:
+        base_ids = playlist_video_ids(api_key, PLAYLIST_ID, 500)
+        ids.extend(base_ids)
+        print(f"Gospel playlist: {len(base_ids)} video IDs")
+    except (RuntimeError, ValueError) as exc:
+        errors.append(f"gospel playlist: {exc}")
+        print(f"NOTICE: Gospel playlist lookup failed: {exc}", file=sys.stderr)
+    try:
+        channel_uploads = uploads_playlist(api_key)
+        new_ids = playlist_video_ids(api_key, channel_uploads, 150)
+        ids.extend(new_ids)
+        print(f"Channel uploads: {len(new_ids)} latest video IDs")
+    except (RuntimeError, ValueError) as exc:
+        errors.append(f"channel uploads: {exc}")
+        print(f"NOTICE: Channel uploads lookup failed: {exc}", file=sys.stderr)
+    ids = list(dict.fromkeys(ids))
+    if not ids:
+        raise RuntimeError("No YouTube video IDs could be listed: " + "; ".join(errors))
+
+    found = {}
+    checked = 0
+    for start in range(0, len(ids), 50):
+        batch = ids[start:start + 50]
+        data = api_get("videos", api_key, part="snippet", id=",".join(batch))
+        videos = data.get("items")
+        if not isinstance(videos, list):
+            raise ValueError("Malformed videos response")
+        checked += len(videos)
+        for video in videos:
+            video_id = video.get("id") or ""
+            snippet = video.get("snippet") or {}
+            if not VIDEO_RE.fullmatch(video_id) or snippet.get("channelId") != CHANNEL_ID:
                 continue
+            title = unicodedata.normalize("NFC", snippet.get("title") or "").strip()
+            key = date_from_title(title)
+            if key is None:
+                continue
+            item = {"id": video_id, "title": title, "published": snippet.get("publishedAt") or ""}
+            if key not in found or parse_time(item["published"]) > parse_time(found[key]["published"]):
+                found[key] = item
+    if not found:
+        raise RuntimeError(f"Scanned {checked} video metadata records but found no dated gospel Shorts. Existing links preserved.")
+    print(f"Checked {checked} public video metadata records; matched {len(found)} dated gospel videos")
+    print("Dates identified: " + ", ".join(sorted(found)))
+    return found
+
+
+def merge(previous, found):
+    if previous.get("playlist_id") != PLAYLIST_ID or not isinstance(previous.get("videos"), dict):
+        raise ValueError("Invalid existing video map")
+    merged = dict(previous["videos"])
+    changed = []
+    for key, item in found.items():
+        old = merged.get(key)
+        if old and old.get("id") == item["id"]:
+            continue
+        if old and parse_time(item["published"]) < parse_time(old.get("published")):
+            continue
         merged[key] = item
-        changes.append(key)
-    merged = dict(sorted(merged.items()))
-    return {"playlist_id": PLAYLIST_ID, "videos": merged}, changes
+        changed.append(key)
+    return {"playlist_id": PLAYLIST_ID, "videos": dict(sorted(merged.items()))}, changed
 
 
 def main():
     api_key = os.environ.get("YOUTUBE_API_KEY", "").strip()
     if not api_key:
-        print("ERROR: Add a GitHub Actions repository secret named YOUTUBE_API_KEY. Enable YouTube Data API v3 in Google Cloud.", file=sys.stderr)
+        print("ERROR: Missing YOUTUBE_API_KEY GitHub Actions secret", file=sys.stderr)
         return 2
-    previous = json.loads(DATA_FILE.read_text(encoding="utf-8")) if DATA_FILE.exists() else {"playlist_id": PLAYLIST_ID, "videos": {}}
-    videos = fetch_videos(api_key)
-    updated, changes = merge_map(previous, videos)
-    data = json.dumps(updated, ensure_ascii=False, indent=2) + "\n"
-    old = DATA_FILE.read_text(encoding="utf-8") if DATA_FILE.exists() else ""
-    if data != old:
+    previous = (json.loads(DATA_FILE.read_text(encoding="utf-8")) if DATA_FILE.exists()
+                else {"playlist_id": PLAYLIST_ID, "videos": {}})
+    found = fetch_videos(api_key)
+    updated, changed = merge(previous, found)
+    content = json.dumps(updated, ensure_ascii=False, indent=2) + "\n"
+    before = DATA_FILE.read_text(encoding="utf-8") if DATA_FILE.exists() else ""
+    if content != before:
         DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
-        DATA_FILE.write_text(data, encoding="utf-8")
-    print(f"Saved {len(updated['videos'])} dates. New/updated: {', '.join(changes) or 'none'}")
+        DATA_FILE.write_text(content, encoding="utf-8")
+    print(f"Saved {len(updated['videos'])} dates; new/updated: {', '.join(sorted(changed)) or 'none'}")
+    today = dt.datetime.now(dt.timezone(dt.timedelta(hours=7))).strftime("%m-%d")
+    if today not in updated["videos"]:
+        print(f"NOTICE: No video registered for today in Thailand ({today}). Check publication and retry later.")
     return 0
 
 
 if __name__ == "__main__":
     try:
         sys.exit(main())
-    except (RuntimeError, ValueError, OSError, json.JSONDecodeError) as exc:
+    except (ValueError, RuntimeError, OSError, json.JSONDecodeError) as exc:
         print("ERROR: " + str(exc), file=sys.stderr)
         sys.exit(1)
