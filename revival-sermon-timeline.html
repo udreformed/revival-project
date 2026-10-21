@@ -6,9 +6,85 @@
 <title>역사속의 부흥 사례 살펴 보기 | 부흥 프로젝트</title>
 <meta name="description" content="1620년대부터 2023년까지 세계 부흥운동 30개 사건을 실제 연도 간격으로 살펴보는 연구 연대표">
 <script>if(new URLSearchParams(location.search).get('embed')==='1')document.documentElement.classList.add('atlas-home-embedded');</script>
-<link rel="stylesheet" href="revival-atlas-30.css">
-<script defer src="data/revival-atlas-30.js"></script>
-<script defer src="scripts/revival-atlas-30.js"></script>
+<style>
+:root{--ink:#193845;--muted:#657a80;--teal:#216f69;--blue:#1c4459;--line:#d9e5df;--surface:#f6f7f3;--white:#fff;--pale:#e9f3ee;--gold:#a98445}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--surface);color:var(--ink);font-family:"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;font-size:15px;line-height:1.8}
+button,input{font:inherit}button{cursor:pointer}a{color:var(--teal)}button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible,.timeline-viewport:focus-visible{outline:3px solid #e2b868;outline-offset:3px}
+.head{position:sticky;top:0;z-index:30;background:#fffef7f2;backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.head-inner{max-width:1160px;margin:auto;padding:9px 22px;display:flex;justify-content:space-between;align-items:center}.brand{display:flex;align-items:center;gap:8px;text-decoration:none;font-weight:800;color:var(--ink)}.brand-mark{font-size:29px;color:#b23330}.return{font-size:13px;text-decoration:none;font-weight:750}
+main{max-width:1240px;padding:28px 23px 80px;margin:auto}.hero{background:linear-gradient(115deg,#fff,#ebf2ed);border:1px solid var(--line);border-radius:15px;padding:28px 32px;margin-bottom:19px}.kicker{font-size:11px;font-weight:850;letter-spacing:.16em;color:var(--teal)}h1{font-family:"Noto Serif KR",Georgia,serif;letter-spacing:-.03em;font-size:clamp(27px,3.1vw,38px);line-height:1.4;margin:5px 0 9px;color:var(--blue)}.hero p{margin:5px 0;color:#49636a}.hero .selection{margin-top:10px;font-size:13px;color:var(--muted)}
+.panel{background:#fff;border:1px solid var(--line);border-radius:15px;box-shadow:0 5px 20px #243c3210;overflow:hidden}.panel-top{padding:13px 19px 9px}.panel-top h2{font-size:21px;margin:0;color:var(--blue)}.panel-top p{margin:3px 0 0;font-size:13px;color:var(--muted)}.controls{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:12px 16px 9px;flex-wrap:wrap}.tabs{display:flex;gap:6px;flex-wrap:wrap}.tab,.nav-btn{border:1px solid #c7dbd1;background:#fff;color:#315b5a;font-weight:750;font-size:12px;border-radius:8px;padding:8px 12px;line-height:1.3}.tab.active{color:#fff;background:var(--teal);border-color:var(--teal)}.nav-btn:hover,.tab:not(.active):hover{background:#eaf4ed}.filterwrap{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)}.search{width:220px;min-width:0;border:1px solid #ccdcd6;border-radius:8px;background:#fff;color:var(--ink);padding:8px 11px;font-size:13px}.trackhint{display:flex;justify-content:space-between;gap:10px;padding:8px 17px;background:#f3f7f4;color:#687a74;font-size:12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.timeline-viewport{overflow-x:auto;overflow-y:hidden;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch;scrollbar-color:#8ebdb1 #eef3ee;scrollbar-width:thin;background:linear-gradient(180deg,#f8fbf9,#fff 52%,#f9fbf8)}.timeline-stage{position:relative;min-width:100%;isolation:isolate}.axis{position:absolute;left:0;right:0;height:3px;background:linear-gradient(to right,#b5cbc2,#3d847c,#b5cbc2);z-index:1}.axis::after{content:'→';position:absolute;right:2px;top:-18px;color:var(--teal);font-size:22px;font-weight:800}.tick{position:absolute;border-left:1px dashed #b2c7be;height:25px;z-index:1}.tick span{position:absolute;left:50%;transform:translateX(-50%);font-size:11px;top:28px;font-weight:800;color:#768c83;white-space:nowrap}.stem{position:absolute;width:2px;background:#b4cec3;z-index:1;pointer-events:none}.dot{position:absolute;width:17px;height:17px;border:3px solid white;box-shadow:0 0 0 2px var(--teal);background:#a0bdad;border-radius:50%;transform:translate(-50%,-50%);z-index:4;cursor:pointer;padding:0}.dot.active{background:#eeae5a;box-shadow:0 0 0 3px var(--teal);width:20px;height:20px}.dot.muted{opacity:.22}
+.event-node{position:absolute;width:192px;height:78px;padding:10px 12px 11px;background:#fff;border:1px solid #bad4c8;border-top:3px solid var(--teal);border-radius:12px;text-align:left;box-shadow:0 5px 15px #193b3614;color:var(--ink);z-index:3;display:flex;flex-direction:column;justify-content:center;line-height:1.35;gap:5px;transition:border-color .15s,background .15s,box-shadow .15s}.event-node:hover{box-shadow:0 7px 18px #193b3628;border-color:#5b9e89}.event-node.active{background:#eaf4ed;border-color:var(--teal);box-shadow:0 7px 20px #1e56452a}.event-node.muted{opacity:.18;pointer-events:none}.event-node .date{font-size:12px;font-weight:850;color:#885124;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.event-node .name{font-size:13.2px;font-weight:800;letter-spacing:-.025em;line-height:1.35;word-break:keep-all;overflow-wrap:break-word;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}.timeline-instruction{padding:11px 21px 15px;color:var(--muted);font-size:12.5px}
+.detail{margin-top:18px;scroll-margin-top:90px}.detail-head{padding:22px 28px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:16px}.detail-head .label{font-size:11px;letter-spacing:.1em;font-weight:850;color:var(--teal)}.detail-head h2{font-size:clamp(20px,2.4vw,28px);line-height:1.4;margin:0;color:var(--blue)}.detail-title-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.detail-meta{font-size:12px;color:var(--muted);margin-top:6px}.detail-nav{display:flex;gap:7px;flex:none}.event-copy-button{padding:7px 11px;border:1px solid #bfd8d0;border-radius:7px;background:#f4faf6;color:var(--teal);font-weight:750;font-size:12px;white-space:nowrap}.event-copy-button:hover{background:#e3f1e9}
+.detail-body{padding:24px 32px 32px}.history-story{max-width:1020px;margin:auto;min-width:0}.history-intro{display:grid;gap:8px;margin:0 0 20px;max-width:1000px}.intro-line{display:grid;grid-template-columns:minmax(110px,165px) minmax(0,1fr);gap:13px;align-items:start;border-bottom:1px solid #e8f0eb;padding:7px 3px 10px;font-size:14px}.intro-line dt{font-weight:800;color:var(--teal)}.intro-line dd{margin:0;overflow-wrap:anywhere;word-break:keep-all}.atlas-film{max-width:900px;margin:21px 0 21px}.atlas-film h3{font-size:14px;color:var(--teal);margin:0 0 9px}.atlas-player{display:block;aspect-ratio:16/9;width:100%;border:0;border-radius:10px;background:#102e38;box-shadow:0 8px 24px #1b47411d}.atlas-film a{display:inline-block;margin-top:8px;font-size:13px;font-weight:700}.video-pending{font-size:13px;color:#637b79;background:#f4f8f6;border:1px dashed #b8d0c8;border-radius:9px;padding:13px 16px;max-width:900px}
+.atlas-expand{border-top:1px solid var(--line);margin-top:14px;padding-top:14px}.atlas-expand>summary{display:inline-flex;align-items:center;gap:8px;list-style:none;cursor:pointer;font-size:15px;line-height:1.5;color:var(--teal);font-weight:850;text-decoration:underline;text-underline-offset:4px;padding:5px 1px}.atlas-expand>summary::-webkit-details-marker{display:none}.atlas-expand>summary::after{content:'＋';font-size:16px}.atlas-expand[open]>summary::after{content:'－'}.long-body{border-top:1px solid #e3ece6;padding-top:20px;margin-top:17px}.long-body h1{font-size:24px}.long-body h2{font-size:19px;margin:26px 0 12px}.long-body h3{font-size:17px;margin:22px 0 10px}.long-body p,.long-body li{font-size:15px;line-height:2.03;word-break:keep-all;overflow-wrap:anywhere}.long-body p{margin:0 0 18px}.long-body ul,.long-body ol{padding-left:24px}.research-text{border-top:0;margin-top:0;padding-top:0}
+.annotation-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0 12px}.annotation-row>details{border:1px solid var(--line);border-radius:10px;background:#f6f9f7;padding:13px 16px;min-width:0;align-self:start}.annotation-row>details[open]{grid-column:span 2}.annotation-row>details>summary{color:var(--teal);font-size:14px;font-weight:800;cursor:pointer;line-height:1.6}.annotation-content{margin-top:16px;border-top:1px solid #dae9df;padding-top:14px;overflow-wrap:anywhere;max-width:100%}.annotation-content h1{font-size:21px}.annotation-content h2{font-size:17px;margin:22px 0 10px}.annotation-content h3{font-size:15px}.annotation-content h4{font-size:14px;margin:15px 0 8px}.annotation-content p,.annotation-content li{font-size:13px;line-height:1.9;overflow-wrap:anywhere}.annotation-content a{overflow-wrap:anywhere}.annotation-content ul,.annotation-content ol{padding-left:23px}.expanded-note-unit{padding:12px 0;border-bottom:1px solid #dce6df}.expanded-note-title{font-size:14px;color:#164e51;margin:0 0 8px}.expanded-note-unit p{margin:5px 0 8px}.reserve-details{border:1px solid #e0d6be;border-radius:9px;padding:12px 15px;margin:18px 0 4px;background:#fff}.reserve-details>summary{cursor:pointer;font-weight:800;color:#775d2c}.reserve-details[open]{background:#fffcf6}.reserve-content{padding-top:10px}.reserve-content h2{font-size:16px}.reserve-content p{font-size:13px}
+.guideline{margin-top:19px;padding:19px 24px;background:#fff;border:1px solid var(--line);border-radius:12px}.guideline h2{font-size:16px;margin:0 0 5px}.guideline p{font-size:13px;color:#52676a;margin:5px 0}.footer{text-align:center;color:#8b9e99;font-size:12px;margin:25px 0 0}
+html.atlas-home-embedded{scroll-behavior:auto}html.atlas-home-embedded body{background:#fff}html.atlas-home-embedded .head,html.atlas-home-embedded .hero,html.atlas-home-embedded .footer{display:none!important}html.atlas-home-embedded main{max-width:none;width:100%;margin:0;padding:12px 0 8px}html.atlas-home-embedded .panel{box-shadow:none}html.atlas-home-embedded .detail{scroll-margin-top:0}html.atlas-home-embedded .guideline{margin-top:14px}
+@media(max-width:720px){main{padding:15px 12px 50px}.head-inner{padding:8px 14px}.brand{font-size:13px}.return{font-size:11px}.hero{padding:21px 19px}.hero p{font-size:13px}.panel-top{padding:12px 14px 7px}.panel-top h2{font-size:18px}.controls{padding:11px 12px 10px;gap:8px}.tab{padding:9px 11px}.filterwrap{width:100%;margin:5px 0 0}.filterwrap .search{flex:1;width:100%}.trackhint{padding:8px 14px}.detail-head{padding:18px 17px 13px;flex-wrap:wrap}.detail-head>div:first-child{width:100%}.detail-title-row{gap:8px}.detail-title-row h2{font-size:19px;flex:1;min-width:0}.detail-nav{margin-left:auto}.detail-body{padding:20px 16px 25px}.intro-line{grid-template-columns:1fr;gap:0;font-size:13px}.intro-line dd{padding-top:1px}.long-body p,.long-body li{font-size:14px;line-height:1.95}.long-body h1{font-size:20px}.long-body h2{font-size:17px}.annotation-row{grid-template-columns:minmax(0,1fr)}.annotation-row>details[open]{grid-column:span 1}.annotation-content{font-size:12px}.annotation-content li,.annotation-content p{font-size:12px}.guideline{padding:17px 18px}html.atlas-home-embedded main{padding:5px 0 7px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.event-node{transition:none}}
+
+/* 2026-10-21 compact revision: one-line cards and limited two-up/two-down lanes. */
+.panel:not(.detail){border-radius:10px 10px 0 0;border-bottom:0}
+.detail{margin-top:0;border-radius:0 0 10px 10px}
+.controls{padding:9px 14px 8px;gap:8px;border-bottom:1px solid var(--line)}
+.track-status{font-size:11px;color:#71877e;white-space:nowrap;margin-left:3px}
+.timeline-viewport{background:linear-gradient(180deg,#f9fbfa,#fff 45%,#f9fbf9)}
+.timeline-stage{min-height:304px}
+.timeline-connectors{position:absolute;left:0;top:0;z-index:1;pointer-events:none;overflow:visible}
+.connector-path{fill:none;stroke:#a7c9ba;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.event-node{width:272px;height:46px;display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:6px;padding:8px 12px;border-radius:9px;border-top-width:2px;line-height:1.3;white-space:nowrap}
+.event-node .date{flex:none;min-width:0;max-width:none;font-size:12px;line-height:1.35;overflow:visible;text-overflow:clip;letter-spacing:-.02em}
+.event-node .name{flex:1;display:block;min-width:0;font-size:12.5px;line-height:1.35;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;word-break:normal;-webkit-line-clamp:unset;-webkit-box-orient:initial}
+.event-node .separator{color:#aac4b7;flex:none;font-size:11px}
+.tick{height:14px}
+.tick span{top:23px;font-size:10px}
+.atlas-expand{margin-top:19px;padding-top:15px}
+.atlas-expand>summary{display:inline-flex;align-items:center;justify-content:center;gap:11px;padding:12px 21px;min-height:45px;border-radius:9px;background:#216f69;border:2px solid #216f69;color:#fff;font-size:15px;font-weight:850;text-decoration:none;box-shadow:0 4px 14px #216f6929;transition:background .16s,border-color .16s,transform .16s}
+.atlas-expand>summary:hover{background:#145650;border-color:#145650;transform:translateY(-1px);box-shadow:0 6px 15px #216f6940}
+.atlas-expand>summary::after{content:'▼';font-size:11px;color:#fff}
+.atlas-expand[open]>summary{background:#eaf4ed;color:#17615b;border-color:#b2d0c2;box-shadow:none}
+.atlas-expand[open]>summary::after{content:'▲';color:#17615b}
+.atlas-expand[open]>summary:hover{background:#dcece3;transform:none}
+html.atlas-home-embedded main{padding:0 0 1px}
+html.atlas-home-embedded .panel:not(.detail){border-top:0;border-left:0;border-right:0;border-radius:0}
+html.atlas-home-embedded .detail{border-left:0;border-right:0;border-bottom:0;border-radius:0}
+@media(max-width:720px){
+ .controls{padding:9px 7px 7px;gap:7px}
+ .tabs{gap:4px}.tab{padding:7px 9px;font-size:11px}
+ .filterwrap{margin-top:0;gap:5px}.filterwrap label{font-size:11px}
+ .track-status{font-size:11px}
+ .event-node{width:272px;height:46px;padding:7px 12px}
+ .atlas-expand>summary{font-size:14px;padding:12px 17px;width:100%}
+ .detail-head{padding:15px 13px 12px}
+ .detail-body{padding:17px 14px 22px}
+ html.atlas-home-embedded main{padding:0}
+}
+@media(prefers-reduced-motion:reduce){.atlas-expand>summary{transition:none}}
+
+/* Mobile filters stay on one swipeable line; timeline follows immediately. */
+@media(max-width:720px){
+  .controls{display:flex;flex-direction:column;align-items:stretch;gap:5px}
+  .tabs{display:flex;width:100%;overflow-x:auto;flex-wrap:nowrap;padding:0 0 2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .tabs::-webkit-scrollbar{display:none}
+  .tabs .tab{flex:none}
+  .filterwrap{width:100%;margin:0}
+  .filterwrap .search{flex:1;width:100%}
+  .track-status{display:none}
+}
+
+/* Compact v3: no large vertical gaps; four short horizontal lanes. */
+.timeline-stage{min-height:0;height:245px}
+.event-node{height:40px;padding:5px 12px;gap:5px}
+.event-node .name{font-size:12.5px;letter-spacing:-.03em}
+.event-node .date{font-size:11.8px}
+.timeline-viewport{min-height:0}
+.panel:not(.detail){margin-bottom:0}
+@media(max-width:720px){.timeline-stage{min-height:0;height:245px}.event-node{height:40px;padding:5px 12px}}
+
+</style>
+<script defer src="data/revival-atlas-30.js?v=unchanged20261021"></script>
+
 </head>
 <body>
 <header class="head"><div class="head-inner"><a class="brand" href="./" aria-label="부흥 프로젝트 홈페이지로 이동"><span class="brand-mark" aria-hidden="true">✝</span> 부흥 프로젝트</a><a class="return" href="./#homeRevivalAtlas">홈페이지로 돌아가기 ↗</a></div></header>
@@ -21,5 +97,191 @@
 <section class="panel detail" id="detail" aria-label="선택한 부흥 사건의 상세 내용"><div class="detail-head"><div><div class="label">SELECTED EVENT <span id="detailCount"></span></div><div class="detail-title-row"><h2 id="detailTitle" tabindex="-1"></h2><button type="button" id="eventCopyButton" class="event-copy-button">링크 복사</button></div><div id="detailMeta" class="detail-meta"></div></div><div class="detail-nav"><button type="button" class="nav-btn" id="prevBtn" aria-label="이전 사건">← 이전</button><button type="button" class="nav-btn" id="nextBtn" aria-label="다음 사건">다음 →</button></div></div><div class="detail-body" id="story"></div></section>
 <p class="footer">부흥 프로젝트 · 역사 속 부흥 사례</p>
 </main>
+<script>
+/* Embedded layout + styling together: prevent stale cached positioning code. */
+document.addEventListener('DOMContentLoaded', function(){
+/* Unified 30-episode proportional revival timeline. All original text is loaded from a local, immutable data file. */
+(function(){
+'use strict';
+const EVENTS=window.REVIVAL_ATLAS_30;
+if(!Array.isArray(EVENTS)||EVENTS.length!==30){document.getElementById('story').textContent='연대표 자료를 불러오지 못했습니다.';return;}
+const byId=new Map(EVENTS.map(e=>[e.id,e]));
+const stage=document.getElementById('timelineStage'),viewport=document.getElementById('timelineViewport');
+const detail=document.getElementById('detail'),title=document.getElementById('detailTitle'),story=document.getElementById('story');
+const search=document.getElementById('eventSearch');
+let selectedId=null,activeCentury='all',query='';
+// Time-point positions stay strictly proportional to historical start years.
+// Cards may be offset horizontally (via subtle connector lines) to avoid crowding.
+const SCALE=28,BASE_YEAR=1625,LEFT=170,CARD_W=272,CARD_H=40,CARD_GAP=14;
+const AXIS_Y=117,HEIGHT=245,LANE_Y=[10,56,146,192];
+const positions=EVENTS.map(e=>({...e,x:LEFT+(e.year-BASE_YEAR)*SCALE}));
+const clusters=[];
+for(const p of positions){
+  const cluster=clusters[clusters.length-1];
+  if(!cluster||p.x-cluster[cluster.length-1].x>CARD_W+CARD_GAP)clusters.push([p]);
+  else cluster.push(p);
+}
+const lanePatterns=[[0,2,1,3],[2,0,3,1],[0,3,2,1],[2,1,0,3],[1,3,0,2],[3,1,2,0],[1,2,3,0],[3,0,1,2]];
+const minDistance=CARD_W+CARD_GAP;
+// Equal-weight isotonic projection gives minimum movement for every card on a row.
+function packLane(seq){
+  const blocks=[];
+  seq.forEach((p,i)=>{
+    blocks.push({begin:i,end:i,average:p.x-i*minDistance,count:1});
+    while(blocks.length>1&&blocks[blocks.length-2].average>blocks[blocks.length-1].average){
+      const right=blocks.pop(),left=blocks.pop();
+      blocks.push({begin:left.begin,end:right.end,average:(left.average*left.count+right.average*right.count)/(left.count+right.count),count:left.count+right.count});
+    }
+  });
+  const packed=[];
+  for(const b of blocks)for(let i=b.begin;i<=b.end;i++)packed[i]=b.average+i*minDistance;
+  return packed;
+}
+for(const cluster of clusters){
+  let chosen=null;
+  for(const pattern of lanePatterns){
+    const bins=[[],[],[],[]];
+    cluster.forEach((p,i)=>bins[pattern[i%4]].push(p));
+    const placements=[];let cost=0;
+    for(let lane=0;lane<4;lane++){
+      const seq=bins[lane],centers=packLane(seq);
+      seq.forEach((p,j)=>{
+        const center=centers[j],drift=center-p.x;
+        cost+=drift*drift + (Math.abs(drift)>145 ? 3*Math.pow(Math.abs(drift)-145,2) : 0);
+        cost+=(lane===0?0:lane===2?8:lane===1?16:24);
+        placements.push({p,lane,center});
+      });
+    }
+    if(!chosen||cost<chosen.cost)chosen={placements,cost};
+  }
+  for(const entry of chosen.placements){entry.p.lane=entry.lane;entry.p.cardX=entry.center;}
+}
+const STAGE_W=Math.ceil(Math.max(LEFT+((2023-BASE_YEAR)*SCALE)+CARD_W, ...positions.map(p=>p.cardX+CARD_W/2+22)));
+stage.style.width=STAGE_W+'px';stage.style.height=HEIGHT+'px';stage.dataset.layout='compact-245-v3';
+stage.querySelector('.axis').style.top=AXIS_Y+'px';
+function create(tag,className,text){const n=document.createElement(tag);if(className)n.className=className;if(text!==undefined)n.textContent=text;return n;}
+function xOf(y){return LEFT+(y-BASE_YEAR)*SCALE;}
+for(let year=1625;year<=2023;year+=25){let tick=create('div','tick'),span=create('span','',year+'');tick.style.left=xOf(year)+'px';tick.style.top=(AXIS_Y-13)+'px';tick.setAttribute('aria-hidden','true');tick.appendChild(span);stage.appendChild(tick);}
+const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+svg.setAttribute('viewBox','0 0 '+STAGE_W+' '+HEIGHT);svg.setAttribute('width',STAGE_W);svg.setAttribute('height',HEIGHT);svg.classList.add('timeline-connectors');svg.setAttribute('aria-hidden','true');stage.appendChild(svg);
+const nodes=[];
+for(const p of positions){
+  const top=LANE_Y[p.lane],fromTop=p.lane<2,edgeY=fromTop?top+CARD_H:top;
+  const line=document.createElementNS('http://www.w3.org/2000/svg','path');line.setAttribute('class','connector-path');
+  const bend=fromTop?AXIS_Y-13:AXIS_Y+13;
+  line.setAttribute('d',`M ${p.x} ${AXIS_Y} L ${p.x} ${bend} L ${p.cardX} ${edgeY}`);svg.appendChild(line);
+  const dot=create('button','dot');dot.type='button';dot.style.left=p.x+'px';dot.style.top=(AXIS_Y+1)+'px';dot.setAttribute('aria-label',p.date+' '+p.title+' 선택');dot.title=p.date+' · '+p.title;dot.addEventListener('click',()=>selectEvent(p.id,true,true));stage.appendChild(dot);
+  const card=create('button','event-node');card.type='button';card.dataset.eventId=p.id;card.style.left=(p.cardX-CARD_W/2)+'px';card.style.top=top+'px';card.title=p.date+' · '+p.title;card.setAttribute('aria-label',p.date+' '+p.title+' 상세 내용 읽기');card.setAttribute('aria-pressed','false');card.append(create('span','date',p.date),create('span','separator','·'),create('span','name',p.title));card.addEventListener('click',()=>selectEvent(p.id,true,true));stage.appendChild(card);nodes.push({p,card,dot,top});
+}
+window.__revivalAtlasGeometry={scale:SCALE,baseYear:BASE_YEAR,axisY:AXIS_Y,width:STAGE_W,height:HEIGHT,nodes:nodes.map(({p,top})=>({id:p.id,year:p.year,x:p.x,cardX:p.cardX,top,width:CARD_W,height:CARD_H,lane:p.lane})),lanes:4};
+function safeURL(href){try{let u=new URL(href,location.href);return u.protocol==='https:'||u.protocol==='http:'?u.href:null;}catch{return null;}}
+function appendTrustedMarkup(container,markup){
+    // Source HTML comes from the installed manuscript package, not user-input strings.
+    // No embedded scripts, inline event handlers, forms or arbitrary frame elements are allowed.
+    const template=document.createElement('template');template.innerHTML=markup;
+    for(const unsafe of template.content.querySelectorAll('script,iframe,object,embed,form,svg'))unsafe.remove();
+    for(const el of template.content.querySelectorAll('*')){
+        for(const a of Array.from(el.attributes)){
+            if(/^on/i.test(a.name)||a.name==='srcdoc'||(a.name==='href'&&/^(?:javascript|data):/i.test(a.value)))el.removeAttribute(a.name);
+        }
+        if(el.tagName==='A'){
+            const href=el.getAttribute('href');if(href&&/^https?:/i.test(href)&&safeURL(href)){el.target='_blank';el.rel='noopener noreferrer';}
+        }
+    }
+    container.appendChild(template.content);
+}
+function renderAnnotationRow(e){
+    const row=create('div','annotation-row');
+    const a=create('details','annotation-gate'),b=create('details','annotation-gate');
+    const as=create('summary','', '학술주석 및 사료·신학 검토 펼치기');
+    const bs=create('summary','', '출처 보기');
+    const contentA=create('div','annotation-content');appendTrustedMarkup(contentA,e.annotations);
+    {
+      const res=create('details','reserve-details');res.append(create('summary','','연구상 유보사항'),(()=>{const el=create('div','reserve-content');if(e.reservations&&e.reservations.trim())appendTrustedMarkup(el,e.reservations);else el.appendChild(create('p','','원고에 독립된 연구상 유보사항 구획은 없습니다. 검증 수준과 사료상 한계에 관한 원문 내용은 위 학술주석에서 확인할 수 있습니다.'));return el;})());contentA.appendChild(res);
+    }
+    const contentB=create('div','annotation-content');appendTrustedMarkup(contentB,e.sources);
+    a.append(as,contentA);b.append(bs,contentB);row.append(a,b);return row;
+}
+function renderStory(e){
+  story.replaceChildren();
+  const main=create('div','history-story');
+  if(e.kind==='video'){
+    const dl=create('dl','history-intro');
+    for(const key of ['지역','교단·신학적 배경','발단','전개','영향','신학적 평가']){
+      let line=create('div','intro-line');line.append(create('dt','',key),create('dd','',e.intro[key]||''));dl.appendChild(line);
+    }
+    main.appendChild(dl);
+    const film=create('section','atlas-film');film.appendChild(create('h3','','동영상'));
+    if(e.videoId&&e.videoUrl){
+      const frame=create('iframe','atlas-player');frame.loading='lazy';frame.title=e.title+' 기존 역사 영상';frame.setAttribute('allow','accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');frame.setAttribute('referrerpolicy','strict-origin-when-cross-origin');frame.setAttribute('allowfullscreen','');frame.src='https://www.youtube-nocookie.com/embed/'+e.videoId;
+      const watch=create('a','','YouTube에서 영상 보기 ↗');watch.href=e.videoUrl;watch.target='_blank';watch.rel='noopener noreferrer';film.append(frame,watch);
+    }else film.appendChild(create('p','video-pending','동영상은 아직 등록되지 않았습니다. 영상이 제작되면 이 영역에 추가됩니다.'));
+    main.appendChild(film);
+    const details=create('details','atlas-expand atlas-story-details');details.dataset.storyDetails='true';details.appendChild(create('summary','','상세 이야기 읽기'));
+    const body=create('article','long-body');appendTrustedMarkup(body,e.body);details.appendChild(body);
+    details.appendChild(renderAnnotationRow(e));main.appendChild(details);
+  }else{
+    const research=create('article','long-body research-text');appendTrustedMarkup(research,e.body);main.appendChild(research);
+    main.appendChild(renderAnnotationRow(e));
+  }
+  story.appendChild(main);
+}
+function requestFocus(){
+  if(document.documentElement.classList.contains('atlas-home-embedded')){
+    window.parent.postMessage({type:'revival-atlas:focus',offset:detail.getBoundingClientRect().top+window.scrollY},location.origin);
+  }else detail.scrollIntoView({block:'start',behavior:'auto'});
+}
+function currentShareURL(id){const u=new URL('revival-atlas-share.html',location.href);u.search='?event='+encodeURIComponent(id);u.hash='';return u.href;}
+function fallbackCopy(value){let input=document.createElement('textarea');input.value=value;input.style.cssText='position:fixed;left:-9999px;top:0;opacity:0';document.body.appendChild(input);input.select();let ok=false;try{ok=document.execCommand('copy');}catch{}input.remove();if(!ok)window.prompt('아래 주소를 복사하세요.',value);return ok;}
+const copyBtn=document.getElementById('eventCopyButton');
+copyBtn.addEventListener('click',async()=>{
+  if(!selectedId)return;let u=currentShareURL(selectedId),ok=false;
+  try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(u);ok=true;}}catch{}
+  if(!ok)ok=fallbackCopy(u);
+  if(ok){copyBtn.textContent='복사됨 ✓';window.setTimeout(()=>copyBtn.textContent='링크 복사',2000);}
+});
+function activateVisualSelection(id){
+  for(const {p,card,dot} of nodes){let on=p.id===id;card.classList.toggle('active',on);dot.classList.toggle('active',on);card.setAttribute('aria-pressed',String(on));}
+}
+function scrollCardIntoView(id){const n=nodes.find(x=>x.p.id===id);if(!n)return;const desired=n.p.cardX-viewport.clientWidth/2;viewport.scrollTo({left:Math.max(0,desired),behavior:'auto'});}
+function selectEvent(id,bringDetail,writeHistory){
+  if(id==='shotts')id='stewarton';if(id==='kilsyth1742')id='cambuslang';
+  const e=byId.get(id);if(!e)return;
+  selectedId=id;activateVisualSelection(id);
+  let index=EVENTS.indexOf(e);
+  document.getElementById('detailCount').textContent=(index+1)+' / 30';
+  title.textContent=e.title;document.getElementById('detailMeta').textContent=e.date+' · '+e.region+' · '+(e.kind==='research'?'비영상 신학·역사 연구':'영상용 역사서사');
+  document.getElementById('prevBtn').disabled=index===0;document.getElementById('nextBtn').disabled=index===29;
+  renderStory(e);scrollCardIntoView(id);
+  if(writeHistory){let u=new URL(location.href);u.searchParams.set('event',id);if(document.documentElement.classList.contains('atlas-home-embedded'))history.replaceState({revivalEvent:id},'',u);else history.pushState({revivalEvent:id},'',u);}
+  if(bringDetail)requestFocus();
+}
+function changeFilter(){
+  let cnt=0;for(const {p,card,dot} of nodes){const matchesCentury=activeCentury==='all'||String(Math.ceil(p.year/100))===activeCentury;const hay=(p.title+' '+p.date+' '+p.region+' '+Object.values(p.intro||{}).join(' ')).toLocaleLowerCase();const matchesText=!query||hay.includes(query);const visible=matchesCentury&&matchesText;card.classList.toggle('muted',!visible);dot.classList.toggle('muted',!visible);dot.disabled=!visible;if(visible)cnt++;}
+  document.getElementById('trackStatus').textContent=query?cnt+'개 검색 결과':activeCentury==='all'?'전체 30개 사건':activeCentury+'세기 · '+cnt+'개 사건';
+}
+search.addEventListener('input',()=>{query=search.value.trim().toLocaleLowerCase();changeFilter();if(query){let hit=nodes.find(({p,card})=>!card.classList.contains('muted'));if(hit)scrollCardIntoView(hit.p.id);}});
+for(const tab of document.querySelectorAll('[data-century]'))tab.addEventListener('click',()=>{
+  activeCentury=tab.dataset.century;for(const el of document.querySelectorAll('[data-century]'))el.classList.toggle('active',el===tab);
+  changeFilter();const first=nodes.find(({card})=>!card.classList.contains('muted'));if(first)scrollCardIntoView(first.p.id);
+});
+document.getElementById('prevBtn').addEventListener('click',()=>{let i=EVENTS.findIndex(e=>e.id===selectedId);if(i>0)selectEvent(EVENTS[i-1].id,true,true);});
+document.getElementById('nextBtn').addEventListener('click',()=>{let i=EVENTS.findIndex(e=>e.id===selectedId);if(i<29)selectEvent(EVENTS[i+1].id,true,true);});
+function initialID(){let q=new URLSearchParams(location.search).get('event');if(q)return q;let m=location.hash.match(/^#revival-event-([a-z0-9_-]+)$/);return m?m[1]:null;}
+window.addEventListener('message',(evt)=>{if(evt.origin!==location.origin||evt.source!==window.parent)return;let v=evt.data;if(v&&v.type==='revival-atlas:select'&&typeof v.id==='string')selectEvent(v.id,true,false);});
+window.addEventListener('popstate',()=>{let id=initialID();if(id)selectEvent(id,true,false);});
+window.addEventListener('hashchange',()=>{let id=initialID();if(id)selectEvent(id,true,false);});
+// Keep current homepage iframe protocol and avoid nested vertical scrollbars.
+if(document.documentElement.classList.contains('atlas-home-embedded')){
+ let previous=-1;
+ function report(){let main=document.getElementById('main');if(!main)return;let h=Math.ceil(main.getBoundingClientRect().bottom+window.scrollY+2);if(Math.abs(h-previous)>1){previous=h;window.parent.postMessage({type:'revival-atlas:height',height:h},location.origin);}}
+ if('ResizeObserver' in window)new ResizeObserver(report).observe(document.getElementById('main'));
+ window.addEventListener('load',report);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(report);report();
+}
+changeFilter();selectEvent(initialID()||EVENTS[0].id,!!initialID(),false);
+})();
+
+});
+</script>
 </body>
 </html>
