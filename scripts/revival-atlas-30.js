@@ -8,27 +8,70 @@ const stage=document.getElementById('timelineStage'),viewport=document.getElemen
 const detail=document.getElementById('detail'),title=document.getElementById('detailTitle'),story=document.getElementById('story');
 const search=document.getElementById('eventSearch');
 let selectedId=null,activeCentury='all',query='';
-const SCALE=28,BASE_YEAR=1625,LEFT=150,CARD_W=192,CARD_H=78,LANE_STEP=104;
+// Time-point positions stay strictly proportional to historical start years.
+// Cards may be offset horizontally (via subtle connector lines) to avoid crowding.
+const SCALE=28,BASE_YEAR=1625,LEFT=170,CARD_W=272,CARD_H=46,CARD_GAP=14;
+const AXIS_Y=140,HEIGHT=309,LANE_Y=[72,12,164,222];
 const positions=EVENTS.map(e=>({...e,x:LEFT+(e.year-BASE_YEAR)*SCALE}));
-const lastRight=[];
-for(const pos of positions){let lane=lastRight.findIndex(x=>pos.x-CARD_W/2>x+21);if(lane<0){lane=lastRight.length;lastRight.push(-Infinity);}lastRight[lane]=pos.x+CARD_W/2;pos.lane=lane;}
-const laneCount=lastRight.length;
-const AXIS_Y=140,HEIGHT=AXIS_Y+Math.max(1,laneCount-1)*LANE_STEP+170;
-const STAGE_W=LEFT+((2023-BASE_YEAR)*SCALE)+180;
+const clusters=[];
+for(const p of positions){
+  const cluster=clusters[clusters.length-1];
+  if(!cluster||p.x-cluster[cluster.length-1].x>CARD_W+CARD_GAP)clusters.push([p]);
+  else cluster.push(p);
+}
+const lanePatterns=[[0,2,1,3],[2,0,3,1],[0,3,2,1],[2,1,0,3],[1,3,0,2],[3,1,2,0],[1,2,3,0],[3,0,1,2]];
+const minDistance=CARD_W+CARD_GAP;
+// Equal-weight isotonic projection gives minimum movement for every card on a row.
+function packLane(seq){
+  const blocks=[];
+  seq.forEach((p,i)=>{
+    blocks.push({begin:i,end:i,average:p.x-i*minDistance,count:1});
+    while(blocks.length>1&&blocks[blocks.length-2].average>blocks[blocks.length-1].average){
+      const right=blocks.pop(),left=blocks.pop();
+      blocks.push({begin:left.begin,end:right.end,average:(left.average*left.count+right.average*right.count)/(left.count+right.count),count:left.count+right.count});
+    }
+  });
+  const packed=[];
+  for(const b of blocks)for(let i=b.begin;i<=b.end;i++)packed[i]=b.average+i*minDistance;
+  return packed;
+}
+for(const cluster of clusters){
+  let chosen=null;
+  for(const pattern of lanePatterns){
+    const bins=[[],[],[],[]];
+    cluster.forEach((p,i)=>bins[pattern[i%4]].push(p));
+    const placements=[];let cost=0;
+    for(let lane=0;lane<4;lane++){
+      const seq=bins[lane],centers=packLane(seq);
+      seq.forEach((p,j)=>{
+        const center=centers[j],drift=center-p.x;
+        cost+=drift*drift + (Math.abs(drift)>145 ? 3*Math.pow(Math.abs(drift)-145,2) : 0);
+        cost+=(lane===0?0:lane===2?8:lane===1?16:24);
+        placements.push({p,lane,center});
+      });
+    }
+    if(!chosen||cost<chosen.cost)chosen={placements,cost};
+  }
+  for(const entry of chosen.placements){entry.p.lane=entry.lane;entry.p.cardX=entry.center;}
+}
+const STAGE_W=Math.ceil(Math.max(LEFT+((2023-BASE_YEAR)*SCALE)+CARD_W, ...positions.map(p=>p.cardX+CARD_W/2+22)));
 stage.style.width=STAGE_W+'px';stage.style.height=HEIGHT+'px';
 stage.querySelector('.axis').style.top=AXIS_Y+'px';
 function create(tag,className,text){const n=document.createElement(tag);if(className)n.className=className;if(text!==undefined)n.textContent=text;return n;}
 function xOf(y){return LEFT+(y-BASE_YEAR)*SCALE;}
-for(let year=1625;year<=2025;year+=25){if(year>2023)continue;let tick=create('div','tick'),span=create('span','',year+'');tick.style.left=xOf(year)+'px';tick.style.top=(AXIS_Y-13)+'px';tick.setAttribute('aria-hidden','true');tick.appendChild(span);stage.appendChild(tick);}
+for(let year=1625;year<=2023;year+=25){let tick=create('div','tick'),span=create('span','',year+'');tick.style.left=xOf(year)+'px';tick.style.top=(AXIS_Y-13)+'px';tick.setAttribute('aria-hidden','true');tick.appendChild(span);stage.appendChild(tick);}
+const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+svg.setAttribute('viewBox','0 0 '+STAGE_W+' '+HEIGHT);svg.setAttribute('width',STAGE_W);svg.setAttribute('height',HEIGHT);svg.classList.add('timeline-connectors');svg.setAttribute('aria-hidden','true');stage.appendChild(svg);
 const nodes=[];
 for(const p of positions){
-    const top=p.lane===0?AXIS_Y-LANE_STEP:AXIS_Y+27+(p.lane-1)*LANE_STEP;
-    const stem=create('span','stem');stem.style.left=p.x+'px';stem.style.top=Math.min(AXIS_Y,top+CARD_H)+'px';stem.style.height=Math.max(0,Math.abs(top>AXIS_Y?top-AXIS_Y:(top+CARD_H)-AXIS_Y))+'px';stage.appendChild(stem);
-    const dot=create('button','dot');dot.type='button';dot.style.left=p.x+'px';dot.style.top=(AXIS_Y+1)+'px';dot.setAttribute('aria-label',p.date+' '+p.title+' 선택');dot.title=p.date+' · '+p.title;dot.addEventListener('click',()=>selectEvent(p.id,true,true));stage.appendChild(dot);
-    const card=create('button','event-node');card.type='button';card.dataset.eventId=p.id;card.style.left=(p.x-CARD_W/2)+'px';card.style.top=top+'px';card.setAttribute('aria-label',p.date+' '+p.title+' 상세 내용 읽기');card.setAttribute('aria-pressed','false');card.append(create('span','date',p.date),create('span','name',p.title));card.addEventListener('click',()=>selectEvent(p.id,true,true));stage.appendChild(card);nodes.push({p,card,dot,top});
+  const top=LANE_Y[p.lane],fromTop=p.lane<2,edgeY=fromTop?top+CARD_H:top;
+  const line=document.createElementNS('http://www.w3.org/2000/svg','path');line.setAttribute('class','connector-path');
+  const bend=fromTop?AXIS_Y-13:AXIS_Y+13;
+  line.setAttribute('d',`M ${p.x} ${AXIS_Y} L ${p.x} ${bend} L ${p.cardX} ${edgeY}`);svg.appendChild(line);
+  const dot=create('button','dot');dot.type='button';dot.style.left=p.x+'px';dot.style.top=(AXIS_Y+1)+'px';dot.setAttribute('aria-label',p.date+' '+p.title+' 선택');dot.title=p.date+' · '+p.title;dot.addEventListener('click',()=>selectEvent(p.id,true,true));stage.appendChild(dot);
+  const card=create('button','event-node');card.type='button';card.dataset.eventId=p.id;card.style.left=(p.cardX-CARD_W/2)+'px';card.style.top=top+'px';card.title=p.date+' · '+p.title;card.setAttribute('aria-label',p.date+' '+p.title+' 상세 내용 읽기');card.setAttribute('aria-pressed','false');card.append(create('span','date',p.date),create('span','separator','·'),create('span','name',p.title));card.addEventListener('click',()=>selectEvent(p.id,true,true));stage.appendChild(card);nodes.push({p,card,dot,top});
 }
-// Geometry audit available to local browser tests. Years are strictly linear in pixel space.
-window.__revivalAtlasGeometry={scale:SCALE,baseYear:BASE_YEAR,axisY:AXIS_Y,width:STAGE_W,height:HEIGHT,nodes:nodes.map(({p,top})=>({id:p.id,year:p.year,x:p.x,top,width:CARD_W,height:CARD_H,lane:p.lane}))};
+window.__revivalAtlasGeometry={scale:SCALE,baseYear:BASE_YEAR,axisY:AXIS_Y,width:STAGE_W,height:HEIGHT,nodes:nodes.map(({p,top})=>({id:p.id,year:p.year,x:p.x,cardX:p.cardX,top,width:CARD_W,height:CARD_H,lane:p.lane})),lanes:4};
 function safeURL(href){try{let u=new URL(href,location.href);return u.protocol==='https:'||u.protocol==='http:'?u.href:null;}catch{return null;}}
 function appendTrustedMarkup(container,markup){
     // Source HTML comes from the installed manuscript package, not user-input strings.
@@ -98,7 +141,7 @@ copyBtn.addEventListener('click',async()=>{
 function activateVisualSelection(id){
   for(const {p,card,dot} of nodes){let on=p.id===id;card.classList.toggle('active',on);dot.classList.toggle('active',on);card.setAttribute('aria-pressed',String(on));}
 }
-function scrollCardIntoView(id){const n=nodes.find(x=>x.p.id===id);if(!n)return;const desired=n.p.x-viewport.clientWidth/2;viewport.scrollTo({left:Math.max(0,desired),behavior:'auto'});}
+function scrollCardIntoView(id){const n=nodes.find(x=>x.p.id===id);if(!n)return;const desired=n.p.cardX-viewport.clientWidth/2;viewport.scrollTo({left:Math.max(0,desired),behavior:'auto'});}
 function selectEvent(id,bringDetail,writeHistory){
   if(id==='shotts')id='stewarton';if(id==='kilsyth1742')id='cambuslang';
   const e=byId.get(id);if(!e)return;
