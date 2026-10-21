@@ -12,7 +12,7 @@
 .home-revival-atlas .atlas-caret{flex:none;display:grid;place-items:center;width:36px;height:36px;border:1px solid #b6d3c4;background:#e9f2ec;border-radius:50%;font:700 25px/1 Arial,sans-serif;color:#216f69}
 .home-revival-atlas .atlas-caret::before{content:"+"}.home-revival-atlas[open] .atlas-caret::before{content:"−"}
 .home-revival-atlas[open]>summary{border-bottom:1px solid #dce6df;background:#f6faf7}
-.atlas-embed-shell{padding:0 14px 14px;background:#fff}.atlas-embed-frame{display:block;width:100%;height:420px;border:0;background:#fff;overflow-anchor:none}
+.atlas-embed-shell{padding:0 14px 14px;background:#fff}.atlas-embed-frame{display:block;width:100%;height:252px;border:0;background:#fff;overflow-anchor:none}
 @media(max-width:700px){.home-revival-atlas{margin:15px 0 0}.home-revival-atlas>summary{padding:16px 16px;font-size:19px;gap:10px}.home-revival-atlas .atlas-caret{width:30px;height:30px;font-size:21px}.atlas-embed-shell{padding:0 5px 7px}}
 
 /* 읽기 자료: 카드 전체를 연결하는 링크, 마우스 및 키보드 강조 */
@@ -317,6 +317,10 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
 /* Hide common floating up-navigation widgets, without changing article navigation. */
 #scrollToTop,#scroll-to-top,#back-to-top,#backToTop,#toTop,#topBtn,#scroll-top-link,.back-to-top,.scroll-to-top,.go-to-top,[aria-label="맨 위로"],[aria-label="맨 위로 이동"],[title="맨 위로"]{display:none!important}
 #homeRevivalAtlas,.atlas-embed-shell{overflow-anchor:none}
+/* Homepage atlas: fit iframe height precisely to the rendered timeline. */
+#homeRevivalAtlas .atlas-embed-shell{padding-bottom:0!important}
+#homeRevivalAtlas .atlas-embed-frame{margin-bottom:0!important;vertical-align:top}
+#scrollToTop,#scroll-to-top,#back-to-top,#backToTop,#toTop,#topBtn,#scroll-top-link,.back-to-top,.scroll-to-top,.go-to-top,.scroll-top-button,.backtop,[aria-label="맨 위로"],[aria-label="맨 위로 이동"],[title="맨 위로"],[aria-label="Back to top"],[title="Back to top"]{display:none!important}
 </style><link href="/assets/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="/assets/revival-logo.svg" rel="icon" type="image/svg+xml"/>
 <link href="/assets/apple-touch-icon.png" rel="apple-touch-icon"/>
@@ -335,7 +339,7 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
 <div class="wrap"><div class="features"><div><span>THEOLOGY</span><b>개혁주의</b><small>성경과 신앙고백을 기준으로</small></div><div><span>RESEARCH ATLAS</span><b>10개의 중심 주제</b><small>연구와 함께 성장하는 지도</small></div><div><span>SERMON SERIES</span><b>50편 · 순서 확정</b><small>설교 원고 준비중</small></div></div>
 <details class="home-revival-atlas" id="homeRevivalAtlas" open>
 <summary><img alt="" class="atlas-title-icon" height="40" loading="lazy" src="assets/revival-atlas-icon.png" width="42"/><span class="atlas-title-text">역사속의 부흥 사례 살펴 보기</span><span class="atlas-summary-actions"><button aria-label="펼쳐진 역사속 부흥 사례 연대표 링크 복사" class="atlas-copy-btn" id="homeRevivalCopyLink" title="연대표가 열린 상태의 주소 복사" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><rect height="12" rx="2" width="12" x="8" y="8"></rect><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path></svg><span aria-live="polite" id="homeRevivalCopyLabel">링크 복사</span></button><span aria-hidden="true" class="atlas-caret"></span></span></summary>
-<div class="atlas-embed-shell"><iframe allow="clipboard-write" class="atlas-embed-frame" data-src="revival-sermon-timeline.html?embed=1" id="homeRevivalAtlasFrame" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="역사속의 부흥 사례 살펴 보기: 30개 부흥 사건 연대표"></iframe></div>
+<div class="atlas-embed-shell"><iframe allow="clipboard-write" class="atlas-embed-frame" data-src="revival-sermon-timeline.html?embed=1" id="homeRevivalAtlasFrame" loading="lazy" scrolling="no" referrerpolicy="strict-origin-when-cross-origin" title="역사속의 부흥 사례 살펴 보기: 30개 부흥 사건 연대표"></iframe></div>
 </details>
 <section class="block" id="mindmap"><div class="section-head"><div class="cap">RESEARCH ATLAS / 연구와 실천의 지도</div><h2>부흥을 이해하는 <em>열 가지 길</em></h2><p>주제를 선택하면 세부 내용이 열립니다. ‘역사 속의 부흥’을 누르면 세계 부흥 운동사 연표로 이동합니다.</p></div>
 <div class="atlas"><div class="mind"><input aria-label="주제 검색" class="search" id="search" placeholder="주제나 설명 검색"/><div class="mind-main"><div class="root">부흥<br/>하나님의<br/>영광을 봄</div><div class="branches" id="branches"></div></div></div><aside class="detail" id="detail"><span class="cap">중심 주제</span><h3>부흥 — 하나님의 영광을 봄</h3><p>열 가지 영역 중 하나를 선택하세요.</p></aside></div></section>
@@ -515,7 +519,7 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
     if(!data||typeof data!=='object')return;
     if(data.type==='revival-atlas:height'){
       const value=Number(data.height);
-      if(Number.isFinite(value))frame.style.height=Math.max(300,Math.min(30000,Math.ceil(value+5)))+'px';
+      if(Number.isFinite(value))frame.style.height=Math.max(247,Math.min(30000,Math.ceil(value+1)))+'px';
     }
     if(data.type==='revival-atlas:focus'){
       const offset=Number(data.offset);
