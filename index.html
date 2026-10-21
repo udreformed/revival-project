@@ -12,7 +12,7 @@
 .home-revival-atlas .atlas-caret{flex:none;display:grid;place-items:center;width:36px;height:36px;border:1px solid #b6d3c4;background:#e9f2ec;border-radius:50%;font:700 25px/1 Arial,sans-serif;color:#216f69}
 .home-revival-atlas .atlas-caret::before{content:"+"}.home-revival-atlas[open] .atlas-caret::before{content:"−"}
 .home-revival-atlas[open]>summary{border-bottom:1px solid #dce6df;background:#f6faf7}
-.atlas-embed-shell{padding:0 14px 14px;background:#fff}.atlas-embed-frame{display:block;width:100%;height:1200px;border:0;background:#fff}
+.atlas-embed-shell{padding:0 14px 14px;background:#fff}.atlas-embed-frame{display:block;width:100%;height:420px;border:0;background:#fff}
 @media(max-width:700px){.home-revival-atlas{margin:15px 0 0}.home-revival-atlas>summary{padding:16px 16px;font-size:19px;gap:10px}.home-revival-atlas .atlas-caret{width:30px;height:30px;font-size:21px}.atlas-embed-shell{padding:0 5px 7px}}
 
 /* 읽기 자료: 카드 전체를 연결하는 링크, 마우스 및 키보드 강조 */
@@ -330,7 +330,7 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
 <header><div class="top"><a class="brand" href="#"><img alt="부흥 프로젝트 로고" class="brand-logo" src="/assets/revival-logo-512.png"/><span class="brand-name"><span class="brand-word-1">부흥</span><span class="brand-word-2">프로젝트</span><small>REVIVAL PROJECT · SOLI DEO GLORIA</small></span></a><nav><a href="#prayer">기도/실천</a><a href="#readings">읽기 자료</a><a href="#library">도서자료</a><a href="#recommended">추천사이트</a></nav></div></header>
 <div class="hero"><div class="hero-inner"><div><div class="eyebrow">REVIVAL · 하나님의 영광을 봄</div><h1>하나님의 영광을 보며<br/><em>새로워지는 교회</em></h1><p>말씀과 성령으로 일어나는 참된 회심, 사랑으로 하나 되는 공동체, 선교지에 세워지는 교회. 개혁주의 부흥신학을 따라 연구하고 기도하며 함께 실천합니다.</p><a aria-label="매일 복음묵상 페이지 열기" class="daily-gospel-entry" href="https://revival-project.pages.dev/daily-gospel-meditation"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3Z"></path></svg>매일 복음묵상</a><div class="actions"><a class="cta" href="#mindmap">연구 마인드맵 살펴보기 ↗</a><a class="text-link" href="#sermon">설교 50편 보기 →</a></div></div><div class="orbit"><strong>하나님의<br/>영광</strong><span>말씀</span><span>기도</span><span>회심</span><span>공동체</span></div></div></div>
 <div class="wrap"><div class="features"><div><span>THEOLOGY</span><b>개혁주의</b><small>성경과 신앙고백을 기준으로</small></div><div><span>RESEARCH ATLAS</span><b>10개의 중심 주제</b><small>연구와 함께 성장하는 지도</small></div><div><span>SERMON SERIES</span><b>50편 · 순서 확정</b><small>설교 원고 준비중</small></div></div>
-<details class="home-revival-atlas" id="homeRevivalAtlas">
+<details class="home-revival-atlas" id="homeRevivalAtlas" open>
 <summary><img alt="" class="atlas-title-icon" height="40" loading="lazy" src="assets/revival-atlas-icon.png" width="42"/><span class="atlas-title-text">역사속의 부흥 사례 살펴 보기</span><span class="atlas-summary-actions"><button aria-label="펼쳐진 역사속 부흥 사례 연대표 링크 복사" class="atlas-copy-btn" id="homeRevivalCopyLink" title="연대표가 열린 상태의 주소 복사" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><rect height="12" rx="2" width="12" x="8" y="8"></rect><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path></svg><span aria-live="polite" id="homeRevivalCopyLabel">링크 복사</span></button><span aria-hidden="true" class="atlas-caret"></span></span></summary>
 <div class="atlas-embed-shell"><iframe allow="clipboard-write" class="atlas-embed-frame" data-src="revival-sermon-timeline.html?embed=1" id="homeRevivalAtlasFrame" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="역사속의 부흥 사례 살펴 보기: 30개 부흥 사건 연대표"></iframe></div>
 </details>
@@ -350,6 +350,7 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
 <a aria-label="읽기 자료 10번: 부흥이 없는 시대에도 하나님은 일하시는가?" class="tile tile-link" href="reading-10.html"><span class="tile-kicker">10 · 신학 소논문</span><h3>부흥이 없는 시대에도 하나님은 일하시는가?</h3><p>특별한 부흥이 없는 시기에도 말씀과 은혜의 방편을 통해 자기 백성을 붙드시는 하나님의 신실하심을 살펴봅니다.</p></a>
 <a aria-label="읽기 자료 11번: 부흥은 다음 세대에 어떻게 전해지는가?" class="tile tile-link" href="reading-11.html"><span class="tile-kicker">11 · 신학 소논문</span><h3>부흥은 다음 세대에 어떻게 전해지는가?</h3><p>특별한 부흥의 체험과 개인의 중생을 구별하며, 성경과 교회사에 비추어 다음 세대에 복음을 전하는 책임을 살펴봅니다.</p></a>
 <a aria-label="읽기 자료 12번: 참된 영적 회심의 표지" class="tile tile-link" href="reading-12.html"><span class="tile-kicker">12 · 신학 소논문</span><h3>참된 영적 회심의 표지</h3><p>참된 회심의 본질인 믿음과 회개, 그 열매인 사랑과 순종, 그리고 구원 확신의 관계를 살펴봅니다.</p></a>
+<a aria-label="읽기 자료 13번: 어린이들 가운데 나타난 부흥" class="tile tile-link" href="reading-13.html"><span class="tile-kicker">13 · 역사 주제 연구</span><h3>어린이들 가운데 나타난 부흥</h3><p>페비 바틀릿의 네 살 회심 증언부터 킬싯·던디·얼스터·카시·묵티 어린이들의 기도와 신앙적 변화까지, 역사 사례와 16개 학술각주로 살펴봅니다.</p></a>
 </div></section>
 <section class="block" id="library"><div class="section-head"><div class="cap">READING &amp; SOURCES / 도서자료</div><h2><svg aria-hidden="true" class="heading-outline-icon" fill="none" focusable="false" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 20h18"></path><rect height="15" rx="1" width="4.5" x="3" y="3"></rect><rect height="12" rx="1" width="4.5" x="9" y="6"></rect><path d="m15 4.5 3.8-1 3.3 14-3.8 1Z"></path></svg>부흥을 더 깊이 <em>이해하기 위한 도서</em></h2><p>각 카드를 클릭하시면 도서 요약을 볼 수 있습니다.</p></div><div class="books" id="books"></div></section>
 <section aria-labelledby="core-summary-heading" class="block" id="core-summary-list">
@@ -464,6 +465,12 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
   });
   window.addEventListener('hashchange',openLinkedAtlas);
   openLinkedAtlas();
+  loadFrame();
+  function dismissHint(){if(frame.contentWindow)frame.contentWindow.postMessage({type:'revival-atlas:hint-hide'},window.location.origin);}
+  window.addEventListener('wheel',dismissHint,{once:true,passive:true});
+  window.addEventListener('touchmove',dismissHint,{once:true,passive:true});
+  window.addEventListener('scroll',dismissHint,{once:true,passive:true});
+  document.addEventListener('pointerdown',dismissHint,{once:true,passive:true});
   if(copyButton){
     copyButton.addEventListener('keydown',function(event){event.stopPropagation();});
     copyButton.addEventListener('keyup',function(event){event.stopPropagation();});
@@ -505,7 +512,7 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
     if(!data||typeof data!=='object')return;
     if(data.type==='revival-atlas:height'){
       const value=Number(data.height);
-      if(Number.isFinite(value))frame.style.height=Math.max(620,Math.min(30000,Math.ceil(value+5)))+'px';
+      if(Number.isFinite(value))frame.style.height=Math.max(300,Math.min(30000,Math.ceil(value+5)))+'px';
     }
     if(data.type==='revival-atlas:focus'){
       const offset=Number(data.offset);
