@@ -12,7 +12,7 @@
 .home-revival-atlas .atlas-caret{flex:none;display:grid;place-items:center;width:36px;height:36px;border:1px solid #b6d3c4;background:#e9f2ec;border-radius:50%;font:700 25px/1 Arial,sans-serif;color:#216f69}
 .home-revival-atlas .atlas-caret::before{content:"+"}.home-revival-atlas[open] .atlas-caret::before{content:"−"}
 .home-revival-atlas[open]>summary{border-bottom:1px solid #dce6df;background:#f6faf7}
-.atlas-embed-shell{padding:0 14px 14px;background:#fff}.atlas-embed-frame{display:block;width:100%;height:420px;border:0;background:#fff}
+.atlas-embed-shell{padding:0 14px 14px;background:#fff}.atlas-embed-frame{display:block;width:100%;height:420px;border:0;background:#fff;overflow-anchor:none}
 @media(max-width:700px){.home-revival-atlas{margin:15px 0 0}.home-revival-atlas>summary{padding:16px 16px;font-size:19px;gap:10px}.home-revival-atlas .atlas-caret{width:30px;height:30px;font-size:21px}.atlas-embed-shell{padding:0 5px 7px}}
 
 /* 읽기 자료: 카드 전체를 연결하는 링크, 마우스 및 키보드 강조 */
@@ -314,6 +314,9 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
   #library #books.books>.book{padding:16px 17px}
   #prayer .tiles>.tile[data-prayer-practice-linked="1"]{padding:16px 17px}
 }
+/* Hide common floating up-navigation widgets, without changing article navigation. */
+#scrollToTop,#scroll-to-top,#back-to-top,#backToTop,#toTop,#topBtn,#scroll-top-link,.back-to-top,.scroll-to-top,.go-to-top,[aria-label="맨 위로"],[aria-label="맨 위로 이동"],[title="맨 위로"]{display:none!important}
+#homeRevivalAtlas,.atlas-embed-shell{overflow-anchor:none}
 </style><link href="/assets/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="/assets/revival-logo.svg" rel="icon" type="image/svg+xml"/>
 <link href="/assets/apple-touch-icon.png" rel="apple-touch-icon"/>

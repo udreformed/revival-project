@@ -134,7 +134,9 @@ html.atlas-home-embedded main{padding-top:0}
 @media(max-width:720px){.detail{margin-top:8px}.detail-head{padding:13px 14px 11px}.detail-meta{font-size:14px;line-height:1.6}.detail-body{padding:14px 15px 20px}.synopsis p{font-size:14px;line-height:1.82;margin-bottom:9px}.atlas-film{margin:12px 0 9px}.atlas-expand{margin-top:10px;padding-top:9px}}
 
 #detail[hidden]{display:none!important}
-.revival-close-detail{display:block;margin:28px auto 6px;padding:11px 32px;border:1px solid #b7cec5;border-radius:9px;color:#216f69;background:#f4faf6;font-size:14px;font-weight:800;cursor:pointer}
+html.atlas-home-embedded,html.atlas-home-embedded body,html.atlas-home-embedded .timeline-overlay-host{overflow-anchor:none}
+#scrollToTop,#scroll-to-top,#back-to-top,#backToTop,#toTop,#topBtn,#scroll-top-link,.back-to-top,.scroll-to-top,.go-to-top,[aria-label="맨 위로"],[aria-label="맨 위로 이동"],[title="맨 위로"]{display:none!important}
+.revival-close-detail{display:block;margin:12px auto 5px;padding:6px 17px;border:1px solid #b7cec5;border-radius:8px;color:#216f69;background:#f4faf6;font-size:13px;line-height:1.35;font-weight:800;cursor:pointer}
 .revival-close-detail:hover{background:#e6f3ea}
 .revival-close-detail:focus-visible{outline:3px solid #b69661;outline-offset:3px}
 .timeline-overlay-host{position:relative;min-width:0}
@@ -183,7 +185,7 @@ for(const p of positions){
   card.setAttribute('aria-label',p.date+' '+p.title+' 상세 내용 읽기');
   card.setAttribute('aria-pressed','false');
   card.append(create('span','date',p.date),create('span','separator','·'),create('span','name',p.title));
-  card.addEventListener('click',()=>selectEvent(p.id,true,true));
+  card.addEventListener('click',()=>selectEvent(p.id,false,true));
   stage.appendChild(card);
   p.width=Math.ceil(card.getBoundingClientRect().width);
   card.style.width=p.width+'px';p.card=card;
@@ -251,7 +253,7 @@ for(const p of positions){
   const line=document.createElementNS('http://www.w3.org/2000/svg','path');line.setAttribute('class','connector-path');
   const bend=fromTop?AXIS_Y-13:AXIS_Y+13;
   line.setAttribute('d',`M ${p.x} ${AXIS_Y} L ${p.x} ${bend} L ${p.cardX} ${edgeY}`);svg.appendChild(line);
-  const dot=create('button','dot');dot.type='button';dot.style.left=p.x+'px';dot.style.top=(AXIS_Y+1)+'px';dot.setAttribute('aria-label',p.date+' '+p.title+' 선택');dot.title=p.date+' · '+p.title;dot.addEventListener('click',()=>selectEvent(p.id,true,true));stage.appendChild(dot);
+  const dot=create('button','dot');dot.type='button';dot.style.left=p.x+'px';dot.style.top=(AXIS_Y+1)+'px';dot.setAttribute('aria-label',p.date+' '+p.title+' 선택');dot.title=p.date+' · '+p.title;dot.addEventListener('click',()=>selectEvent(p.id,false,true));stage.appendChild(dot);
   p.card.style.left=(p.cardX-p.width/2)+'px';p.card.style.top=top+'px';p.card.style.visibility='';
   stage.appendChild(p.card);
   nodes.push({p,card:p.card,dot,top});
@@ -350,8 +352,8 @@ function selectEvent(id,bringDetail,writeHistory){
   if(writeHistory){let u=new URL(location.href);u.searchParams.set('event',id);if(document.documentElement.classList.contains('atlas-home-embedded'))history.replaceState({revivalEvent:id},'',u);else history.pushState({revivalEvent:id},'',u);}
   if(bringDetail)requestFocus();
 }
-document.getElementById('prevBtn').addEventListener('click',()=>{let i=EVENTS.findIndex(e=>e.id===selectedId);if(i>0)selectEvent(EVENTS[i-1].id,true,true);});
-document.getElementById('nextBtn').addEventListener('click',()=>{let i=EVENTS.findIndex(e=>e.id===selectedId);if(i<29)selectEvent(EVENTS[i+1].id,true,true);});
+document.getElementById('prevBtn').addEventListener('click',()=>{let i=EVENTS.findIndex(e=>e.id===selectedId);if(i>0)selectEvent(EVENTS[i-1].id,false,true);});
+document.getElementById('nextBtn').addEventListener('click',()=>{let i=EVENTS.findIndex(e=>e.id===selectedId);if(i<29)selectEvent(EVENTS[i+1].id,false,true);});
 function initialID(){let q=new URLSearchParams(location.search).get('event');if(q)return q;let m=location.hash.match(/^#revival-event-([a-z0-9_-]+)$/);return m?m[1]:null;}
 window.addEventListener('message',(evt)=>{if(evt.origin!==location.origin||evt.source!==window.parent)return;let v=evt.data;if(v&&v.type==='revival-atlas:select'&&typeof v.id==='string')selectEvent(v.id,true,false);});
 window.addEventListener('popstate',()=>{let id=initialID();if(id)selectEvent(id,true,false);});
