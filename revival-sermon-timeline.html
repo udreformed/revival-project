@@ -308,7 +308,15 @@ function renderStory(e){
       film.appendChild(frame);
       main.appendChild(film);
     }
-    const details=create('details','atlas-expand atlas-story-details');details.dataset.storyDetails='true';details.appendChild(create('summary','','상세 이야기 읽기'));
+    const details=create('details','atlas-expand atlas-story-details');
+    details.dataset.storyDetails='true';
+    const storySummary=create('summary','','상세 이야기 읽기');
+    storySummary.addEventListener('click',()=>{
+      if(document.documentElement.classList.contains('atlas-home-embedded')){
+        window.parent.postMessage({type:'revival-atlas:freeze-scroll'},location.origin);
+      }
+    });
+    details.appendChild(storySummary);
     const body=create('article','long-body');appendTrustedMarkup(body,e.body);details.appendChild(body);
     details.appendChild(renderAnnotationRow(e));main.appendChild(details);
   }else{

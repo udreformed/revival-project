@@ -321,6 +321,10 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
 #homeRevivalAtlas .atlas-embed-shell{padding-bottom:0!important}
 #homeRevivalAtlas .atlas-embed-frame{margin-bottom:0!important;vertical-align:top}
 #scrollToTop,#scroll-to-top,#back-to-top,#backToTop,#toTop,#topBtn,#scroll-top-link,.back-to-top,.scroll-to-top,.go-to-top,.scroll-top-button,.backtop,[aria-label="맨 위로"],[aria-label="맨 위로 이동"],[title="맨 위로"],[aria-label="Back to top"],[title="Back to top"]{display:none!important}
+/* Preserve the viewport when an embedded revival story expands or collapses. */
+html:has(#homeRevivalAtlas[open]){overflow-anchor:none!important}
+body:has(#homeRevivalAtlas[open]){overflow-anchor:none!important}
+#homeRevivalAtlas,#homeRevivalAtlas .atlas-embed-shell,#homeRevivalAtlas .atlas-embed-frame{overflow-anchor:none!important}
 </style><link href="/assets/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="/assets/revival-logo.svg" rel="icon" type="image/svg+xml"/>
 <link href="/assets/apple-touch-icon.png" rel="apple-touch-icon"/>
@@ -442,6 +446,25 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
   const copyButton=document.getElementById('homeRevivalCopyLink');
   const copyLabel=document.getElementById('homeRevivalCopyLabel');
   let feedbackTimeout;
+  let frozenScrollY=null;
+  let releaseScrollTimer=null;
+  function restoreStoryScroll(){
+    if(frozenScrollY===null)return;
+    if(Math.abs(window.scrollY-frozenScrollY)>1){
+      window.scrollTo({top:frozenScrollY,behavior:'instant'});
+    }
+  }
+  function freezeStoryScroll(){
+    frozenScrollY=window.scrollY;
+    if(releaseScrollTimer!==null)window.clearTimeout(releaseScrollTimer);
+    releaseScrollTimer=window.setTimeout(function(){
+      frozenScrollY=null;
+      releaseScrollTimer=null;
+    },450);
+    window.requestAnimationFrame(restoreStoryScroll);
+  }
+  window.addEventListener('wheel',function(){frozenScrollY=null;},{passive:true});
+  window.addEventListener('touchmove',function(){frozenScrollY=null;},{passive:true});
   function sharedEventId(){
     const match=window.location.hash.match(/^#revival-event-([a-z0-9_-]+)$/);
     return match?match[1]:null;
@@ -517,9 +540,23 @@ header .top nav > button.daily-nav-trigger:hover,header .top nav > button.daily-
     if(event.origin!==window.location.origin||event.source!==frame.contentWindow)return;
     const data=event.data;
     if(!data||typeof data!=='object')return;
+    if(data.type==='revival-atlas:freeze-scroll'){
+      freezeStoryScroll();
+      return;
+    }
     if(data.type==='revival-atlas:height'){
       const value=Number(data.height);
-      if(Number.isFinite(value))frame.style.height=Math.max(247,Math.min(30000,Math.ceil(value+1)))+'px';
+      if(Number.isFinite(value)){
+        frame.style.height=Math.max(247,Math.min(30000,Math.ceil(value+1)))+'px';
+        if(frozenScrollY!==null){
+          restoreStoryScroll();
+          window.requestAnimationFrame(function(){
+            restoreStoryScroll();
+            window.requestAnimationFrame(restoreStoryScroll);
+          });
+          window.setTimeout(restoreStoryScroll,50);
+        }
+      }
     }
     if(data.type==='revival-atlas:focus'){
       const offset=Number(data.offset);
