@@ -1,0 +1,108 @@
+name: Apply revival story 6 video and refresh published text
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/revival-atlas-video6-refresh.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: revival-atlas-story6-refresh
+  cancel-in-progress: false
+
+jobs:
+  update-revival-atlas:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the latest repository files
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+
+      - name: Add video 6 and refresh cached reading materials
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          import re
+          from pathlib import Path
+
+          version = "20261021_brainerd_video6_reloaded"
+
+          # Preserve all 30 stories, notes, references and existing videos.
+          data_path = Path("data/revival-atlas-30.js")
+          raw = data_path.read_text(encoding="utf-8")
+          prefix = "window.REVIVAL_ATLAS_30="
+          assert raw.count(prefix) == 1, "Unexpected revival data format"
+          header, contents = raw.split(prefix, 1)
+          events = json.loads(contents.strip().removesuffix(";"))
+          assert len(events) == 30, "The 30 revival records have changed"
+          assert events[5]["id"] == "cambuslang", "Episode 6 is not Cambuslang/Kilsyth"
+
+          brainerd = next(e for e in events if e["id"] == "brainerd1745")
+          assert "1745년 6월 19일" in brainerd["body"], "The revised Brainerd story has not yet been uploaded"
+          assert "[E8]" in brainerd["annotations"], "The additional Brainerd research note is missing"
+
+          # The existing timeline already knows how to display a video when
+          # videoId and videoUrl are populated.
+          video = events[5]
+          expected_id = "deP2gnJlbz8"
+          expected_url = "https://youtu.be/deP2gnJlbz8"
+          if video.get("videoId") != expected_id or video.get("videoUrl") != expected_url:
+              video["videoId"] = expected_id
+              video["videoUrl"] = expected_url
+              serialized = json.dumps(events, ensure_ascii=False, separators=(",", ":"))
+              data_path.write_text(
+                  header + prefix + serialized.replace("</", "<\\/") + ";\n",
+                  encoding="utf-8",
+              )
+
+          # Remove the fixed, stale asset-version query. This changes the URL
+          # fetched by new browser sessions without removing any timeline UI.
+          timeline_path = Path("revival-sermon-timeline.html")
+          timeline = timeline_path.read_text(encoding="utf-8")
+          pattern = r"data/revival-atlas-30\.js(?:\?v=[A-Za-z0-9_.-]+)?"
+          target = "data/revival-atlas-30.js?v=" + version
+          if len(re.findall(pattern, timeline)) != 1:
+              raise RuntimeError("Cannot locate a unique revival data script URL")
+          new_timeline = re.sub(pattern, target, timeline, count=1)
+          if new_timeline != timeline:
+              timeline_path.write_text(new_timeline, encoding="utf-8")
+
+          # Refresh the parent iframe URL too, so a cached embedded document
+          # does not keep requesting the previous data version.
+          home_path = Path("index.html")
+          home = home_path.read_text(encoding="utf-8")
+          pattern = r'(data-src="revival-sermon-timeline\.html\?embed=1)(?:&amp;v=[A-Za-z0-9_.-]+|&v=[A-Za-z0-9_.-]+)?("\s+id="homeRevivalAtlasFrame")'
+          matches = list(re.finditer(pattern, home))
+          assert len(matches) == 1, "Cannot find the homepage timeline iframe"
+          new_home = re.sub(pattern, lambda m: m.group(1) + "&amp;v=" + version + m.group(2), home, count=1)
+          if new_home != home:
+              home_path.write_text(new_home, encoding="utf-8")
+
+          # Re-read the edited data and verify every original record is intact.
+          check = data_path.read_text(encoding="utf-8")
+          updated = json.loads(check.split(prefix, 1)[1].strip().removesuffix(";"))
+          assert len(updated) == 30
+          assert updated[5]["videoId"] == expected_id
+          assert next(e for e in updated if e["id"] == "brainerd1745")["body"] == brainerd["body"]
+          print("Confirmed: 30 stories preserved, video 6 added, browser cache version refreshed.")
+          PY
+
+      - name: Commit the three updated website files
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/revival-atlas-30.js revival-sermon-timeline.html index.html
+          if git diff --cached --quiet; then
+            echo "All requested updates are already in the repository."
+            exit 0
+          fi
+          git commit -m "Show latest revival stories and add video for episode 6"
+          git push origin HEAD:main
