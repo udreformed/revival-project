@@ -41,9 +41,13 @@
       .daily-prayer-prose p{margin:0 0 1.32em}
       .daily-prayer-prose p:last-child{margin-bottom:0}
       .daily-murray-inline{margin:30px 0 0;padding:15px 16px 17px;border-top:1px solid #dce6df;background:#f6faf7;border-radius:7px}
-      .daily-murray-inline summary{display:block;cursor:pointer;color:#216f69;text-decoration:underline;text-underline-offset:3px;font:700 14px/1.8 'Apple SD Gothic Neo','Noto Sans KR',sans-serif}
-      .daily-murray-inline summary::after{content:'⌄';display:inline-block;margin-left:10px;text-decoration:none}
-      .daily-murray-inline[open] summary::after{content:'⌃'}
+      .daily-murray-inline summary{display:block;cursor:pointer;color:#216f69;list-style:none;font:700 14px/1.8 'Apple SD Gothic Neo','Noto Sans KR',sans-serif}
+      .daily-murray-inline summary::-webkit-details-marker{display:none}
+      .daily-murray-inline summary::marker{content:''}
+      .daily-murray-inline .daily-murray-link{text-decoration:underline;text-underline-offset:3px}
+      .daily-murray-inline .daily-murray-link::after{content:'⌄';display:inline-block;margin-left:10px;text-decoration:none}
+      .daily-murray-inline[open] .daily-murray-link::after{content:'⌃'}
+      .daily-murray-inline .daily-murray-title{display:block;margin-top:4px;color:#45645b;font:600 13px/1.75 'Apple SD Gothic Neo','Noto Sans KR',sans-serif;word-break:keep-all;overflow-wrap:anywhere}
       .daily-murray-inline .daily-prayer-prose{border-top:1px solid #dce6df;margin-top:13px;padding-top:17px;font-size:15px}
       .daily-modal-footer{flex:none;border-top:1px solid #e0e9e2;padding:12px 16px;background:#fafcf9;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px}
       .daily-move{border:1px solid #c2d5c9;background:#fff;color:#285d56;border-radius:7px;padding:9px 12px;cursor:pointer;font:700 13px/1.5 'Noto Sans KR',sans-serif}
@@ -75,8 +79,12 @@
     return dialog;
   }
   function makeMurray(day){
-    var panel=el('details','daily-murray-inline');panel.appendChild(el('summary','','앤드류머리의 중보기도문'));
     var sample=andrew.get(day);
+    var panel=el('details','daily-murray-inline');
+    var summary=el('summary');
+    summary.appendChild(el('span','daily-murray-link','앤드류머리의 중보기도문'));
+    if(sample&&sample.title)summary.appendChild(el('span','daily-murray-title',sample.title));
+    panel.appendChild(summary);
     if(sample)panel.appendChild(textBody(sample));
     else panel.appendChild(el('p','','해당 날짜의 중보기도문을 찾을 수 없습니다.'));
     return panel;
