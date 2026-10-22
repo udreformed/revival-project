@@ -1,0 +1,131 @@
+name: Add verified revival videos 7–10 and refresh website assets
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/revival-atlas-video7-10-refresh.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: revival-atlas-verified-videos-7-10
+  cancel-in-progress: false
+
+jobs:
+  add-four-videos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the latest main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+
+      - name: Add YouTube videos to the matching history stories
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          import json
+          import re
+          from copy import deepcopy
+          from pathlib import Path
+
+          videos = {
+              "brainerd1745": "AwNSECHAkC4",  # 7. David Brainerd
+              "moulin1798": "KL0PnPjuNfs",     # 8. Moulin
+              "cane1801": "DK354npLHOU",      # 9. Cane Ridge
+              "yale": "TFaFEIa5BQ0",          # 10. Yale
+          }
+          expected_positions = {
+              "brainerd1745": 6,
+              "moulin1798": 7,
+              "cane1801": 8,
+              "yale": 9,
+          }
+          version = "20261022_verified_videos_07_10"
+
+          data_path = Path("data/revival-atlas-30.js")
+          raw = data_path.read_text(encoding="utf-8")
+          prefix = "window.REVIVAL_ATLAS_30="
+          assert raw.count(prefix) == 1, "Unexpected revival data format"
+          header, contents = raw.split(prefix, 1)
+          events = json.loads(contents.strip().removesuffix(";"))
+          assert isinstance(events, list) and len(events) == 30, "Expected exactly 30 revival stories"
+          originals = deepcopy(events)
+
+          for event_id, idx in expected_positions.items():
+              assert events[idx]["id"] == event_id, f"History event order has changed: {event_id}"
+              event = events[idx]
+              incoming = videos[event_id]
+              existing = event.get("videoId")
+              if existing not in (None, "", incoming):
+                  raise RuntimeError(f"Unexpected existing video on {event_id}: {existing}")
+              event["videoId"] = incoming
+              event["videoUrl"] = "https://youtu.be/" + incoming
+
+          for before, after in zip(originals, events):
+              if before["id"] in videos:
+                  for key in before:
+                      if key not in ("videoId", "videoUrl"):
+                          assert before[key] == after[key], f"Unexpected change to {before['id']}.{key}"
+              else:
+                  assert before == after, f"Unrelated event changed: {before['id']}"
+
+          if events != originals:
+              serialized = json.dumps(events, ensure_ascii=False, separators=(",", ":"))
+              data_path.write_text(header + prefix + serialized.replace("</", "<\\/") + ";\n", encoding="utf-8")
+
+          timeline_path = Path("revival-sermon-timeline.html")
+          timeline = timeline_path.read_text(encoding="utf-8")
+          asset_pattern = r"data/revival-atlas-30\.js(?:\?v=[A-Za-z0-9_.-]+)?"
+          assert len(re.findall(asset_pattern, timeline)) == 1, "Timeline data URL not uniquely identified"
+          target_url = "data/revival-atlas-30.js?v=" + version
+          revised_timeline = re.sub(asset_pattern, target_url, timeline, count=1)
+          if revised_timeline != timeline:
+              timeline_path.write_text(revised_timeline, encoding="utf-8")
+
+          homepage_path = Path("index.html")
+          homepage = homepage_path.read_text(encoding="utf-8")
+          iframe_pattern = (
+              r'(data-src="revival-sermon-timeline\.html\?embed=1)'
+              r'(?:&amp;v=[A-Za-z0-9_.-]+|&v=[A-Za-z0-9_.-]+)?'
+              r'("\s+id="homeRevivalAtlasFrame")'
+          )
+          assert len(re.findall(iframe_pattern, homepage)) == 1, "Homepage timeline iframe not uniquely identified"
+          updated_homepage = re.sub(
+              iframe_pattern,
+              lambda match: match.group(1) + "&amp;v=" + version + match.group(2),
+              homepage,
+              count=1,
+          )
+          if updated_homepage != homepage:
+              homepage_path.write_text(updated_homepage, encoding="utf-8")
+
+          updated = json.loads(data_path.read_text(encoding="utf-8").split(prefix, 1)[1].strip().removesuffix(";"))
+          for event_id, video_id in videos.items():
+              entry = next(event for event in updated if event["id"] == event_id)
+              assert entry["videoId"] == video_id
+              assert entry["videoUrl"] == "https://youtu.be/" + video_id
+          assert len(updated) == 30
+          assert target_url in timeline_path.read_text(encoding="utf-8")
+          assert "&amp;v=" + version in homepage_path.read_text(encoding="utf-8")
+          print("Verified four video assignments for revival stories 7, 8, 9, 10; all text and notes retained.")
+          PYCODE
+
+          node --check data/revival-atlas-30.js
+
+      - name: Commit updated website files
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/revival-atlas-30.js revival-sermon-timeline.html index.html
+          if git diff --cached --quiet; then
+            echo "All four videos and asset version already updated."
+            exit 0
+          fi
+          git commit -m "Add verified revival story videos 7 through 10"
+          git push origin HEAD:main
