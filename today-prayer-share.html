@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,follow">
+  <title>부흥을 위한 오늘의 기도</title>
+  <meta name="description" content="마틴 로이드 존스와 찰스 스펄전의 부흥 기도문을 매일 함께 읽으며 기도합니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="부흥 프로젝트">
+  <meta property="og:title" content="부흥을 위한 오늘의 기도">
+  <meta property="og:description" content="마틴 로이드 존스와 찰스 스펄전의 부흥 기도문을 매일 함께 읽으며 기도합니다.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="부흥을 위한 오늘의 기도">
+  <meta name="twitter:description" content="부흥 프로젝트의 날짜별 대표기도문을 읽어 보세요.">
+  <style>
+    body{font-family:"Noto Sans KR","Apple SD Gothic Neo",sans-serif;margin:0;background:#f6f6f0;color:#183b46}
+    main{max-width:660px;margin:12vh auto;padding:36px 22px;text-align:center}
+    h1{font-family:"Noto Serif KR",serif;font-size:clamp(24px,5vw,33px);line-height:1.5}
+    a{color:#216f69;text-decoration:underline;text-underline-offset:3px}
+  </style>
+  <script>
+    (function(){
+      'use strict';
+      var params=new URLSearchParams(window.location.search);
+      var date=params.get('prayer-date');
+      var target=new URL('/',window.location.origin);
+      if(date&&/^\d{4}-\d{2}-\d{2}$/.test(date)){
+        var parts=date.split('-').map(Number);
+        var day=new Date(parts[0],parts[1]-1,parts[2],12);
+        var iso=day.getFullYear()+'-'+String(day.getMonth()+1).padStart(2,'0')+'-'+String(day.getDate()).padStart(2,'0');
+        if(iso===date)target.searchParams.set('prayer-date',date);
+      }
+      window.location.replace(target.href);
+    })();
+  </script>
+</head>
+<body>
+  <main>
+    <h1>부흥을 위한 오늘의 기도</h1>
+    <p>오늘의 기도문으로 이동합니다.</p>
+    <p><a href="/">기도문 페이지 바로가기</a></p>
+  </main>
+</body>
+</html>

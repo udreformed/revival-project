@@ -94,7 +94,7 @@
     if(!modal.open)modal.showModal();
   }
   function moveDay(n){if(selectedDate)showDate(new Date(selectedDate.getFullYear(),selectedDate.getMonth(),selectedDate.getDate()+n,12));}
-  function sharingUrl(d){return new URL('/?prayer-date='+encodeURIComponent(isoDate(d)),location.href).href;}
+  function sharingUrl(d){return new URL('/today-prayer-share.html?prayer-date='+encodeURIComponent(isoDate(d)),location.href).href;}
   async function copyLink(){
     if(!selectedDate)return;
     var status=dialog.querySelector('#daily-share-status');
