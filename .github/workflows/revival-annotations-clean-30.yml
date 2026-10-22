@@ -1,0 +1,441 @@
+name: Revival atlas annotations public editorial cleanup
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/revival-annotations-clean-30.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: revival-annotations-clean-30-main
+  cancel-in-progress: false
+
+jobs:
+  clean-annotations:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install HTML parser
+        run: python -m pip install --quiet 'beautifulsoup4==4.12.3'
+      - name: Prepare editorial revision script
+        shell: bash
+        run: |
+          cat > /tmp/revival-clean-30.py <<'PY'
+          #!/usr/bin/env python3
+          """독자 공개용 30편 주석·편집자주 정리. 원전 내용 및 현장의 신학적 주의는 보존.
+
+          읽기 및 본문과 사건 ID·영상·링크는 유지. 1–10/11–20/21–30 단계별 보고.
+          """
+          import argparse
+          import copy
+          import html
+          import json
+          import re
+          from pathlib import Path
+          from bs4 import BeautifulSoup, NavigableString, Tag
+
+          MARKER = 'window.REVIVAL_ATLAS_30='
+          READER_BAD = re.compile(r'검토\s*중|편집\s*상태|미열람|미판독|미검증|미확보|미대조|원전\s*감사|출판\s*보류|출판\s*승인|출판\s*전\s*확인|후속\s*점검|사후\s*감사|학술검수\s*(?:진행|상태)|접근\s*등급|원자료\s*직접\s*대조가\s*남아|검증·교정\s*완료\s*초안|연구상\s*유보사항|완료\s*표기하지|추가\s*대조\s*(?:해야|필요)|검증을?\s*보류')
+          SECTION_DROP = re.compile(r'(?:원전|사료|학술|검증|출판|자료|서지).{0,17}(?:감사|검수|보류|접근\s*등급|접근\s*수준|입수\s*상태|교감\s*미완|추가\s*확인|남은\s*의문|열람\s*단계)|(?:미완료\s*·\s*출판\s*승인\s*조건|출판\s*승인\s*전\s*필수\s*과제|편집\s*원칙|검증\s*범위|자료\s*접근\s*수준|접근\s*등급의\s*의미|여전히\s*남은\s*필수\s*원전\s*감사|원문\s*확인\s*범위|판본의\s*유의점|편집\s*상태|원고의\s*연구\s*진행\s*상황|문서\s*검증\s*등급)',re.I)
+          DROP_NOTE_TITLE = re.compile(r'(?:미완\s*원전|남은\s*원전|잔여\s*(?:검증|감사)|자료\s*접근\s*수준|자료\s*계보와\s*접근|주요\s*학술서의\s*인쇄면\s*제한|원판\s*(?:접근|교감)\s*한계|남은\s*의문|사료\s*(?:접근|검증)\s*단계|출판\s*(?:승인|보류|검수|한계)|검토\s*중|편집\s*상태|미완\s*원전조사|출처\s*확인\s*절차|검증\s*등급|학술\s*원전\s*감사|사료\s*계보와\s*접근\s*등급|사료\s*접근\s*등급|(?:당시/후대)\s*자료의\s*접근\s*수준|자료\s*접근\s*범위|후속\s*연구의\s*접근\s*등급|출판\s*보류\s*조건|원전\s*감사)',re.I)
+          # 공개 출처에서 작업자의 열람 여부나 문헌 감사 진행상황을 알리는 행은 제거한다.
+          META_ITEM = re.compile(r'^\s*(?:상태|원고\s*상태|접근(?:\s*·\s*검증)?(?:\s*수준|\s*단계|\s*등급|\s*확인|\s*상태)?|검증(?:\s*수준|\s*상태|\s*등급|\s*범위)?|확인(?:\s*범위|\s*등급|\s*상태)?|검토(?:\s*용도|\s*상태|\s*중)?|열람(?:\s*수준|\s*상태)?|입수(?:\s*상태)?|출판(?:\s*검수|\s*보류)?|자료(?:\s*접근|\s*검증|\s*확인)?|현재(?:\s*편집)?\s*상태|초판\s*대조|원문(?:\s*확인)?\s*범위|원판(?:\s*미열람)?|후속\s*검토|본문\s*(?:교정|수정)\s*상태|출처\s*확인\s*등급)\s*[:：]',re.I)
+          META_PAR = re.compile(r'^(?:미열람|검증.*?(?:보류|미완)|출판\s*전|원본\s*판면|이\s*책은\s*해당|본\s*문서(?:는|의)|다른\s*29편|아직\s*본문|원전\s*직접|연구\s*진행\s*중|원문\s*확인\s*범위)',re.I)
+          TECH_FRAGMENT = re.compile(r'(?:(?:원전|원판|원문|필사|인쇄)\s*(?:이미지|판면|원고|판본|대조|열람|감사)|(?:초판|자료|학술서|논문)\s*(?:인쇄면|원문|전문)).{0,65}(?:미열람|미대조|미확보|미완|확인하지\s*못|대조\s*필요|추가\s*확인|직접\s*열람하지\s*못|원고\s*누락|차후\s*검토)|(?:확인|접근|열람|교감)\s*(?:수준|단계|범위|등급|상태)\s*[:：][^.;。]{0,170}|(?:원문|전문|판면)\s*(?:직접)?\s*(?:열람|확인|대조)\s*(?:하지\s*못|완료하지\s*못|남아\s*있)|(?:출판\s*전|후속\s*작업에서|추가\s*조사로|추후)\s*[^.!?。]{0,140}(?:확인|감사|검증|대조)|(?:원전|원판)\s*감사', re.I)
+          # 역사적 의미가 있는 제한(회심자 수의 불확실성, 교리 차이 등)은 제거하지 않는다.
+          METADATA_SENTENCE = re.compile(r'^(?:(?:필사|원판|원전|논문\s*전문|초판|당대\s*편지|해당\s*자료의\s*전체).{0,80}(?:미열람|미대조|미검증|확인하지\s*못|직접\s*대조가\s*남아)|(?:연구글|원고|이\s*글|본문|편집자|집필자).{0,90}(?:후속\s*점검|추가\s*확인|검증을?\s*보류|출판\s*전|검토\s*중|인쇄면\s*대조|미완)|(?:원판|원전|문헌|논문|일기).{0,65}(?:화면\s*캡처|PDF\s*조회|페이지\s*접근|원문\s*미확인|열람\s*실패))',re.I)
+
+
+          def visible(node):
+              return node.get_text(' ',strip=True) if isinstance(node,Tag) else str(node).strip()
+
+
+          def headings_cleanup(soup, mode, stats):
+              if mode == 'annotations':
+                  # The scholarly-note panel already has a top-level heading in the UI.
+                  # Remove duplicated draft/version headings without affecting their notes.
+                  for title in list(soup.find_all('h1')):
+                      title.decompose()
+                      stats['heading_metadata_removed']+=1
+              # 개별 h2/h3 아래에 달린 검증 절차/출판 감사 섹션 제거. h4 각주 자체는 후속 처리.
+              for h in list(soup.find_all(['h1','h2','h3'])):
+                  if h.parent is None: continue
+                  title=visible(h)
+                  if re.search(r'검증\s*등급의\s*의미|접근\s*등급의\s*의미', title):
+                      rank=int(h.name[1]); following=h.next_sibling
+                      while following:
+                          sibling=following;following=following.next_sibling
+                          if isinstance(sibling,Tag) and sibling.name in ['h1','h2','h3'] and int(sibling.name[1])<=rank:break
+                          if isinstance(sibling,Tag):sibling.decompose()
+                          elif isinstance(sibling,NavigableString):sibling.extract()
+                      h.decompose();stats['metadata_sections_removed']+=1;continue
+                  if title.strip().endswith('출판 전 필수 구분'):
+                      h.string='학술주석 및 사료 해설';continue
+                  if re.search(r'출처 코드·실제 열람 수준',title):
+                      h.string='참고문헌과 사료';continue
+                  if title.strip()=='최종 판단':
+                      nexts=[];c=h.next_sibling
+                      while c and not (isinstance(c,Tag) and c.name in ['h1','h2','h3']):
+                          nexts.append(c); c=c.next_sibling
+                      combined=' '.join(visible(q) for q in nexts)
+                      if re.search(r'출판|검수|편집|원고|승인',combined):
+                          for q in nexts:
+                              if isinstance(q,Tag):q.decompose()
+                              elif isinstance(q,NavigableString):q.extract()
+                          h.decompose();stats['metadata_sections_removed']+=1;continue
+                  if re.search(r'최종\s*검증\s*전\s*남은\s*원자료|웹\s*출판용\s*주석\s*구현\s*규칙',title):
+                      rank=int(h.name[1]);follow=h.next_sibling
+                      while follow:
+                          sibling=follow;follow=follow.next_sibling
+                          if isinstance(sibling,Tag) and sibling.name in ['h1','h2','h3'] and int(sibling.name[1])<=rank:break
+                          if isinstance(sibling,Tag):sibling.decompose()
+                          elif isinstance(sibling,NavigableString):sibling.extract()
+                      h.decompose();stats['metadata_sections_removed']+=1;continue
+                  if h.name=='h1' and any(x in title for x in ['검증 v','학술·신학 검증','최종 검수','연구용 원고']):
+                      h.decompose(); stats['heading_metadata_removed']+=1; continue
+                  if re.fullmatch(r'\s*(?:\d+[.)]\s*)?(?:확인\s*등급|검증\s*등급|검증\s*범위와\s*원전\s*열람\s*단계|원전\s*접근(?:의\s*엄격한\s*구별)?|검증\s*등급과\s*방법|사료\s*접근\s*등급의\s*정의|사건\s*개요\s*\(홈페이지\s*통일\s*형식\s*초안\))\s*',title):
+                      rank=int(h.name[1]);following=h.next_sibling
+                      while following:
+                          sibling=following;following=following.next_sibling
+                          if isinstance(sibling,Tag) and sibling.name in ['h1','h2','h3'] and int(sibling.name[1])<=rank:break
+                          if isinstance(sibling,Tag):sibling.decompose()
+                          elif isinstance(sibling,NavigableString):sibling.extract()
+                      h.decompose();stats['metadata_sections_removed']+=1;continue
+                  if re.search(r'(?:출처|자료|참고문헌)\s*(?:대장|목록)',title) and not re.search(r'출판\s*보류|미완|미열람|검토\s*중|후속\s*감사',title):
+                      h.string='참고문헌 및 출처'
+                      continue
+                  if not SECTION_DROP.search(title) and not re.search(r'연구상\s*유보사항|출판\s*보류|접근\s*수준|미열람|편집\s*상태|필수\s*원전\s*감사',title):
+                      if mode=='sources' and re.search(r'(?:참고문헌|자료\s*목록|출처|자료\s*접근)',title):
+                          h.string='참고문헌 및 출처'
+                      continue
+                  if mode=='sources' and (re.search(r'(?:참고문헌|자료\s*목록|원전|출처)',title) and not re.search(r'검증\s*절차|남은\s*|보류|승인|원전\s*감사|편집\s*상태',title)):
+                      h.string='참고문헌 및 출처'; continue
+                  heading_rank=int(h.name[1]); following=h.next_sibling
+                  while following:
+                      sibling=following
+                      following=following.next_sibling
+                      if isinstance(sibling,Tag) and sibling.name in ['h1','h2','h3'] and int(sibling.name[1])<=heading_rank:
+                          break
+                      if isinstance(sibling,Tag):sibling.decompose()
+                      elif isinstance(sibling,NavigableString):sibling.extract()
+                  h.decompose();stats['metadata_sections_removed']+=1
+
+
+          def drop_editorial_units(soup,stats):
+              for unit in list(soup.select('section.expanded-note-unit, details.note-unit')):
+                  title=unit.find(['h4','h3','summary'])
+                  if title and (DROP_NOTE_TITLE.search(visible(title)) or re.search(r'사료교차검증\s*보고서|출처\s*접근\s*수준|최종\s*출판\s*승인|출판\s*승인을?\s*위한',visible(title))):
+                      unit.decompose();stats['audit_only_notes_removed']+=1
+
+
+          def remove_boilerplate_list(soup,stats):
+              for node in list(soup.find_all(['li','p','tr'])):
+                  if not node.parent:continue
+                  t=visible(node)
+                  if not t: continue
+                  if node.name=='tr' and any(x in t for x in ['검토 단계','확인 수준','접근 단계']):
+                      node.decompose();stats['metadata_rows_removed']+=1;continue
+                  if node.name in ['li','p'] and (
+                      (node.name=='p' and re.search(r'원고\s*상태\s*[:：]|출판\s*승인\s*전|단계\s*심층검수|GitHub\s*미반영|문헌\s*확인\s*등급',t))
+                      or
+                      META_ITEM.match(t)
+                      or re.match(r'^(?:작업\s*단계|편집자\s*(?:작업|확인)|원전\s*감사|출판\s*보류|미확보\s*자료|검증\s*·\s*교정|사료\s*단계|검증\s*범위|학술\s*검수|자료\s*접근|사전\s*검토)\s*[:：]',t)
+                      or ('편집' in t and ('원자료의 직접 대조' in t or '검증·교정 완료 초안' in t))
+                      or ('접근 단계' in t and ('서지' in t or '미확' in t))
+                      or ('출판 전' in t and len(t)<200 and not any(w in t for w in ['회심','노예','교리']))
+                      or ('직접 판독' in t and '원고' in t and 'A=' in t)
+                      or (re.match(r'^본문\s*\d+\s*단락',t) and len(t)<130)
+                      or (re.match(r'^증거\s*판정\s*:',t))
+                  ):
+                      if not node.find(['div','section','h4']):
+                          node.decompose();stats['metadata_rows_removed']+=1
+
+
+          def final_editorial_sweep(soup,stats):
+              # 하위 문단과 자료표에 숨은 출판 진행상태/미열람/자료 감사 문구를 마지막으로 걸러 낸다.
+              # 사료 차이, 연대 불일치, 회심자 통계 같은 역사적 주의사항은 이 규칙의 대상이 아니다.
+              reasons = re.compile(r'(?:미열람|미대조|미검증|미확보|출판\s*보류|출판보류|학술검수\s*진행|원전\s*감사|원전감사|접근\s*등급|접근등급|원전\s*인쇄판|검토\s*중|검토중|미판독|편집\s*상태|편집상태|후속\s*점검|원전\s*감사|출판\s*전\s*확인|최종\s*출판|완료\s*표기하지)')
+              for heading in list(soup.find_all(['h4','h3','h2'])):
+                  if not heading.parent: continue
+                  title=visible(heading)
+                  if any(x in title for x in ['출판 승인 선행조건','출판 보류 조건','후속 연구의 접근등급','최종 출판 전 확인','추가 확인 후 승인할 문제','웹 게재 시의 기술적 편집지시']):
+                      if heading.parent.name=='section' and 'expanded-note-unit' in heading.parent.get('class',[]):
+                          heading.parent.decompose();stats['metadata_sections_removed']+=1
+                      elif heading.name in ['h2','h3']:
+                          target=heading.next_sibling; rank=int(heading.name[1])
+                          while target:
+                              nexts=target.next_sibling
+                              if isinstance(target,Tag) and target.name in ['h1','h2','h3'] and int(target.name[1])<=rank:break
+                              if isinstance(target,Tag):target.decompose()
+                              elif isinstance(target,NavigableString):target.extract()
+                              target=nexts
+                          heading.decompose();stats['metadata_sections_removed']+=1
+              # p/li의 작업 상태 행. 노트의 내용과 근거 링크를 유지하는 것이 우선이다.
+              for elem in list(soup.find_all(['p','li'])):
+                  if not elem.parent:continue
+                  val=visible(elem)
+                  if re.search(r'^\s*(?:최종\s*판단|상태\s*결론|원고\s*본문의|원고\s*상태)\s*[:：]?',val) and re.search(r'출판|원고|검증|검수|접근',val):
+                      elem.decompose();stats['metadata_rows_removed']+=1;continue
+                  if not reasons.search(val):continue
+                  # 학술 내용과 무관한 전체 문단은 바로 삭제
+                  first=re.match(r'^\s*(?:상태\s*[:：]|작업\s*상태|사건\s*ID|ID\s*[a-z]|검수\s*상태|대응\s*[:：]|대상\s*[:：]|편집\s*상태|출판\s*보류|출판보류|판정\s*[:：]|편집판정\s*[:：]|접근등급|접근\s*등급)',val,re.I)
+                  if first or (len(val)<440 and re.search(r'출판\s*승인|원고\s*상태|실제\s*열람\s*수준|출처\s*접근\s*수준',val) and not any(w in val for w in ['복음의 진리','거룩함','그리스도의','인종분리'])) or (len(val)<330 and ('출판 보류' in val or '출판보류' in val) and not any(x in val for x in ['회심','노예','인종','분열','성령','그리스도','설교'])):
+                      elem.decompose();stats['metadata_rows_removed']+=1;continue
+                  if any(x in val for x in ['PDF 텍스트','화면 캡처','인쇄면','30편 원장','당대 문서 추가','원판 사진','자료 입수','전문 미열람']) and reasons.search(val) and len(val)<420 and not elem.find('a'):
+                      elem.decompose();stats['metadata_rows_removed']+=1;continue
+                  # 문단 말미에 붙은 '편집판정: ...' 블록만 잘라낸다.
+                  for em in list(elem.find_all(['strong','b'])):
+                      if any(x in visible(em) for x in ['편집판정','검수판정','출판상태','출판 보류','접근등급','원전감사']):
+                          target=em.next_sibling
+                          while target:
+                              nexts=target.next_sibling
+                              if isinstance(target,Tag):target.decompose()
+                              elif isinstance(target,NavigableString):target.extract()
+                              target=nexts
+                          em.decompose();stats['tech_sentences_removed']+=1
+              # 개별 문장에 남은 열람/감사 상태는 의미 전체를 훼손하지 않는 범위에서 삭제.
+              for el in list(soup.find_all(['p','li'])):
+                  if not el.parent:continue
+                  value=visible(el)
+                  if not reasons.search(value):continue
+                  for t in list(el.descendants):
+                      if not isinstance(t,NavigableString) or not t.parent:continue
+                      if t.parent.name in ['a','h4','code']:continue
+                      content=str(t)
+                      chunks=re.split(r'(?<=[.!?。])\s+(?=[가-힣A-Z0-9“‘])',content)
+                      good=[]
+                      for c in chunks:
+                          if reasons.search(c) and (len(c)<270 or any(q in c for q in ['원전','원판','판면','출판','논문','추후','접근'])):
+                              stats['tech_sentences_removed']+=1
+                          else:good.append(c)
+                      if len(good)<len(chunks):t.replace_with(' '.join(good))
+                  if not visible(el):el.decompose()
+
+
+          def clean_text_nodes(soup,stats):
+              # 문장 일부에 기술적 단서가 붙은 경우 제거하되, 숫자의 추정·교리적 유보 등은 유지한다.
+              for node in list(soup.descendants):
+                  if not isinstance(node,NavigableString) or not node.parent:continue
+                  parent=node.parent
+                  if parent.name in ['a','code','h4','h3','h2','h1','script']:
+                      continue
+                  s=str(node)
+                  if not any(w in s for w in ['미열람','미대조','미검증','미확보','검토 중','검토중','출판 전','원전 감사','추후','접근 수준','접근 단계','검증 수준','원문 대조','PDF','출판 승인','편집 상태','작업 단계','후속 점검','인쇄면']):continue
+                  parts=re.split(r'(?<=[.!?。])\s+(?=[가-힣A-Z“‘\d])',s)
+                  filtered=[]
+                  for sentence in parts:
+                      sentence=sentence.strip()
+                      if sentence and (METADATA_SENTENCE.search(sentence) or (TECH_FRAGMENT.search(sentence) and not any(keep in sentence for keep in ['회심자 수','사건의 시작','날짜 불일치','두 가지 연대','연대 차이','독립 증언','회심 경험']))):
+                          stats['tech_sentences_removed']+=1
+                          continue
+                      if sentence:filtered.append(sentence)
+                  if len(filtered)!=len(parts):
+                      node.replace_with(' '.join(filtered))
+              for elem in list(soup.find_all(['p','li','div'])):
+                  if not elem.parent:continue
+                  if elem.name=='div' and not elem.get('class'):continue
+                  if not visible(elem) and not elem.find(['img','a','table']):
+                      elem.decompose()
+
+
+          def clean_field(htmlfield,field_name,stats):
+              htmlfield = re.sub(r'&lt;a\s+id=\"([a-zA-Z0-9_-]+)\"&gt;&lt;/a&gt;',r'<span id=\"\1\"></span>',htmlfield or '')
+              soup=BeautifulSoup(htmlfield, 'html.parser')
+              if field_name=='annotations':
+                  headings_cleanup(soup,field_name,stats)
+                  drop_editorial_units(soup,stats)
+              else:
+                  # A sources section is a bibliography, even when its heading includes audit/status wording.
+                  # Never delete the bibliography because of its heading.
+                  for heading in soup.find_all(['h1','h2','h3']):
+                      heading.string='참고문헌 및 출처'
+                  for table in soup.find_all('table'):
+                      headings=table.find('tr')
+                      if not headings:continue
+                      cells=headings.find_all(['th','td'],recursive=False)
+                      bad_indices=[i for i,c in enumerate(cells) if re.search(r'접근|확인|검증|판독|상태|단계|미열람',visible(c))]
+                      if bad_indices:
+                          for row in table.find_all('tr'):
+                              for i,c in reversed(list(enumerate(row.find_all(['th','td'],recursive=False)))):
+                                  if i in bad_indices:c.decompose()
+              remove_boilerplate_list(soup,stats)
+              clean_text_nodes(soup,stats)
+              final_editorial_sweep(soup,stats)
+              # A reader needs factual disagreements, not the editorial workflow column.
+              for heading in soup.find_all(['h2','h3']):
+                  if '서로 충돌하는 사실을 공개 주석에 남기는 방식' in visible(heading):
+                      heading.string='사료 간 연대와 통계의 차이'
+              for cell in soup.find_all(['th','td']):
+                  if visible(cell)=='현 단계 결정':cell.string='본문 서술 원칙'
+              # 참고문헌·링크 제목에 붙은 편집 용어도 독자에게 표시하지 않는다.
+              for leaf in list(soup.find_all(string=True)):
+                  if not leaf.parent: continue
+                  if leaf.parent.name in ['script','style']: continue
+                  old=str(leaf)
+                  new=re.sub(r'\s*[（(](?:대조\s*필요|미열람|원문\s*미확인|접근제한|인쇄면\s*미대조|직접\s*미대조|서지\s*확인\s*중|확인\s*필요|열람\s*미완)[）)]','',old)
+                  new=re.sub(r'(?:(?:직접|전문|원판)\s*)?(?:미열람|미대조|미검증|미확보|미판독)(?:\s*상태)?','',new)
+                  new=re.sub(r'\s{2,}',' ',new)
+                  if new!=old: leaf.replace_with(new);stats['inline_labels_cleaned']+=1
+              # 파편화된 빈 리스트와 테이블, note-content를 정리한다.
+              for elt in reversed(soup.find_all(['ul','ol','table','section'])):
+                  if elt.name in ('ul','ol') and not elt.find('li'):elt.decompose()
+                  if elt.name=='section' and not elt.get_text(' ',strip=True):elt.decompose()
+              result=str(soup)
+              return result
+
+
+          def clean_one(e, stats):
+              original=copy.deepcopy(e)
+              e['annotations']=clean_field(e.get('annotations',''),'annotations',stats)
+              e['sources']=clean_field(e.get('sources',''),'sources',stats)
+              e['reservations']='' # UI must remove details container itself
+              if not e['annotations'].strip():
+                  raise AssertionError(f'Core scholarly notes emptied for {e["id"]}')
+              if not BeautifulSoup(e['sources'], 'html.parser').get_text(' ', strip=True) and not BeautifulSoup(e['sources'], 'html.parser').find('a'):
+                  # A few original source fields contain solely internal audit notes.
+                  # Retain real URLs from the event's scholarly annotation rather than an empty panel.
+                  links=BeautifulSoup(e['annotations'], 'html.parser').find_all('a',href=True)
+                  seen=set(); rows=[]
+                  for link in links:
+                      url=link.get('href','')
+                      if url.startswith('https://') and url not in seen:
+                          seen.add(url)
+                          safeurl=html.escape(url,quote=True); label=html.escape(link.get_text(' ',strip=True) or url)
+                          rows.append(f'<li><a href="{safeurl}">{label}</a></li>')
+                  e['sources']='<h2>주요 참고문헌 및 출처</h2><ul>'+''.join(rows)+'</ul>' if rows else '<h2>주요 참고문헌</h2><p>해당 사건의 학술주석을 참조하십시오.</p>'
+              # Preserve external scholarly links originally present in bibliographies OR individual notes.
+              # When an audit-only block is removed, its historical source links remain available in Sources.
+              old_links=BeautifulSoup(original.get('sources','') + original.get('annotations',''),'html.parser').find_all('a',href=True)
+              new_links={x.get('href') for x in BeautifulSoup(e['sources']+e['annotations'],'html.parser').find_all('a',href=True)}
+              recovered=[]
+              for link in old_links:
+                  url=link.get('href','')
+                  if url.startswith(('https://','http://')) and url not in new_links:
+                      new_links.add(url)
+                      label=link.get_text(' ',strip=True) or url
+                      if READER_BAD.search(label): label='학술 참고자료'
+                      recovered.append('<li><a href="'+html.escape(url,quote=True)+'">'+html.escape(label)+'</a></li>')
+              if recovered:
+                  e['sources']+='<h2>추가 참고자료</h2><ul>'+''.join(recovered)+'</ul>'
+              previous_links=len(re.findall(r'href=[\"\']https?://', original['sources']))
+              remaining_links=len(re.findall(r'href=[\"\']https?://', e['sources']))
+              if previous_links and remaining_links < max(1,previous_links//2):
+                  raise AssertionError(f'Too many source links removed for {e["id"]}: {previous_links}->{remaining_links}')
+              if e['id']=='brainerd1745':
+                  # 원전 제목 + 저자 표시. 기존 저자 누락을 복원한다.
+                  for field in ['annotations','sources']:
+                      value=e[field]
+                      value=re.sub(r'(?<!최용진, )『하나님의 영광을 바라보는 선교사』', '최용진, 『하나님의 영광을 바라보는 선교사』',value)
+                      e[field]=value
+              for field in ['id','year','date','title','region','century','kind','intro','videoId','videoUrl','body']:
+                  if e[field]!=original[field]: raise AssertionError(f'Protected field overwritten {e["id"]}:{field}')
+              return {
+                  'id':e['id'],
+                  'before_notes':len(original['annotations']), 'after_notes':len(e['annotations']),
+                  'before_sources':len(original['sources']), 'after_sources':len(e['sources']),
+                  'removed_reservations':len(original['reservations']),
+                  'remaining_bad_literals':len(READER_BAD.findall(e['annotations']+e['sources'])),
+                  'note_units_before':original['annotations'].count('expanded-note-unit'),
+                  'note_units_after':e['annotations'].count('expanded-note-unit'),
+              }
+
+
+          def process(records):
+              stats={x:0 for x in ['heading_metadata_removed','metadata_sections_removed','audit_only_notes_removed','metadata_rows_removed','tech_sentences_removed','inline_labels_cleaned']}
+              reports=[]
+              for block in range(3):
+                  report=[]
+                  for e in records[block*10:(block+1)*10]:
+                      report.append(clean_one(e,stats))
+                  reports.append(report)
+              return records,reports,stats
+
+
+          def parse_js(raw):
+              prefix,sep,tail=raw.partition(MARKER)
+              if not sep:raise ValueError('Invalid project data file')
+              return prefix,json.loads(tail.strip().removesuffix(';').strip())
+
+
+          def main():
+              parser=argparse.ArgumentParser()
+              parser.add_argument('--data',required=True)
+              parser.add_argument('--timeline',required=True)
+              parser.add_argument('--index',required=True)
+              parser.add_argument('--outdir',required=True)
+              args=parser.parse_args()
+              source=Path(args.data).read_text(encoding='utf-8')
+              prefix,data=parse_js(source)
+              if len(data)!=30:raise ValueError(f'Expected exactly 30 records, found {len(data)}')
+              ids=[e['id'] for e in data]
+              out,reports,stats=process(data)
+              if [e['id'] for e in out]!=ids:raise AssertionError('Event order modified')
+              result=prefix+MARKER+json.dumps(out,ensure_ascii=False,separators=(',',':')).replace('</','<\\/')+';\n'
+              if result.count(MARKER)!=1:raise AssertionError('Malformed final JS')
+              # strip 'research reservations' UI entirely; empty field alone would cause fake notice to show.
+              timeline=Path(args.timeline).read_text(encoding='utf-8')
+              start=timeline.find("    {\n      const res=create('details','reserve-details');")
+              if start>=0:
+                  end=timeline.find("    const contentB=create('div','annotation-content');",start)
+                  if end<0:raise RuntimeError('Could not locate end of reservations UI')
+                  if "res.append(create('summary','','연구상 유보사항')" not in timeline[start:end]:raise RuntimeError('Unexpected reservation code')
+                  timeline=timeline[:start]+timeline[end:]
+              elif 'reserve-details' in timeline or '연구상 유보사항' in timeline:
+                  raise RuntimeError('Found unexpected obsolete reserve panel syntax')
+              timeline=timeline.replace("'학술주석 및 사료·신학 검토 펼치기'","'학술주석 및 편집자주 보기'")
+              if '연구상 유보사항' in timeline: raise AssertionError('Old reserve panel still in HTML')
+              # refresh revisioned script URL for browsers/CDN. Keep existing script layout unchanged.
+              timeline,count=re.subn(r'(data/revival-atlas-30\.js\?v=)[a-zA-Z0-9_\-.]+',r'\g<1>20261022_clean_annotations_30',timeline)
+              if count!=1: raise RuntimeError(f'Expected exactly one data-script cache URL, found {count}')
+              dest=Path(args.outdir);(dest/'data').mkdir(parents=True,exist_ok=True)
+              (dest/'data'/'revival-atlas-30.js').write_text(result,encoding='utf-8')
+              (dest/'revival-sermon-timeline.html').write_text(timeline,encoding='utf-8')
+              home=Path(args.index).read_text(encoding='utf-8')
+              home,n=re.subn(r'(revival-sermon-timeline\.html\?embed=1(?:&amp;|&)v=)[a-zA-Z0-9_\-.]+',r'\g<1>20261022_clean_annotations_30',home)
+              if n!=1:raise RuntimeError(f'Expected exactly one homepage atlas iframe URL, found {n}')
+              (dest/'index.html').write_text(home,encoding='utf-8')
+              (dest/'검수보고서.json').write_text(json.dumps({'stages':reports,'summary':stats},ensure_ascii=False,indent=2),encoding='utf-8')
+              print(json.dumps({'stages':[[{'id':x['id'],'reduced':(x['before_notes']+x['before_sources'])-(x['after_notes']+x['after_sources']),'removed_reservations':x['removed_reservations'],'remaining_flags':x['remaining_bad_literals']} for x in batch] for batch in reports],'summary':stats},ensure_ascii=False))
+
+          if __name__=='__main__':main()
+          PY
+      - name: Process 30 cases in three batches and update timeline UI
+        run: |
+          python /tmp/revival-clean-30.py \
+            --data data/revival-atlas-30.js \
+            --timeline revival-sermon-timeline.html \
+            --index index.html \
+            --outdir /tmp/revival-annotations-clean-output
+          cp /tmp/revival-annotations-clean-output/data/revival-atlas-30.js data/revival-atlas-30.js
+          cp /tmp/revival-annotations-clean-output/revival-sermon-timeline.html revival-sermon-timeline.html
+          cp /tmp/revival-annotations-clean-output/index.html index.html
+          echo 'Verified: 30 annotations cleaned in 1-10 / 11-20 / 21-30 batches.'
+      - name: Validate JavaScript and changes
+        run: |
+          node --check data/revival-atlas-30.js
+          git diff --check
+          git diff --stat
+      - name: Commit latest source and timeline changes
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/revival-atlas-30.js revival-sermon-timeline.html index.html
+          if git diff --cached --quiet; then
+            echo 'No changes; already clean.'
+          else
+            git commit -m 'docs: simplify public annotations and editor notes across 30 revivals'
+            git push origin HEAD:main
+          fi
