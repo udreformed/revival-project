@@ -413,5 +413,56 @@ if(scrollHint){
 
 });
 </script>
+<script id="revival-photos-inline">
+/* 부흥프로젝트 역사사진 10장 — 아주사 2 / 카시·미조 2 / 웨일스 2 / 묵티 2 / 원산·평양 2 */
+(() => {
+'use strict';
+const photos = [{"id":"azusa-mission","marker":"이들이 옮겨 간 곳은 로스앤젤레스 아주사 거리 312번지","src":"https://upload.wikimedia.org/wikipedia/commons/1/13/Apostolic_Faith_Gospel_Mission_1906.jpg","source":"https://commons.wikimedia.org/wiki/File:Apostolic_Faith_Gospel_Mission_1906.jpg","alt":"아주사 거리 312번지 사도신앙복음선교회 건물의 옛 흑백사진","caption":"아주사 거리 312번지 사도신앙복음선교회 건물. 1906년 부흥이 일어난 장소의 역사사진이나, 사진 자체는 자동차 형태로 보아 1920년대 촬영된 것으로 추정됩니다. 출처: Wikimedia Commons.","maxWidth":620},{"id":"azusa-participants","marker":"인종적 관계에서 아주사는 당대의 사회적 경계를 넘어선","src":"https://upload.wikimedia.org/wikipedia/commons/a/ab/Azusa_street_group_photo.jpg","source":"https://commons.wikimedia.org/wiki/File:Azusa_street_group_photo.jpg","alt":"윌리엄 J. 시모어와 아주사 거리 선교회 참여자들이 함께 찍은 1907년 무렵 단체사진","caption":"아주사 거리 선교회 참여자들(1907년 촬영 기록, 1908년 출판). 앞줄 중앙에 윌리엄 J. 시모어가 앉아 있습니다. 사진기록: Flower Pentecostal Heritage Center P16546. 출처: Wikimedia Commons.","maxWidth":500},{"id":"khasi-people-1900","marker":"당시 카시 구릉은 오늘날 인도 메갈라야주에 해당한다","src":"https://images.indianexpress.com/2021/10/Unaddressed-Postcards-39.jpg","source":"https://indianexpress.com/article/lifestyle/art-and-culture/a-new-series-of-picture-postcards-explores-conversion-among-the-khasi-people-7575007/","alt":"1900년 고샬 형제가 선교 전시용으로 촬영한 카시 주민들의 야외 단체사진","caption":"카시 지역 주민들의 모습. 고샬 형제(Ghoshal Brothers)가 1900년 선교 전시회를 위해 촬영한 기록사진입니다. 부흥집회 현장이 아니라 당시 지역사회의 배경을 보여 주는 사진입니다. 출처: The Indian Express / Tarun Bhartiya.","maxWidth":520},{"id":"mizo-evangelists-1906","marker":"미조 구릉의 기독교 선교는 1890년대에 본격적으로 출발했다","src":"https://malpope.files.wordpress.com/2019/04/rev-d-e-jones-mizoram.jpg?w=825","source":"https://calonlancentre.info/calon-lan-with-love-from-india-mal-pope/","alt":"데이비드 에번 존스 선교사와 미조 현지 전도자들의 옛 단체사진","caption":"데이비드 에번 존스(David Evan Jones, 앞줄 중앙)와 미조 전도자들. 자료 제공처에서는 1906년 사진으로 소개합니다. 실제 부흥집회 장면은 아닙니다. 출처: Calon Lân Centre / Mal Pope.","maxWidth":520},{"id":"wales-revivalists","marker":"웨일스 부흥의 확산에는 이런 여성과 청년들의 기여가 중요했습니다","src":"https://2.bp.blogspot.com/-sq8f6hTpIY4/Tk7plgfvEsI/AAAAAAAAAOw/SK8UWnJ1Jww/s1600/Evanrobertseavivalistas.jpg","source":"https://www.peoplescollection.wales/items/10505","alt":"1905년 이반 로버츠와 로어 지역의 여성 부흥운동 동역자들의 단체 엽서사진","caption":"이반 로버츠와 로어(Loughor)의 부흥운동 동역자들, 1905년. 당시 《Western Mail》 부흥 기념 엽서 사진입니다. 소장: Pembrokeshire Record Office, GTJ23647. (집회 장면이 아닌 인물 사진)","maxWidth":500},{"id":"wales-anglesey-meeting","marker":"집회가 거듭되면서 로버츠의 몸과 마음이 감당해야 할 부담도 커졌습니다","src":"https://upload.wikimedia.org/wikipedia/commons/b/bd/WelshRevival.jpg","source":"https://www.peoplescollection.wales/items/7986","alt":"1905년 7월 4일 웨일스 앵글시에서 열린 이반 로버츠의 마지막 부흥집회에 모인 사람들의 옛 사진 엽서","caption":"1905년 7월 4일, 앵글시 Llanfair Pwllgwyngyll에서 열린 이반 로버츠의 마지막 부흥집회 사진 엽서. 소장: Anglesey County Record Office, GTJ17038. (1904년 11월 로어 최초 집회 사진은 아님)","maxWidth":650},{"id":"mukti-babies","marker":"후대 연구에는 1900년 무렵 묵티에서 약 2천 명의 여성과 소녀가 생활했다고 나옵니다","src":"https://archives.ifphc.org/photo/Watermark/P14073.jpg","source":"https://archives.ifphc.org/photo/Watermark/P14073.jpg","alt":"묵티 선교공동체의 여성과 아기들을 담은 Mukti Babies 흑백 역사사진","caption":"묵티 선교회의 여성들과 아기들을 담은 역사사진(Mukti Babies). 촬영연도는 확인되지 않습니다. 소장: Flower Pentecostal Heritage Center, P14073. (1905년 부흥집회 사진 아님)","maxWidth":470},{"id":"mukti-dinner-1906","marker":"1906년 1월 편지에는 여성들의 마을 전도에 대한 실제적인 설명도 있습니다","src":"https://devblog.soas.ac.uk/archives/files/2020/03/Ramabai_1-800x559.jpg","source":"https://devblog.soas.ac.uk/archives/2020/03/23/womens-history-month-2020-pandita-ramabai-sarasvati/","alt":"1906년 10월 인도 도드발라푸르의 판디타 라마바이 묵티 홈 식사 장면 역사사진","caption":"1906년 10월, 도드발라푸르(Dodballapur)의 판디타 라마바이 묵티 홈 식사 모습. 소장: SOAS Library, Council for World Mission Archive, CWM/LMS/India/Photographs/Box 5. (케드가온 1905년 부흥집회 사진 아님)","maxWidth":650},{"id":"pyongyang-1907-leaders","marker":"1907년 1월 2일, 평양에서는 겨울 남자 사경회가 시작되었습니다","src":"https://images.christiantoday.co.kr/data/images/full/383141/image.jpg","source":"https://www.christiantoday.co.kr/news/375702","alt":"1907년 평양 장대현교회 앞 길선주 목사와 선교사들의 역사적 단체사진","caption":"1907년 평양 장대현교회 앞의 길선주(가운데 갓 쓴 인물)와 선교사들. 사진 제공: 장로회신학대학교, 《크리스천투데이》 게재. (1월 사경회 현장 사진으로 확정된 것은 아님)","maxWidth":640},{"id":"pyongyang-prayer-1908-1922","marker":"장대현교회의 남자 사경회가 끝난 뒤에도 평양의 모임은 이어졌습니다","src":"https://upload.wikimedia.org/wikipedia/commons/3/39/Prayer_meeting%2C_Pyeng_Yang%2C_%28s.d.%29_%28Taylor_box21num64%29.jpg","source":"https://commons.wikimedia.org/wiki/File:Prayer_meeting,_Pyeng_Yang,_(s.d.)_(Taylor_box21num64).jpg","alt":"1908년에서 1922년 사이 평양에서 열린 정기 기도회를 찍은 역사사진","caption":"평양의 정기 기도회. 촬영 시기 1908~1922년, 당시 평균 참석 인원 약 500명이라는 기록이 남아 있습니다. 소장: 미국 감리교회 Corwin & Nellie Taylor Collection, USC 디지털 아카이브. (1907년 1월 집회 사진 아님)","maxWidth":660}];
+const styles = `
+.long-body figure.revival-history-photo{margin:26px auto 30px;max-width:var(--archive-max,640px);padding:0;text-align:center}
+.long-body .revival-history-photo img{display:block;width:100%;height:auto;max-height:510px;object-fit:contain;border:1px solid #dae3dd;border-radius:8px;background:#f6f8f6}
+.long-body .revival-history-photo figcaption{margin:9px 5px 0;font-size:12px;font-weight:400;color:#60766f;line-height:1.7;text-align:center;word-break:keep-all}
+.long-body .revival-history-photo figcaption a{font-size:12px;color:#246d65;text-decoration:underline;text-underline-offset:2px}
+.long-body .revival-history-photo .archive-photo-fallback{display:none;font-size:13px;margin-top:6px}
+.long-body .revival-history-photo.photo-load-error img{display:none}
+.long-body .revival-history-photo.photo-load-error .archive-photo-fallback{display:inline}
+@media(max-width:600px){.long-body .revival-history-photo{margin:20px auto 25px}.long-body .revival-history-photo figcaption{font-size:11.5px}}
+`;
+function makeFigure(meta){
+  const fig=document.createElement('figure');fig.className='revival-history-photo';
+  fig.dataset.historicalPhoto=meta.id;
+  fig.style.setProperty('--archive-max',meta.maxWidth+'px');
+  const img=document.createElement('img');
+  img.loading='lazy';img.decoding='async';img.alt=meta.alt;img.src=meta.src;
+  img.addEventListener('error',()=>fig.classList.add('photo-load-error'),{once:true});
+  const cap=document.createElement('figcaption');cap.append(document.createTextNode(meta.caption+' '));
+  const a=document.createElement('a');a.href=meta.source;a.target='_blank';a.rel='noopener noreferrer';a.textContent='사진 출처 보기 ↗';cap.append(a);
+  const fallback=document.createElement('a');fallback.className='archive-photo-fallback';
+  fallback.href=meta.source;fallback.target='_blank';fallback.rel='noopener noreferrer';
+  fallback.textContent='이미지를 표시할 수 없습니다. 원본 사이트에서 보기 ↗';
+  fig.append(img,cap,fallback);return fig;
+}
+function insert(){
+  const story=document.getElementById('story');if(!story)return;
+  const article=story.querySelector('article.long-body');if(!article)return;
+  const ps=Array.from(article.querySelectorAll('p'));
+  for(const meta of photos){
+    if(article.querySelector('[data-historical-photo="'+meta.id+'"]'))continue;
+    const target=ps.find(p=>p.textContent.includes(meta.marker));
+    if(target)target.insertAdjacentElement('afterend',makeFigure(meta));
+  }
+}
+function begin(){
+  if(!document.getElementById('revival-history-photo-css')){
+    const style=document.createElement('style');style.id='revival-history-photo-css';style.textContent=styles;document.head.append(style);
+  }
+  const story=document.getElementById('story');if(!story)return;
+  insert();new MutationObserver(insert).observe(story,{childList:true,subtree:false});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',begin,{once:true});
+else begin();
+})();
+
+</script>
 </body>
 </html>
