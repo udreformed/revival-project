@@ -1,0 +1,60 @@
+name: Sync sermon 02 main card and detail
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sync-sermon02-main-card.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-main-card:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out latest site
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+
+      - name: Synchronize version references (preserve all other content)
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          html = p.read_text(encoding='utf-8')
+          old_sermon = 'data/sermon-02-content.js?v=20261019-validated-v3'
+          new_sermon = 'data/sermon-02-content.js?v=20261023-final-atonement-v1'
+          old_series = '<script src="data/sermon-series-data.js"></script>'
+          new_series = '<script src="data/sermon-series-data.js?v=20261023-final-atonement-v1"></script>'
+          if html.count(old_sermon) == 1:
+              html = html.replace(old_sermon, new_sermon, 1)
+          elif new_sermon not in html:
+              raise SystemExit('Unexpected sermon 02 reference: stop without changes')
+          if html.count(old_series) == 1:
+              html = html.replace(old_series, new_series, 1)
+          elif new_series not in html:
+              raise SystemExit('Unexpected sermon data reference: stop without changes')
+          p.write_text(html, encoding='utf-8')
+          assert html.count(new_sermon) == 1
+          assert html.count(new_series) == 1
+          print('Checked: main page now requests the final sermon 02 content and current series data.')
+          PY
+
+      - name: Commit just the index.html update
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- index.html
+          if git diff --cached --quiet; then
+            echo 'Already synchronized; nothing to commit.'
+          else
+            git commit -m 'Sync sermon 02 main card with finalized detail'
+            git push origin HEAD:main
+          fi
