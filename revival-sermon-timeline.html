@@ -364,6 +364,9 @@ function activateVisualSelection(id){
 }
 function scrollCardIntoView(id){const n=nodes.find(x=>x.p.id===id);if(!n)return;const desired=n.p.cardX-viewport.clientWidth/2;viewport.scrollTo({left:Math.max(0,desired),behavior:'auto'});}
 function selectEvent(id,bringDetail,writeHistory){
+  // Keep an already-open story expanded while navigating. Shared links and
+  // parent-frame selection messages also request the full story by default.
+  const wasExpanded=story.querySelector('details.atlas-story-details')?.open===true;
   if(id==='shotts')id='stewarton';if(id==='kilsyth1742')id='cambuslang';
   const e=byId.get(id);if(!e)return;
   selectedId=id;detail.hidden=false;activateVisualSelection(id);
@@ -373,7 +376,10 @@ function selectEvent(id,bringDetail,writeHistory){
   const fullRegion=e.kind==='video'?(e.intro['지역']||e.region):(e.id==='rochester1830'?'미국 뉴욕주 로체스터':'미국 켄터키주 윌모어 애즈베리대학교');
   document.getElementById('detailMeta').textContent=e.date+' · '+(e.id==='raritan'?'미국(당시 영국령 북아메리카) 뉴저지 래리턴 계곡':fullRegion);
   document.getElementById('prevBtn').disabled=index===0;document.getElementById('nextBtn').disabled=index===29;
-  renderStory(e);scrollCardIntoView(id);
+  renderStory(e);
+  const longStory=story.querySelector('details.atlas-story-details');
+  if(longStory && (!writeHistory || wasExpanded))longStory.open=true;
+  scrollCardIntoView(id);
   if(writeHistory){let u=new URL(location.href);u.searchParams.set('event',id);if(document.documentElement.classList.contains('atlas-home-embedded'))history.replaceState({revivalEvent:id},'',u);else history.pushState({revivalEvent:id},'',u);}
   if(bringDetail)requestFocus();
 }
