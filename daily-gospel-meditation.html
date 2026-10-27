@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#183b46"><meta name="description" content="영적 갱신을 위한 매일 복음묵상 — 365일 묵상과 기도. 12개월 왼쪽 목차, 오늘의 묵상 자동 열기, 날짜별 제목 탐색.">
+<meta property="og:type" content="website"><meta property="og:site_name" content="부흥 프로젝트"><meta property="og:title" content="영적 갱신을 위한 매일 복음묵상"><meta property="og:description" content="날짜별 복음묵상과 기도문을 함께 읽어보세요."><meta property="og:url" content="https://revival-project.pages.dev/daily-gospel-meditation.html"><meta property="og:image" content="https://revival-project.pages.dev/assets/revival-logo-512.png"><meta property="og:image:width" content="512"><meta property="og:image:height" content="512">
 <link rel="icon" href="assets/favicon-32.png" type="image/png"><title>영적 갱신을 위한 매일 복음묵상 | 부흥 프로젝트</title>
 <style>
 :root{--ink:#183b46;--teal:#216f69;--gold:#b69661;--line:#dce6df;--paper:#f6f6f0;--muted:#637c75;--white:#fff}
@@ -42,12 +43,20 @@ a{color:var(--teal);text-decoration:none}button{font:inherit;cursor:pointer}
 .video-embed{width:min(100%,355px);aspect-ratio:9/16;border-radius:9px;overflow:hidden;background:#0f2121}
 .video-embed iframe{border:0;width:100%;height:100%;display:block}
 @media(max-width:600px){.video-box{padding:16px}.video-embed{width:min(100%,325px)}}
+
+/* 카카오톡 공유: 날짜별 OG 미리보기를 가진 공유 주소 복사 */
+.share-copy-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:#eaf4ee;border-color:#92b7aa;color:#205d54;white-space:nowrap}
+.share-copy-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.share-copy-btn:hover,.share-copy-btn:focus-visible{background:#dcefe5;border-color:#588e7e}
+.share-feedback{font-size:12px;color:#216f69;line-height:1.7;padding:9px 12px;margin:10px 0 0;border-radius:7px;background:#eff7f2;overflow-wrap:anywhere}
+.share-feedback[hidden]{display:none}
+@media(max-width:600px){.share-copy-btn{padding:9px 11px}.share-feedback{font-size:12px}}
 </style></head>
 <body><header class="site-header"><div class="site-top"><a class="brand" href="/" aria-label="부흥 프로젝트 홈으로 이동"><img src="assets/revival-logo-512.png" alt=""><span>부흥 프로젝트</span></a><a class="back" href="/#prayer">← 기도/실천으로 돌아가기</a></div></header>
 <main class="wrap"><header class="intro"><div class="kicker">DAILY GOSPEL · 365 DAYS</div><h1>영적 갱신을 위한 매일 복음묵상</h1><p>매일 한 편의 묵상과 기도로 그리스도의 복음을 기억하고, 마음과 삶의 갱신을 구합니다.</p></header>
 <div class="layout">
 <aside class="side" aria-label="12개월 묵상 목차"><h2>12개월 묵상 목차</h2><p class="side-intro">월을 선택하면 날짜별 제목이 펼쳐집니다. 날짜를 누르면 오른쪽에서 본문과 기도를 읽을 수 있습니다.</p><nav class="month-toc" id="months" aria-label="월별 묵상 날짜 목차"></nav></aside>
-<article class="daily" aria-live="polite" aria-atomic="false"><div class="daily-top"><span class="date-meta" id="dateLabel">오늘의 묵상</span><div class="btn-group"><button class="mini-btn" type="button" id="prevDay">← 이전</button><button class="mini-btn" type="button" id="goToday">오늘</button><button class="mini-btn" type="button" id="nextDay">다음 →</button></div></div><h2 id="entryTitle">오늘의 묵상을 불러오는 중입니다</h2><div id="entryBody"></div>
+<article class="daily" aria-live="polite" aria-atomic="false"><div class="daily-top"><span class="date-meta" id="dateLabel">오늘의 묵상</span><div class="btn-group"><button class="mini-btn" type="button" id="prevDay">← 이전</button><button class="mini-btn" type="button" id="goToday">오늘</button><button class="mini-btn" type="button" id="nextDay">다음 →</button><button class="mini-btn share-copy-btn" type="button" id="copyDailyLink" aria-label="이 날짜 묵상 링크 복사" title="카카오톡에 공유할 묵상 링크 복사"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>링크 복사</button></div></div><p class="share-feedback" id="shareFeedback" role="status" aria-live="polite" hidden></p><h2 id="entryTitle">오늘의 묵상을 불러오는 중입니다</h2><div id="entryBody"></div>
 <section class="prayer-box" id="prayerBox"><h3>기도</h3><div id="entryPrayer"></div></section><section class="video-box" id="videoBox" hidden aria-label="날짜별 유튜브 영상 묵상">
   <h3>영상으로 보는 오늘의 묵상</h3>
   <p class="video-name" id="videoName"></p>
@@ -144,6 +153,7 @@ function refreshButtons(){const i=position(selected.m,selected.d);document.getEl
 function show(m,d,changeHash){
  m=Number(m);d=Number(d);if(!Number.isInteger(m)||m<1||m>12||!Number.isInteger(d)||d<1||d>31)return;
  selected={m,d};viewMonth=m;const record=entries[String(m)]?.[String(d)];
+ const shareFeedback=document.getElementById('shareFeedback');shareFeedback.hidden=true;shareFeedback.textContent='';
  dateLabel.textContent=(today.m===m&&today.d===d?'오늘의 묵상 · ':'')+m+'월 '+d+'일';clear(body);clear(prayer);
  if(record){title.textContent=record.title;addParagraphs(body,record.body);addParagraphs(prayer,record.prayer);prayerBox.hidden=false;notReady.hidden=true}
  else{title.textContent=m+'월 '+d+'일 묵상';prayerBox.hidden=true;notReady.hidden=false;notReady.textContent='해당 날짜의 묵상을 찾을 수 없습니다.'}
@@ -155,6 +165,42 @@ const initial=fromHash()||today;show(initial.m,initial.d,false);
 document.getElementById('goToday').addEventListener('click',()=>{const t=today.m===2&&today.d===29&&!has(2,29)?{m:2,d:28}:today;show(t.m,t.d,true);scrollToDaily()});
 for(const [id,delta] of [['prevDay',-1],['nextDay',1]])document.getElementById(id).addEventListener('click',()=>{const i=position(selected.m,selected.d)+delta;if(i>=0&&i<all.length){const t=all[i];show(t.m,t.d,true)}});
 window.addEventListener('hashchange',()=>{const t=fromHash();if(t)show(t.m,t.d,false)});
+
+// 날짜마다 고유한 공유 URL을 만듭니다. URL의 OG 메타데이터는
+// Cloudflare Pages Function functions/gospel-share.js에서 서버 응답으로 제공합니다.
+const copyDailyLink=document.getElementById('copyDailyLink');
+const shareFeedback=document.getElementById('shareFeedback');
+function dailyShareUrl(m,d){
+ const origin=/^https?:$/.test(location.protocol)?location.origin:'https://revival-project.pages.dev';
+ const key=String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+ return origin+'/gospel-share?date='+key;
+}
+async function copyShareText(value){
+ if(navigator.clipboard&&window.isSecureContext){
+  try{await navigator.clipboard.writeText(value);return true}catch(_){/* Safari fallback */}
+ }
+ const input=document.createElement('textarea');
+ input.value=value;input.setAttribute('readonly','');
+ input.style.cssText='position:fixed;left:-9999px;top:0;opacity:0;font-size:16px';
+ document.body.appendChild(input);input.focus();input.select();
+ let result=false;
+ try{result=document.execCommand('copy')}catch(_){result=false}
+ input.remove();return result;
+}
+copyDailyLink.addEventListener('click',async()=>{
+ if(!has(selected.m,selected.d)){
+  shareFeedback.hidden=false;shareFeedback.textContent='이 날짜에는 공유할 묵상이 없습니다.';return;
+ }
+ const url=dailyShareUrl(selected.m,selected.d);
+ const ok=await copyShareText(url);
+ shareFeedback.hidden=false;
+ if(ok)shareFeedback.textContent='이 날짜의 묵상 링크를 복사했습니다. 카카오톡 대화창에 붙여넣으세요.';
+ else{
+  shareFeedback.textContent='자동 복사가 제한되었습니다. 표시되는 주소를 직접 복사해 주세요: '+url;
+  window.prompt('아래 주소를 길게 누르거나 전체 선택하여 복사하세요.',url);
+ }
+});
+
 refreshVideoMap();
 window.setInterval(()=>{if(!document.hidden)refreshVideoMap()},30*60*1000);
 })();
