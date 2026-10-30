@@ -9,7 +9,8 @@ if(!card||!count||!board||all.length===0)return;
 const workState=board.querySelector('.sermon-work-state');
 if(workState){
  const completed=all.filter(s=>s.manuscriptFinalized===true&&typeof s.manuscriptHtml==='string'&&s.manuscriptHtml.trim().length>0).length;
- workState.textContent=`전체 ${all.length}편 중 ${completed}편 원고 확정`;
+  const drafts=all.filter(s=>s.draft===true).length;
+  workState.textContent=drafts?`기존 ${all.length-drafts}편 + 특별 ${drafts}편 초안 · ${completed}편 원고 확정`:`전체 ${all.length}편 중 ${completed}편 원고 확정`;
 }
 
 const safe=window.KRVBible?.safe||((s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])));
@@ -24,6 +25,7 @@ function render(){
  count.textContent=String(idx+1).padStart(2,'0')+' / '+String(all.length).padStart(2,'0');
  card.innerHTML='<div class="sermon-card-left">'
    +'<span class="sermon-single-number">SERMON '+String(s.order).padStart(2,'0')+'</span>'
+   +(s.draft===true?'<span class="sermon-draft-badge">초안 · 검토 전</span>':'')
    +'<h3>'+safe(s.title)+'</h3>'
    +'<span class="sermon-card-open" aria-hidden="true">원고보기</span>'
    +'</div><div class="sermon-card-right">'

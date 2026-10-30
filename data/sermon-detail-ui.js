@@ -28,8 +28,8 @@ function flowNoVerses(value){
     .trim();
 }
 const outline=(sermon.outline||[]).map((x,i,arr)=>`<div class="sermon-flow-item"><span class="sermon-flow-title">${safe(flowNoVerses(x.title))}</span><p class="sermon-flow-desc">${safe(flowNoVerses(x.content))}</p></div>${i<arr.length-1?'<div class="sermon-flow-arrow" aria-hidden="true">↓</div>':''}`).join('');
-const detailedOutline=sermon.manuscriptFinalized&&sermon.detailedOutlineHtml?`<section class="section"><h2>강단용 상세 아웃라인</h2><div class="sermon-outline-detail">${sermon.detailedOutlineHtml}</div></section>`:'';
-const manuscript=sermon.manuscriptFinalized&&sermon.manuscriptHtml?`<section class="section sermon-manuscript-section"><button class="sermon-read-control" id="sermonReadToggle" type="button" aria-controls="sermonFullText" aria-expanded="false">원고전체 읽기</button><div class="sermon-manuscript" id="sermonFullText" hidden>${sermon.manuscriptHtml}<button class="sermon-read-control sermon-read-bottom" id="sermonReadClose" type="button">접기 ↑</button></div></section>`:'';
+const detailedOutline=(sermon.manuscriptFinalized||sermon.draft===true)&&sermon.detailedOutlineHtml?`<section class="section"><h2>강단용 상세 아웃라인${sermon.draft===true?' · 초안':''}</h2><div class="sermon-outline-detail">${sermon.detailedOutlineHtml}</div></section>`:'';
+const manuscript=(sermon.manuscriptFinalized||sermon.draft===true)&&sermon.manuscriptHtml?`<section class="section sermon-manuscript-section"><button class="sermon-read-control" id="sermonReadToggle" type="button" aria-controls="sermonFullText" aria-expanded="false">원고전체 읽기${sermon.draft===true?' · 초안':''}</button><div class="sermon-manuscript" id="sermonFullText" hidden>${sermon.manuscriptHtml}<button class="sermon-read-control sermon-read-bottom" id="sermonReadClose" type="button">접기 ↑</button></div></section>`:'';
 const refItems=extra.map((ref,i)=>`<button class="ref-button" type="button" data-ref="${i}" aria-describedby="versePopover" aria-label="${safe(ref.text)} · ${safe(ref.kind)} 본문 미리보기">${safe(ref.text)}</button>`).join('');
 const refBooks=(sermon.references||[]).map(x=>{
   const existing=/^book(0[1-9]|1[0-5])$/.exec(x.id||'');
@@ -46,11 +46,11 @@ const research=window.SERMON_RESEARCH_SOURCES?.[String(sermon.order)]||null;
 const commentaryCards=(research?.commentaries||[]).map(x=>`<div class="reference-book sermon-research-entry"><strong>${safe(x.author)} — <i>${safe(x.title)}</i></strong><small>${safe(x.series)}</small><p>${safe(x.note)}</p></div>`).join('');
 const systematicCards=(research?.systematics||[]).map(x=>`<a class="reference-book sermon-research-entry" href="${safe(x.url)}" target="_blank" rel="noopener noreferrer"><strong>${safe(x.author)} — <i>${safe(x.title)}</i></strong><p>${safe(String(x.note||'').replace(/\s*[—–-]\s*Theo10 도서별 연구 요약\s*$/,'').trim())}</p><span class="reference-book-link">Theo10 연구 요약 읽기</span></a>`).join('');
 const researchSections=research?`<section class="section sermon-research-section"><h2>주해 참고 주석</h2><div class="sermon-reference-grid">${commentaryCards}</div><h2 class="sermon-research-theo-heading">조직신학 연구 참고 · Theo10</h2><div class="sermon-reference-grid">${systematicCards}</div></section>`:'';
-root.innerHTML=`<header class="document-header"><small>SERMON ${String(sermon.order).padStart(2,'0')} · ${safe(sermon.topic)}</small><h1>${safe(sermon.title)}</h1>${sermon.question?`<p class="sermon-detail-question">${safe(sermon.question)}</p>`:''}<p class="sermon-header-status">${sermon.manuscriptFinalized?'설교 원고 확정 · 강단용 상세 아웃라인 제공':'설교원고 준비중'}</p></header><div class="document-body">
+root.innerHTML=`<header class="document-header"><small>SERMON ${String(sermon.order).padStart(2,'0')} · ${safe(sermon.topic)}</small>${sermon.draft===true?'<div class="sermon-draft-banner" role="status">초안 · 검토 및 확정 전</div>':''}<h1>${safe(sermon.title)}</h1>${sermon.question?`<p class="sermon-detail-question">${safe(sermon.question)}</p>`:''}<p class="sermon-header-status">${sermon.draft===true?'초안 · 주해 및 주석 검토 전 · 강단용 아웃라인과 단락형 원고 임시 제공':sermon.manuscriptFinalized?'설교 원고 확정 · 강단용 상세 아웃라인 제공':'설교원고 준비중'}</p></header><div class="document-body">
 
 <section class="section"><h2>주제문</h2><p>${safe(sermon.mainStatement||'')}</p></section>
 <section class="section"><h2>성경본문 · 개역한글</h2><div class="scripture-passage" id="mainVerses"></div><button class="scripture-more-button" id="mainVersesToggle" type="button" aria-controls="mainVerses" aria-expanded="false" hidden>더 보기</button></section>
-<section class="section"><h2>${sermon.manuscriptFinalized?'보조 성경구절':'보조·후보 성경구절'}</h2><div class="ref-items">${refItems||'<p>기록된 보조·후보 구절이 없습니다.</p>'}</div></section>
+<section class="section"><h2>${sermon.manuscriptFinalized||sermon.draft===true?'보조 성경구절':'보조·후보 성경구절'}</h2><div class="ref-items">${refItems||'<p>기록된 보조·후보 구절이 없습니다.</p>'}</div></section>
 <section class="section"><h2>주제단락</h2><p>${safe(sermon.themeParagraph||'')}</p></section>
 <section class="section"><h2>설교 흐름</h2><div class="sermon-flow">${outline||'<p>준비 중입니다.</p>'}</div></section>
 ${detailedOutline}
@@ -126,7 +126,7 @@ if(readToggle&&readContent&&readClose){
   function setReadOpen(open){
     readContent.hidden=!open;
     readToggle.setAttribute('aria-expanded',String(open));
-    readToggle.textContent=open?'원고 접기':'원고전체 읽기';
+    readToggle.textContent=open?'원고 접기':(sermon.draft===true?'원고전체 읽기 · 초안':'원고전체 읽기');
   }
   readToggle.addEventListener('click',()=>setReadOpen(readContent.hidden));
   readClose.addEventListener('click',()=>{
