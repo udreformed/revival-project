@@ -1,0 +1,277 @@
+name: Add draft sermon 51 with expandable manuscript
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/add-sermon-51-draft.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  add-sermon-51:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout existing revival-project
+        uses: actions/checkout@v4
+      - name: Add sermon 51 without altering existing sermons 1-50
+        run: |
+          python3 - <<'PYBUILD'
+          from pathlib import Path
+          import base64, zlib
+          encoded = """
+          eNrtfV1zG1d65r1/BaIrKcWlTYqUZcj2lCuZqc1W7Sblce3NbirFkegRayRSS1KbTGamCqJaMiRAFmkTJCgCNGhBIqhAMUQ2KXAF
+          xVX+KXOJbvyHvF/nq/s0RNFOamqWF7ZIsNF9+j3v98dz3v3LXHRYGNSfDFaDaLsWN+qD+918rt8pxLdv5eJGbXJs8Kici4Nm/2A5
+          F4fFuFIczfW7nXg7zI39sfD15Hv49+iwGO0XRnN/+e47Zz+/OXt5cWZu9uy5371z5ubCdG5hcX7m8uKZS+9cnptdWMxdmVqc+ugf
+          Z2avzP3j6C9//ul//9v/8Q/wz9/8/Jf/8NeffPbJpXdmPj/7F3jN73//F5/Mz0/9dnRmgf49ix+OLkzPX4fbnPv97+1fRxfmrk+f
+          Xfjo44XRufkr0/MfffTR5Ni5c/PTizfnZy+941x64+bC1bO/eyeXO0OXnsnnJsdG8Fe+4G+uwCdn/vrTT37x2X+ZHDvDf1mcWry5
+          gJ8zBfjTK/NTny/Ch4vzN6fpg+tTszcXLs/P3Fj8xczs1LWZf57Ge30+dW2B/744d2PmMt5lUKlGS9WoVI3r1VxcvdUPV354yfvw
+          w8s4eDHYWOVH/Hp+6so0feP+UbQfDL7s8ueLM4vXpjPuFNcD2L9itFPHP+52cvFSGFcC2NLo/ir8csi3uDo395vPfvxt/s/N6QXc
+          bbwLvwExz6MwetDJeW8b5uRltoq56Ota9E0brgGOip70rAfiMx51oqdt+mmjlhs8vBftrQ4qtVxc7wFzxuvLcVCLHsIqX3atNUed
+          KvySXHNc6cFqdqNSsX9U/hkv/cb8zPWp+d9+Nv1PuItn+vuNwWaQO58fuwh8PZEfG5fNnwa+vZK+cDI/NgEXjk1eysWlWu7iZP7C
+          pVy03c6NjedRMsYv5QZr93Lj+YlxvN/7l3LwxbgR5Mbey58Xxro+NTP7S2Cu6evTs3zvl1145/h+E18MOI3fMgcUGtwuREu1XMZO
+          AdNEjaO41gMhBhKsRvVetB8S7eAvDwP8Cek0qFaQdnLdfgE4LVquxmuhQ9UMco7ARWH0XRc+3IzrBfitMKjWaN9g+14tw1XwQy6q
+          lKN2F+7k7EyYAw0CuiLegC8GXX6WxQqDrx4g58Mt9sr6fYkPmK1sfsR9jErNURGGq0C+v5uanwJpuXHVMKLLwZoU8Fh8hMVPS4f4
+          NrIU+qDdfxHS1+G9Sk3hwqgNn1Xh/fGa/v5B1HmBrwUMFpU2ZEW4x9HTDjwGWAQpabGT7EFyf9+8ub79BKLznvdfVYlDaC+BEQdL
+          Tfg/LAN2a6dIz/sCyLBBG7bURgI0buFP8frzeGuZnrTeiSuvB5VWLr77QDjAWUp0/0nUIHqqtYZxqc181xg8bJsdcV6Q7v34dVwv
+          9/d7tI0bNVoGCTZIZS56sIo8RbYG1lJq0D1rsAshye4OXFy5Dy9D9z0MEn8m0abNVAs4mxTOc7ykLSKSJQugEhoVXBbw/SBA1gba
+          bK3QJ41KvHMLPinVkUzAr4NaiL9ojePuE5CgUhV69DvL8B3kYl4zPnLwVdGWJE0qxaUoSN1+h8lVrMXf3hH5jJc68WEN5JNWvNeB
+          xSHRiOGKwBEjZiGKC3aW49UCvYStEFKbYjQ8yaStso1u7tRtFQ0UqBH/Pe71D8vAQ7Bo0QDMQ8+RWFt31NvF1WZ0nwmk1URUDJRG
+          1zsRPdzALUAKNrIMBrJJtPOlYuGtssgwfB4/epHrH91nQSxHjSbwTMqYgCXAz0Ao06pjYWbhF3OX2bobFcB7I/yBuoo2Gg0z3nlQ
+          7cGycc3MoLBFI0OIDJLLTFoVGqp3rqltMgREffB9GamE9FpZRj6Kt4CBysxDsCcbzitcvgZW7J/85vd4dtZL9IJsYC7DIrEMq304
+          CuLDVbAiSHzSPDb3yaVw84TODZJai2gDyo5ZVq3F8JQlyWZXmAXR2ijZS5s9w0pxteU1RMJKfiukqHbQTjLQ5ambyvsRzTORfx8V
+          D2l7XGWnhbKiDXP8qEur1poYDcZSjYixgxY0+q5Alz5rRV/D1t+ug9KUi0iLEusgxTT3xfcPLKFDDdIo4jNguajPgangMdHDO8AO
+          8G6kQutdUHKspUaEr2lVjQoSbYmV2to9WpW2pVGnBsvhzSLC7h+gVpRNbtSyFhXtdyWAEP0RB3WSrBIozg1QbIXBXXjTBksNOdjo
+          Z7DQYpwBMcaXRLXBRgWWCAvpxOshuQ9oe1rowSSfytszd3Px2swsurj/C37N5X5H/7cd6JTUrvX6B+EbzTLdnu4EzuGiOG+2QU5y
+          nt+Kf90kJZxYg8dJUyLyXL0ePf4PIxlvpS1/lnnXCiGlANjWe98vgg1HPVRFjYabgKbRskB4f1Ke4i6ElmFDzdlo4mbBV0tN2Kyt
+          ODju26CygIc+2yWzQ6Ts/1s36U8pudrK2B1yMKKdsutERA+qpI2ELo5nu+3sfWC5uaiVwW/ZvE03o4cqxQP3kp1bqpKHsnLMtzQq
+          jXhGHAaUlKRdIukmFe59U/H2hhgkzYrLVUvAU24ISkG5QM/dDy2W3Ckj56ZE7g3v53EIjMoGaU+o4Jp9HWreln9bDdnAfSwhiylv
+          U96qRpRjB8Bhd8vnJEe0UqZ9tXcTzCh7wy3i761lpNvS7vHeWK0hxC8Ra2BcoQSAdwN255s2WEjH+5GFvVHJqBAZg4HbxWj7uXEz
+          8E0c3oXnxZvL6AzET5f7LzrxZlnMHH2hCXqYmflu2Y2x+B3h/39vR82fTn++kFarv5qb+43YQjsKMi8y9atfzRtjaT7/fIZJNv5X
+          c/Mzs4tXZ6ZmF6zXvzp1Y5FSNef1Zzem5hfNCuxV0J8XFuHvf5X+nvnj/5yeX8Bnjl10/jY9e8V8bSL5J/2lcf2HP8hPf6+Xtjg8
+          o0DX/GZm9gpvJ2fWNtnTA8P8aDdJ8oWbN27MzS/++ZD8/WyKn8+k+PtvQ3Hywd5/K3KP+OkKCi/aKXopGm230+T8dO76fx4hxydP
+          QMnxC8egJCayzufHJzGRdeGnoKPmT3T0MvgT/pQm6Ngb+HPshGQdG0LW89lkHcsk68TxGJRSgPnx80jZiZ+CsmCmo70G6G0vWeP1
+          7TRNf34DA98Mgk6ekKCTQwiaTc/JTHoeg5zwcrnJ/PhPQsVHGJiiN+Gl4iMIkHoe5vxvc1dnfUScOCERJ4YYqrGTGKqx45CR3g5C
+          17Gxn1TUf2pT9B/AmWMTJ2DNscnj2yKdifzzN0bnT2KMzh/fGJ3//0TOPziJnH/wVnL+wZ8WN46Nn9SIjw+h4xAjPv5jrI5d5PvT
+          do3eOylZ38sm6/lhdH0vi67nx97CO9IF0h/LoKurmEeFGD6DsNFq00/Yz2auzy1e/e1/ksRPnEDgj+Nt8uuBvP80fiblrDEtbJNM
+          kRI+T9Pxk8uLXsY8qbgPkfaJIT5mprRPHCeodKr4PwkhSzXVyeEan1ItTcK/W5i6dt1LxIsndYcuDvGHLmRT8WKmP3ScgFL1SPxJ
+          O5j/Edb8wkms+YXjO5hgzf/EA/ST8unYED6dGOIkjWUy6sQHb2GFJvMTH/x0Hmd/P8AK53bdR1gPVT+d/r/T16aouOhToCfNeoyf
+          MO0x/mPzHgHc4kRZD50GhVvNT50mQU+ToKdJ0NMk6GkS9DQJepoEPU2CniZBT5Ogp0nQ0yToaRL0NAl6mgQ9TYKeJkFPk6CnSdDT
+          JOifaxJ0fvrz6fnp2cvTnizoDN0FKf7eRXN336xwmFO9/NiLbG3GzcWrc6yGt8PcoIwXDB5YocDlqcXpX8/N/9a5nz27Z3qLrXbt
+          2bnFaf83zEKquf7hrf7LIzVZFjSids/qnaZhERpdXO/09zoZvdcWCd4fTgJnepZbxN2/ruOMo580HbqslcOk09c1eNv4afGHl29D
+          MvN8moTpvIabyoDDELK53xqs9nApSKUqjcrcatHLEH3UNAL8ctBONXFfmV6cAhG78rc8H/NfF69fwwd9ePX8x6j7tu7k/liwB2/R
+          63nWUj3xDzfiSjE9kI1zE2thtNbM8ZgszSpuFeEr8NOH78K9//fshzevffzhtZmPza0Ha0/oHtR2ns+cAPQPNiZmFGWe6XEAHESz
+          NbAhj8r9Tk3NL/PkFy7MHo6gUTsePkjOANiTXzVsh//wXVg9vUG7Gzdo7gmuyeNQZnzUkpnRkVx0pwtkGpE5UyBZOQqDERzpAH6X
+          iU6ZwXVHj52RajN6zCR3JpCxyR+nNWQCGd/qZ3p1g8oBcC9OAMM687nUaCBPgMjb4VxA5igg0dwa3bCmxNVEa8OeGmQO6IcF1PU4
+          UKJW9S5sPTAAsMEf7zQ8g8Jq8Co1fWzNrYRBgo/cWsdFGhNqd6OdJ3mcoMPxPudFZJejzQ6uc6mGYxPw5G5ceS3TQ7QjOBfb5h2h
+          CTbs4Fdzj3quMH7cGzKpjfMsMl7v8o1xWGDFF/J6JjDUs9QsZOWCkqmtZZyqNxpTz//iEnI4/FbCHSjGxWqCqiGtPkvpVXj+9mjT
+          OyyUnoPD8eqJPBZDLpyz3if5xRKOlSOnbRRk5juPIkmMVmoPystmDtZZGY4T1qs0lUkCLNvAzKmGj0kuR+RzetwOjX/is/TUmVIH
+          tGKnhmMwGJQVtt5EJu1oaL0X74V5a9b+LUb0eIoVZ9ULeryXhqfNdDry07nRXFSiqVicnq01eF5UT0pr2AX6uAq2Rc1uBs3o2R3F
+          JfshGg7YfFo5DcxH+13UTUSbW3FjRRlUWO5OhRbF/KOZ0hbM7dHcj54d9IvoRP79vMwN8srF/yB1ax75ZpACxdZqHNDeeXca0R2b
+          Lso8F9kkr0RepMFdsEEbVTVt26kMKqFMqkWlI0X27DlehZ+B0kgX3K7DdhFXWnI0SkgauM/2mC9LQWNw9yBj0hee7awcIQz2XsPT
+          f3gJ1MCZZlgIDsluPcnbmkq7Z5Y8NTJmJ8WFIFrTnLa188iIIG8yrgfW6UlXDeQjlcHIobEoVoXEZ6UydSln1VYsgZPhZlhttBsi
+          c6wgLXCw9FEHR+2QPnhPmpgdrJdh0WDdt8jOCPADSmq9K7PLwO806feiE21VR0lBP9vFiU6UimevcN0PSD/bEA40iapfD9FN2GdR
+          M5DMbWlJ+XY0k4Ch6Oy4uYKwECJ/viHW74t+YdH1kvwxADWqliiIsUBokuCFgk44OcKGjAdmSQ7yc50sJ86W71TyKWQM8k4JBQPU
+          O7kSW234bERG0OkTCRkK7GgSleIDpL1+r5BG0oEptMqNl3osDEq/n7f5yqBSNAIQ5rzN2muvyJqKx792D35yQDX0CDB/xYzA8qwq
+          XSucAXeDVe/g9hK3m8KCAQI65+gZndiFC3RaMi9eIhIFKQM3XL+Dv5TjCv6LugQZHzw3dCmTsCQEgURrI8IIzQMFtrHbSc2Bolei
+          ZkUbWl6R5au3yP8JXf2Ik7N3wHUmnQxMVGvk9XMK6jnL6R1ytZbNBKXmoNwiUmpsCJTfPWXkIIBhgAI1ZAz3RDwAwkAhBA5b0Uc7
+          2/1uhpg+Hs2daLCag46yWDnURk/bGTEMIYP093bz6SgF45u7ByhMWcPYb4JFig93YRk+WCRX1BxUFoISETOj312pMyesQ4CZIfYF
+          7MDdB7RvGKSi6c2rWyIvMHDERsFDx0IGsMuIBX7ip8nIG+BR+i97oC/4hoJYQcTjC3BZayuwwP5RGd8KZ+F3GLIM3s8J4FRMxNtd
+          1YbTJeyjXURzQA9g7/VgvSr4UGTyCtoGqoiTMFL4G51Njq5GhqAFWXg4+pYMKyD3YgQh6xsYn0pIKoA2bnRhoRg9rUNgo60q35Y1
+          8HJ0p2AZVxSslypeTu6J8tNgsV8/RjMRffd9KijWcCEFK50T7wQg58prfVqnTdPqBiV6Sd1eQh9aE8Q9pUY2Szp1iLwBPBFWge2s
+          RE9ZLxHiCfGZDYSiwL1ChSiTi75q2ngc5FtET0II5ylhABE+sOTaNvyHAfOIUH4EpTEqroJC7rSR5Ux0zFKICGHAyOLZBbQDa2G/
+          s+pXVBmQSUmEhCHwCAn1pGoNee0NBMiv+DHCXsAmM0qA2XsMJw3CjwG7IEMRYrgiyTjBUqCd12LHcbebLkihMCBtQD6SEbYRStKg
+          P7zkJxAYYrSNv9M+5C3AqaizS6gwBQcfrgJXicOCt9iruAFzEi8r4S4FpDtq21aEevfA7Kh6pGsexSGN18Nop0mbB24fuALBCx33
+          9o9aUelfODlF2kHnoxJZKO1g07WgccAZ1kFgLw09xhxg4LbIH8ZsQIp/8CoSX2ShW50k86hHsH0oDioBJezRP8wQRKvwkrcCIg6D
+          rEwTS56ECEmUioQdI4SVeO1Aq5WNrk4How1C8Bb2LhJk6BkNOXh4Dx6eoUCMwCFGEvuf4FRE2w0n4XlSwI6kBO79i2TgVKLgYZkQ
+          YZbz3uxp2oraCIQo/3vB4E6LsSyrAsFkoxBmQPBZKR/KbjoQmcgQBKBWEGWX4AlxyMkBSpiaHgh1IodD8SXHnocFhRREaIGEM6Vi
+          +UQMM2IZepAVpO4Ro7g4mZW2ci0NBKLLT41EjuUSsOeFSzYYYML6k/pQQYbkUVOgdvlMxBhM9z2hIEkoq3Ume6uW+BK6SpgObChB
+          RzlqUHZkvOFfMt2SlTMAZ5QYhRCVci9xteXuxkZAKqyqM+kpSy66v4qUZDWNkYAtqhoixo0YTE2nkUSJUVktXSvEDJtd5bJJvlNE
+          V2znntiPvD+FKina/TBeb5M+qx5wW+/oG+BuLEeaoZkInE7cqCESITfRjzGq4kwC1veNdRIHV0+S9pnwdwXK569/wQB3iEur9MeN
+          j11IKeJ34MY27v1hMGJB42aDo2aVUo4P+Vi1sPwcgEkd4qFeJ+cBgzCVbYN1xndWybx6KzHK6XDKL999zzFewl02iQzM6jzeFXQn
+          Jo8NR4j8QJU4cfbrPYW8iPnF0iFC3LowpcTJ6MK3wIPE1zbFofgVwUi+6JCL+qwVb7EEHQaYLeh2CLq01mKpkCfC7UhjobI2IJga
+          6dThDHl0hlqhOlSnCxG1rVkkO+OAd9oemioqsbbQmIkfvnuDOQpv8E2HxNwwT7kA/KPuK/WkwIOE6/hQCctlZ4ZB2d82L08lMQzZ
+          8MI1TuJQ8kIieGYvMt78o0klUuTNThDw6fYLnV8MmUdWe/39JlnKZ13LJXjcImYCVjwyMKuVMvZoUs6ZQiHPHYHPmsIvYK3oudbX
+          nKJdvUcMaHKiQJh2CKRV9R6UVPW+xgcBofouF91fjpYe2Ha68QUyzG5oY+IO1yZgM75pu34D3ChuwD97bez1Q9jrHUKtVLDXvHDZ
+          3h4Gxo9Wf6YZw7BDVtXtbgH2HZQFijB5WbSVFpfsrOBfGB53B1i282/i6yrNl4TblWtTGInA7EjP/VCnbBu4EVJJtjAliZvbxFHs
+          +ErVQ/aEsvLaKy0cD1jZRpbVhewewxjKfsJ1SFvyqylG3Afmbj7weV7HR+8uJGraO8vRd924sgqUsCye7Qqp2EGxHBf6VcrepNSW
+          DkVZgiNjF39FvxtL4as/O8xHyp0yZo4NS1VrU/lFE1jgaxKkIohLPyz4oEKFJ8EIjo3mTojM6ewrFiNLNWARY1lTAN3x1hNdz1b8
+          IrVjQbfd2e7vteIdfLfNVLWYQogMjNzHPcLEDTLLzNFRgFbHwoSmByO/O0QlfQivu0m+jEMNEiJ47ReUxo7g1jYcbHq9+JVUHGng
+          cUHK1ouIiYk2ykXeZXkzRHJBfqXOFXAIytVa71uHGujxVscWfZCrUlmi1DhowBctulhvgvZEcEa5eCYuKbIVsPhRVRlERKlkBU5U
+          1ln+DZ+4qoQA6LbHLaqOmRKzoc4ahKBFooLqIBB1oFGyzfM8NtjQzseFubGLGJXa+MpcbagKGn20t84tFrj1RPQ3tSAgs2wUFPx7
+          Nvg/WAaVH9hZdt0kW8fQmuxOBJDrWk/ggNFPe9lyaylUnqPVpZSbxaWUGMtNIAkuaAoMMUh250Lo73yw1QVXreTlwHu12UpTOfNR
+          ZXEgxU6zy65TAqlHc/FeqR/wgPTBEw4ncMcXivq++xV8hqemTnp8x3QH1MDY2+8BFHmKW4hWGvdnvaP4iB8k++Ckkte/t8q1Xtuq
+          nM7Q9uQDNo6vUMYS/RmwwhHLU1Uue1UCTqvDw1RK9b3stgJjZJEpVFhiQkK3ycLb+mKwknHx8LZ3gQXTGPMVTPoq4XdeUoqgxjNf
+          QjbFp99p2dyr+11SxrCg83/gLOw/IL9ivY0pLl3VgnuxtwneXYlQzE3zi3TGGffLVDHNMQzuWh6/5nuSAk9rN5P+xfcG99T5tkuY
+          RF8N7Z9RiXr/slwe2cx2yrj7IxHXDRSHNtot4L0DyuBj+UWlpHTYmTx9w4PAnQwzLUVmQlbmMHVuRgK320HvT2Ztj4nXnfpOv/tg
+          UKMY1ZxeAFwcbdfTjRWqRVI7drxwcnEpJw8OeMYmBoSIbFWP5BncLeGAV3MQ6c8e2JKcuNFjIWxXAIWdWDWqvfIEqgn1Oyz0YKTp
+          NeyeCf17z3ZGzqXRjqHvABtgAVyw9nDBQJsTJfCWHoONrwuX3G/izuHuos1hXZDCuR/crsVrK+qKzib67xBXEtdWyW9NngBCzhB1
+          f5Hv5rgzqs+LyjJW0oBfmhJp5RHbTSD/Sb84yn+PpJV17OoqahUsiEqGveqcmzKa+3BhcX5u9tcfv0WoZDW4VS3I9IT4lP5Vzmnh
+          EN/uJ8o4ucnlkg/flZWZ6GB8NFnJoVWljrux2pi0LHE5XhV+fAfbiMyakMFyeclVIQVXexV11qz2vSccaD3atd2nhJdHLs77xsnD
+          5er+LNXzRR1vwuGmS58LEtI/h8/SLXN08kUh3i57PTinta7/UoO5B3UJ4/tddcFeNfqmlyhzoMPTs1NAWtUO6qtK3I9afOhKLr5H
+          X5H7mejBlIeYWBK2YL/VwyAd3FvnB6gOQGWHKSKTmBoz2aZ9yXMQASpS6bMucXrnMECZkgR3o6nEapinjqzT2VU5JuoMZLY+kteP
+          SrDwA5WRoeaVZ9KvIu2DnU26LkBXO6q1qD7Nd1grZrndlgeG+760gb2zoH/RAdrA6STyiPbA7evh/SVVudvlmF0pJ/jJjgbRT9IN
+          I6+V7XtGZ3XFO/dVsJroaXQqBPYtUq2NSsdmdPha+0qFFXWQAsWc1slhFuO0eugIYJuoZGtpXyTmpntmSExAvV+qEPNMxVxLfFJM
+          yHLAyeytRLqWO+rsvkzuoOHWTFGGGf2fKhtQ5kNcTAtnqJQUtvEv73p9IrXjdhPF5rLqEDFrKxbZf6ewyUo/+XSiHOkQUq631FIi
+          26mkDmuzFfEm+crGyU75WUnNKlkz07+81xisdKUMYPkDGZ26HM+TKAbca6IPnXqe3hyqnoT6SBGdZWVRYlpnjTKo5FPNsacbqfis
+          2oy2atSRtbmqj38gvxlPENI9qmS391fUOVtkW2lztm5Ts4cKq4GR+p1b1EVhZaU4wO7v35IEiIqkTX/RUgMTDhhq6sR53CyAFlWy
+          g7kV+O6LDfSxOPUbH9lpcR49sRtQtK8oSU54iGl4lMh2sIpfprdjEYzuL/dfgXooYsBIvn5WPjbVZaozQyaCGtp9rD0UiIWtqEXT
+          nIucy0zmba7vw6Xit3M3xmDtHglfYrDBmA+nyZMszaG/vV31J5MMLTfS8bKxGdVltztZtxX3nMhF5dkszQwb0aDYHUKJwZdd4yKR
+          jy8WONA9zuy7lVetqolU4VSLPO/2o91kC+UIcQyLG55Lt/Sdyr1h08duhiYxgQQpDwrjsdzGXRCsIXDX+MhH+N0SanlnVTHMqMcl
+          /HqsAiCfyNJxiUPSFJ5ebjUcUQ+tEgy3QFL2c33Td2iUEX8O0wMnmy71lgCjobjD2g8r5mA+QudknBy3z3Ba/q4vwib6GH37sKzb
+          AA9dsVeZ+VDeRl+U1MimXGUVyVVol5Q3p9WIHRW3xEUUl+N0iNmc8QdcgDGaKnBIng7FU3a2qmXTpjxYpJqSzy/ohTqw3IJrl5wo
+          z3w/OcGXiFWU9fD5FJ5w4vzQVn5JekofDLf0k+pxHVJ7b1WvTz0cLB0kowlP2Y+IqhNhlgZN1lKcs6oyIzV7dMicRiX5XnUGLhW+
+          d/gIzsFmOXry3A6UUNfBxjfEfGE/dqltqte6EYuecbgLIu8/+i0z4T1JCW9uy3EDosyJCjXD0qn0D8tWR1vKdU7m9FNNfmKYOFvG
+          zSOp1FipYbGtci5/1DCF4xzrIYSWJ/qwKvT7eOKhngFUzVhcNdyo9A+ec66gC19R05zfluAVbN1KfffKRaESCV33tM6DZFKGx3kM
+          o8akQo7jEvRnGtsgFV4p0lF9AfZLgzRapwjGL1ss7dSlv12ziKS68pKLktEOurv6hVZC390LKTh8zFNMqdpNQvvrLC63QKoB8kQl
+          TfcXrxuhliEiNvCgMEaSmUm+FzrJ394Bu4ayQZy34fPj36ICLOxNEU5axURfNWlI6J5dKWkEEj2jfuvoHiLeK8tSchadW08oi85t
+          qRxykurBm9WyyKeyUEYrUe2AfpI0R0Oy9Mq3TWX3PKs1FTTeZvDDTLo/Wu1wGsNaXupAPuvYPbM2MXRqRVH7VXotyt83CX2ds+To
+          WdHfnkfCLkYaRCFn8HZN5SvcaMj4CNsh8LIIGV24fgcb/TD5V2rjRVpFjGSmzjl0SlUq9DmneKdG0xlvRM84O5nhDstIZCsHsIKp
+          fNqRRAnGw0ghJgB6oxs18qID+tbKMicc2uTCfSsTQXwMMLbm5kzKhfK+qYyRUxkBLUX5QzWu5JZ1kjG5UgCmyEXTUfwKTZVukcqN
+          GWgC/4M49LFb+UE6qMZoj0ev471SfcDzOHHlHnVjwEMhDpOeyG5HVCPOU1BVCwcs8JOjGpZKpBGxglMDSktiXGbNjVGRlge7tB7l
+          6l2ykptdx1PJdd+LJLC/OAE5QefDFjxOfkFKZHYmOpSnUSJFaNbS8AubRPqQGSPU31i/m1Fx9SQ8rA12mcHaMFVvpQvENAhqgxZ+
+          f4ZFqIsNBUX2iMCjZvc4TThKqkNg1QKJsjMjojKUfIvaVd0GlDTDN5cE6lKYGQDgput2E+wFDhoylpFeRowjlcqtwl4onSx05Tkd
+          yXJJqJAsGhh9JeY2UCVldjC1Xk8uRFnnBEKLOALkKnJW3EN+X07KBCj32vhF06SmIU1I0zM/OjVKYRs+IxkX0iiS21rEZAH1J9FM
+          pBY0Mz8s8xNmUpIIFwyJ57OcUadZINT+Bis0dI6/ll5COqxaN8+T6r77NekRk7PzdiCkPH+lV1UWdKeJwWy/E7h6GLsr3kIPJxwm
+          tgi+wWirz114pKqmxqR31KeQqimLlEvAa+XG3kOFdH7MRABWD1brCJQQMf8OlmbVL9rfwSfwZ8Ngfdj/w65NUGiHZWATXzuGuAfJ
+          +Td2Cs2UHg2/2sZJXNNHFZohDJTnLF16oXxDtSYXbTVx9wFnJ3DH0GU+eG5LhtyxSh6nlVx47q8RJEMe04PFjpMrdo8DKfHTSdoS
+          TIZY5qCFkx1yM/dcxzVd6XI4962WSexIlc9fVfSwOWdUjRfS9nVGJ3AJrOFt1DdOs1G2QzV0oJtaHL77XuXb6ytR6WBotmBi1EXB
+          OW4Ybk2qqSFj6uoxXiwBN5kI3ZoGYF9YzXgRTJgJFfwzRrATDdvyDC+1h0OmAN4wZiCMuBtKl6/Vg8t9BYRlZrp+3SymZhyrudo7
+          B6UnksxBzg7WkFNGZPKpvKxksK3in9ichm7wdb0mPRtkldc5yYFjAnuv+y9Ce/mJQorHr+p375mamJylnS6qmIclKMSe1Jekn2Ts
+          t0peV6eK+GMlQyjTq6xNBkTZDBLguiLmJT1DkeLuZKBuZWfejj9bEqpmGx4LMVJoxjuolmZPffBAFQ0PyBAsE0h1ISqV58zCJ4a5
+          vJEFj1n1Uh0nKjCEP8GOcAJe+0c2NT1uLdpMVIycSSbbr/u4SNDTfJdWlmncLveMdBcVQM1l253b/o7zEWbKYjq9bQw+hR7uuCAn
+          sHBkBOIw1qrymlYnR1p3el7D1i1+Pws2fMSZn7F0y9AVZbttdmPViieFPnSVmf1QiYW6Ln5CkFUP0qNV1mfCsfbtuKuLFqqZ/xhr
+          dQooqj/UwwHKUUusmkaXk9Pm2u/x38JaqeX/hRkVVWP7jL7heRAprzvpAbmvt/jsCSm4+mFNAJK2VL1dXn3km6NXqRe/k3WMMQma
+          0ZEOez/+BbvvXrWazlPbY/pD+goPA29/tNg2qsFURQlldVwm4A/T9TkjiOaBSWiMtaJSdR5YjKwZCRctg7EIdzNHmXUKSNJzzOj6
+          we7E0TbjlmjkC5s9sIVCLUsS9Rpaw1mDiREqwWC1aOUfndjSaq8S/eIOT0jWLGFy+FbA4LVtBL8hzRIihAXnO3hYn7/Js7kVg/AT
+          ZsD+0RvwWCvmqV20EF+SSBJYqoWji62WNHAUokoA0Uouu0L13k5BlZBwEXW2eFbfaqhGElHusFvnqGoVSJQStvoUE3Ji7wjeesvE
+          zNneJAocpfBpb7sdNdApkzgFd9QuDtA4OxouOc6TwECBAJsSD1mkNOb0TYgozsSImvhWuQIi7nIyEeOApdhZMAszRZBufDVtC7k+
+          N442igAZ/H0pQ3BVDJqKxD/paVFs5zIDgERp6UMi3A6E5VAJRKw7J1GoxCfPqPcQC9KTUICwnIiCj406ZUrEkZAnKqrkpZvQIJei
+          RU4QZSg1ynOgyCk2Koy0erFuYXwYaZbiiaWaWCBBIEEDurZNV6z1FDYAtaDkBlvV+EHPyTcz3EayncrkHe+WpceUQGcCJnBCWjpt
+          RIZdcxtLTLnFgqbBKbP7B2bu3J3xBrKI1TIuq9X6T260sgTSdVItYiYBJ40Y9xVT35Q1lISRTH8YPBx4QcZnQj9u7Ykqx+w3fYwr
+          jaClphtDozjVWN2Zfapie2S0R90Z+NmDCsqbdG+Wl6WYI920vuwYTV5rjAkeu5d2S7Rn+GYlqraSnUQcM2/jpkPRY7QqxKjuQdUa
+          xAcSGyr2WzPGjDJD7sXO/3MQTuwuMxInT/aZX82iIN8N9Z8JuWXcHTTCrTpWLKOvmuLRmAF5YEHE77F7TMhH0bk5BwgjIYgS7SuI
+          2DdNg+qgipO+6UxEIjmaQlaRmAHkfbVH+UD9ruy3UALORltWVYzhWVMeOUCFqXtsksGmQbiz01HsauHYB5kkrgUmA+ehgZ40cgVg
+          +Hym38K7dEYmSKuI3EXBMo3AfId22Qb0qmbVEa+e/3hy9A0YNUnUCwYVHIJqNQSSaNfXOMOJptReGO8UllIuYKnkQdW7VnTxvypY
+          A1gSgem8rHF7XBuik0a6gcZyNg1yBAauWOfj1mLVhhyyOwJacpfad9FHrrOTTiLIbaRWu5oGw7CZWUG0gYK9+0D3bNWcViIXwZD6
+          3GpmO2nd3IA0pPmNTmbJXZzE/1+wRlKB1evdZMYoHba4IGMKCeQY0GLGSiaQOjqFBG/Wte8pVoWd5wRe1MHQGrQNLuJD4hhSxkij
+          1xva0/pJ/jEtx6lHtwPFCbU4/jgm7FoHtS77hlVdONvN7h7i+eCEwrIRwmwgNQL1iZsrZOkoa0W6WzT2it24s/faYnDBBYzrrxXT
+          DvGf2winpkrdqsxO3oNqLk3tPwdtNBkpjT3daJvr7bB5HS45QeSll225Y07Bgjqh7zizV9ILUe+lWtJdUDl0zgT5mbzXVEl1OLBc
+          Rne81QUW5gTvFL0u2hCpIiZL7qYAN6Tdw+njS22U8SptdDo7jt3rxK8pJoo7/5pu6kPOa9SU/6bw7GyQ5ard6Wxm1O2zDWQGjTvv
+          3HFHfUuijrKvdg2X16fa4HzhgjWjXt1n74hK2czXzgIdA4rX2I2x/b1ufHeZgfCE4kq2fd05RkV4iwBFs/Mu3HtC8kJ3lCHhC9Te
+          DrxvSERYbSIseqOZc1lGbZnOJIlDFAVFdEMpBiuk50dM0yJCo9kJuBSZJUXh5iasnoGayveaiZ4EaoG1LN9iVAeLvovFhmbQQE/e
+          epNPDB2qXd4Utq/y8hj+woM/5V8aZ33MzXH+nNDYWgYAWGO/6khgeMbf8pesjKs4Grpx3PKHiIzcoHZ32NyMiUSaYAFayplI6b/s
+          Rl9qORqz3Ij+3j17wGWb/NiC6jUxaJHcBu/SVo3T4EM6L9xJWuX+04ienRmXrIJzmADB10lGR3eoh+5UbYagW1iTQ/ApbRRKZB2F
+          BNEyDXvDBq6tsr3JnMh+3q+a0Se6h+M4psVcl5WGwsu6KD8Zp/CI6+JgUmuwOE/1SU3Ya+wfPK7gm1v+aE9Xiwz8sx5mdjMd1uk8
+          fgW0wjOx3A0qbgaOu/jq4VJVT2Uek3COKU/IpHV9SXiNqxmOsEKUgEvNGQ/xeU3AZWGTWjGO7sJSLd1paDk/kmkGGK6ylsp6HR+G
+          cK+qU5vHbUEgXarzSsPBzqQq5UynJAGorEYA59gpO9vnQIRlwYEdA0lGbV5bD1MlsjzDB+aVS3d8+IhGFnBNVF12TiyzSmH+EXGe
+          UZJozBmw1vlGM1adTIKksJN5uKuVMarpT9x40eCoWMpVGlRznD4cMT3YpqUvY9/cmc7EmVgb3lK/t1lKVyTEzTZd5laCa8Tfeqnb
+          Vq3mQnX4wkjq2AMKAGgWXJwSuxpmfHPpjGIu8oYtaoeYrhJjVFs898wBB4FZgbvuggNkpQeNSjQpTx7sa0iv8kgqBzrypvkLnJSq
+          QmCQQkewZ+1VV0nji0yVzkmFxPbZ2mbFM8Wt+Jx8VpphMhQTx4nxi5IV1sw0ICMbW82sDtdUAt38GTI6j56NgYDQfMmZPCIIZDSJ
+          kipJ5lO44EIXtHyKx9tD4YevcY2Vo3j8SIPe+Wvu/GMYTPajnIM8fDhgpGrSeNFmqMHfgnssnFur58Zr9exRIgdCh8GI1TsM72PO
+          QHIVCKpMUzpqd2YlkDVQx/C5XxnZA7OJb26jcqB2h6Drpg4IMgVwKzEtUZFzEiL+YpCgqxZTeacsLROwZSVpjcclFdpk6KfPCXH1
+          2omQohO5WX2PJDCZBayVokESHXpIj4GLPyHpFs9eZN0zqf6dqNU5N0T74WhSiCss6Bz31jQ0K3kuCldt7NoUoF/2SQlpdAgPcLYS
+          260ncac1DIEMQci54GWOKcvwi6gbvqXs0dadROHTaXzRAOZJTsViegrRMmdA0wkDITly4ylhJCC8kznTo1v69laFYyThRNiQx/fa
+          /K/KgYqR9eTMvDG+Hr72+9FMXM1QCQ/Kqtw7mNL6vAEz8g6RLnXOVzMH0CW9fDII3MDpOEwisHkPHbUPdLUOT2KNltYSbsdoqj3G
+          IZo93m7CUtdrYIPMFtV3qgVbO1z5XjKzLMJonf4Lt9vWQACvbVDH3Srt9Zl3/nDuEvx3Fv7/773Y1Fc=
+          """
+          target = Path("data/sermon-51-draft.js")
+          raw = zlib.decompress(base64.b64decode(encoded))
+          if target.exists() and target.read_bytes() != raw:
+              raise SystemExit("중단: 기존의 다른 제51회 초안 파일이 있어 덮어쓰지 않습니다.")
+          if not target.exists():
+              target.write_bytes(raw)
+          print("제51회 원고 데이터 검증:", target, len(raw), "bytes")
+          
+          #!/usr/bin/env python3
+          """Apply draft sermon 51 in a checked-out revival-project repository.
+          Invoked by GitHub Actions after user uploads the three files.
+          """
+          from pathlib import Path
+          import sys
+          
+          root=Path(sys.argv[1]).resolve() if len(sys.argv)>1 else Path.cwd()
+          required=['index.html','sermon-detail.html','data/sermon-series-ui.js','data/sermon-detail-ui.js','data/sermon-series-data.js']
+          missing=[f for f in required if not (root/f).is_file()]
+          if missing: raise SystemExit('기존 revival-project 경로가 아닙니다. 누락: '+', '.join(missing))
+          target=root/'data'/'sermon-51-draft.js'
+          if not target.is_file():
+              raise SystemExit('중단: 제51회 설교 데이터 파일이 없습니다.')
+          
+          def edit(relative, actions):
+              path=root/relative
+              text=path.read_text(encoding='utf-8')
+              original=text
+              for old,new in actions:
+                  if new in text:
+                      continue # idempotent on a repeated run
+                  n=text.count(old)
+                  if n!=1: raise SystemExit(f'중단: {relative}에서 대상 문자열을 {n}개 발견 (1개 필요): {old[:90]!r}')
+                  text=text.replace(old,new,1)
+              if text!=original:
+                  path.write_text(text,encoding='utf-8')
+                  print('수정:',relative)
+              else:print('변경 없음:',relative)
+          
+          index_css='''
+          /* 추가 특별 설교 제51회: 눈에 띄는 초안 표기 및 바로가기 */
+          #sermon .sermon-draft-badge {display:inline-block;background:#f2c07b;color:#4e2909;border:1px solid #ffd79e;border-radius:5px;padding:3px 10px;margin-top:13px;font-size:13px;font-weight:900;letter-spacing:.08em}
+          #sermon .sermon-51-quicklink {display:inline-block;margin:7px 0 17px;padding:9px 15px;border:1px solid #bc9360;border-radius:7px;background:#fff4e6;color:#68390b;font-weight:850;font-size:13px;text-decoration:none}
+          #sermon .sermon-51-quicklink:hover,#sermon .sermon-51-quicklink:focus-visible {background:#fce6c8;border-color:#875a29}
+          '''
+          detail_css='''
+          /* 특별 제51회: 초안이 확정 설교로 오인되지 않도록 제목 상단에 명시 */
+          .document-header .sermon-draft-banner {display:block;width:max-content;max-width:100%;margin:15px 0 4px;padding:7px 16px;border-radius:7px;border:2px solid #ffd69b;background:#f9c477;color:#442408;font:900 16px/1.5 "Noto Sans KR",sans-serif;letter-spacing:.04em}
+          .document-header .sermon-draft-caption {color:#fff0d1;font-weight:800}
+          @media(max-width:700px) {.document-header .sermon-draft-banner{font-size:15px;padding:7px 12px}}
+          '''
+          edit('index.html',[
+           ('</style>',index_css+'</style>'),
+           ('<script src="data/sermon-bible.js"></script>', '<script src="data/sermon-51-draft.js?v=20261030-draft-v1"></script>\n<script src="data/sermon-bible.js"></script>'),
+           ('<div aria-label="50편 설교 카드" class="sermon-board"','<p><a class="sermon-51-quicklink" href="sermon-detail.html?sermon=51">제51회 특별 설교 · 초안 바로 보기</a></p><div aria-label="51편 설교 카드 (제51회는 초안)" class="sermon-board"'),
+          ])
+          edit('sermon-detail.html',[
+           ('</style>',detail_css+'</style>'),
+           ('<script src="data/sermon-detail-ui.js?v=20261019-refgrid-v3"></script>', '<script src="data/sermon-51-draft.js?v=20261030-draft-v1"></script><script src="data/sermon-detail-ui.js?v=20261030-sermon51-draft-v1"></script>'),
+           ('aria-label="이어지는 설교 49편 목록"','aria-label="이어지는 설교 목록"'),
+          ])
+          edit('data/sermon-series-ui.js',[
+           (' workState.textContent=`전체 ${all.length}편 중 ${completed}편 원고 확정`;',
+            '  const drafts=all.filter(s=>s.draft===true).length;\n  workState.textContent=drafts?`기존 ${all.length-drafts}편 + 특별 ${drafts}편 초안 · ${completed}편 원고 확정`:`전체 ${all.length}편 중 ${completed}편 원고 확정`;'),
+           ("   +'<span class=\"sermon-single-number\">SERMON '+String(s.order).padStart(2,'0')+'</span>'",
+            "   +'<span class=\"sermon-single-number\">SERMON '+String(s.order).padStart(2,'0')+'</span>'\n   +(s.draft===true?'<span class=\"sermon-draft-badge\">초안 · 검토 전</span>':'')"),
+          ])
+          edit('data/sermon-detail-ui.js',[
+           ('sermon.manuscriptFinalized&&sermon.detailedOutlineHtml?',
+            '(sermon.manuscriptFinalized||sermon.draft===true)&&sermon.detailedOutlineHtml?'),
+           ('<h2>강단용 상세 아웃라인</h2>',
+            '<h2>강단용 상세 아웃라인${sermon.draft===true?\' · 초안\':\'\'}</h2>'),
+           ('sermon.manuscriptFinalized&&sermon.manuscriptHtml?',
+            '(sermon.manuscriptFinalized||sermon.draft===true)&&sermon.manuscriptHtml?'),
+           ('>원고전체 읽기</button><div class="sermon-manuscript"',
+            ">원고전체 읽기${sermon.draft===true?' · 초안':''}</button><div class=\"sermon-manuscript\""),
+           ('</small><h1>${safe(sermon.title)}</h1>',
+            "</small>${sermon.draft===true?'<div class=\"sermon-draft-banner\" role=\"status\">초안 · 검토 및 확정 전</div>':''}<h1>${safe(sermon.title)}</h1>"),
+           ("${sermon.manuscriptFinalized?'설교 원고 확정 · 강단용 상세 아웃라인 제공':'설교원고 준비중'}",
+            "${sermon.draft===true?'초안 · 주해 및 주석 검토 전 · 강단용 아웃라인과 단락형 원고 임시 제공':sermon.manuscriptFinalized?'설교 원고 확정 · 강단용 상세 아웃라인 제공':'설교원고 준비중'}"),
+           ("<h2>${sermon.manuscriptFinalized?'보조 성경구절':'보조·후보 성경구절'}</h2>",
+            "<h2>${sermon.manuscriptFinalized||sermon.draft===true?'보조 성경구절':'보조·후보 성경구절'}</h2>"),
+           ("readToggle.textContent=open?'원고 접기':'원고전체 읽기';",
+            "readToggle.textContent=open?'원고 접기':(sermon.draft===true?'원고전체 읽기 · 초안':'원고전체 읽기');"),
+          ])
+          print('확인:',target.relative_to(root))
+          print('완료: 기존 1–50회 설교 데이터는 수정하지 않았습니다. 적용 후 화면과 스크립트 기능을 확인해 주세요.')
+          PYBUILD
+      - name: Commit draft content and four modified pages
+        run: |
+          git add data/sermon-51-draft.js index.html sermon-detail.html data/sermon-series-ui.js data/sermon-detail-ui.js
+          if git diff --cached --quiet; then
+            echo 'Sermon 51 is already applied.'
+          else
+            git -c user.name='github-actions[bot]' \
+                -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+                commit -m 'Publish draft sermon 51 and detailed outline'
+            git push
+          fi
