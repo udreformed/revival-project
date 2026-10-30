@@ -1,0 +1,67 @@
+name: Remove sermon 51 draft shortcut button
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/remove-sermon-51-quicklink.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  remove-shortcut:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the current site
+        uses: actions/checkout@v4
+
+      - name: Remove only the extra sermon 51 shortcut
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('index.html')
+          html = path.read_text(encoding='utf-8')
+          original = html
+
+          # Remove the standalone shortcut displayed between the series title and cards.
+          shortcut = (
+              r'<p>\s*<a\s+class="sermon-51-quicklink"\s+'
+              r'href="sermon-detail\.html\?sermon=51"\s*>'
+              r'\s*제51회 특별 설교 · 초안 바로 보기\s*'
+              r'\s*</a>\s*</p>'
+          )
+          html, removed = re.subn(shortcut, '', html, count=1)
+          if removed == 0 and '제51회 특별 설교 · 초안 바로 보기' in html:
+              raise RuntimeError('Shortcut exists but its markup changed. No file was written.')
+
+          # Remove now-unused quicklink CSS; keep the draft badge on the normal 51st card.
+          html = re.sub(r'(?m)^#sermon \.sermon-51-quicklink \{[^\n]*\}\n?', '', html)
+          html = re.sub(
+              r'(?m)^#sermon \.sermon-51-quicklink:hover,#sermon \.sermon-51-quicklink:focus-visible \{[^\n]*\}\n?',
+              '', html,
+          )
+          html = html.replace(
+              '/* 추가 특별 설교 제51회: 눈에 띄는 초안 표기 및 바로가기 */',
+              '/* 추가 특별 설교 제51회: 눈에 띄는 초안 표기 */',
+          )
+
+          if html != original:
+              path.write_text(html, encoding='utf-8')
+              print('Removed shortcut; all 51 sermon cards and the detail pages remain intact.')
+          else:
+              print('Shortcut already absent; nothing to change.')
+          PY
+
+      - name: Commit the one-file website change
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          if ! git diff --cached --quiet; then
+            git commit -m 'Remove standalone sermon 51 draft shortcut'
+            git push
+          fi
