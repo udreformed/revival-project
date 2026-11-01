@@ -1,11 +1,12 @@
-/* 제3회 설교 원고: 소제목별 무료 한국어 음성 낭독
+/* 제1·2·3회 설교 원고: 전체/소제목별 한국어 음성 낭독
  * Web Speech API (SpeechSynthesis) / 서버, API 키, MP3 불필요.
- * 제1·2·4·51회 및 다른 페이지는 변경하지 않음.
+ * 기존 확정 원고는 변경하지 않음. 제4회 이후와 제51회 초안에는 동작하지 않음.
  */
 (function () {
   'use strict';
 
-  if (Number(new URLSearchParams(window.location.search).get('sermon')) !== 3) return;
+  const sermonNumber = Number(new URLSearchParams(window.location.search).get('sermon'));
+  if (![1, 2, 3].includes(sermonNumber)) return;
 
   const root = document.getElementById('sermonFullText');
   if (!root || root.dataset.ttsReady === 'yes') return;
@@ -73,20 +74,20 @@
     .sermon-tts-btn.is-active {background:#196e5b;border-color:#196e5b;color:white}
     .sermon-tts-select {background:white;border:1px solid #90b7a8;border-radius:7px;padding:7px;color:#20584b;font-size:14px}
     .sermon-tts-speed {display:inline-flex;align-items:center;gap:6px;color:#326557;font-size:13px;font-weight:700}
-    .sermon-tts-status {margin:10px 0 0!important;font-size:13px!important;line-height:1.7!important;color:#49695e!important}
+    /* 낭독 상태는 보조기기용이며 화면에는 표시하지 않습니다. */
+    .sermon-tts-status {position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
     .sermon-tts-section {display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:-4px 0 17px}
     .sermon-tts-section .sermon-tts-btn {font-size:13px;padding:7px 12px}
-    .sermon-tts-note {margin:7px 0 0!important;color:#687c73!important;font-size:12px!important;line-height:1.65!important}
     @media (max-width:700px) {.sermon-tts-panel {padding:13px 12px}.sermon-tts-btn {font-size:13px;padding:9px 11px}.sermon-tts-section {margin-top:-5px}}
   `;
   document.head.appendChild(css);
 
   const panel = document.createElement('div');
   panel.className = 'sermon-tts-panel';
-  panel.setAttribute('aria-label', '제3회 설교 음성 낭독');
+  panel.setAttribute('aria-label', '제' + sermonNumber + '회 설교 음성 낭독');
   const headingText = document.createElement('div');
   headingText.className = 'sermon-tts-panel-heading';
-  headingText.textContent = '설교 원고 음성 듣기 · 무료 한국어 TTS';
+  headingText.textContent = '설교 원고 음성 듣기';
   panel.appendChild(headingText);
 
   const actions = document.createElement('div');
@@ -96,7 +97,7 @@
   fullButton.type = 'button';
   fullButton.className = 'sermon-tts-btn sermon-tts-full';
   fullButton.textContent = '전체듣기';
-  fullButton.setAttribute('aria-label', '제3회 설교 원고 전체듣기');
+  fullButton.setAttribute('aria-label', '제' + sermonNumber + '회 설교 원고 전체듣기');
   fullButton.setAttribute('aria-pressed', 'false');
   fullButton.disabled = !nativeTTS;
   actions.appendChild(fullButton);
@@ -134,12 +135,8 @@
   status.className = 'sermon-tts-status';
   status.setAttribute('role', 'status');
   status.setAttribute('aria-live', 'polite');
-  status.textContent = nativeTTS ? '전체듣기 또는 원하는 소제목의 듣기 버튼을 누르세요.' : '이 브라우저는 음성 합성을 지원하지 않습니다.';
+  status.textContent = nativeTTS ? '음성 듣기 준비' : '이 브라우저는 음성 합성을 지원하지 않습니다.';
   panel.appendChild(status);
-  const note = document.createElement('p');
-  note.className = 'sermon-tts-note';
-  note.textContent = '한국어 음성 품질은 기기에 설치된 음성에 따라 다릅니다. 속도 변경은 다음 문장부터 적용됩니다.';
-  panel.appendChild(note);
   root.insertBefore(panel, headings[0]);
 
   const ALL_SECTIONS = sections.length; // 소제목 인덱스와 구분하는 전체듣기 모드
@@ -215,7 +212,7 @@
     if (token !== generation || activeIndex < 0 || paused) return;
     if (pointer >= queue.length) {
       const label = activeLabel();
-      clearPlayback('낭독 완료: ' + label);
+      clearPlayback(label + ' 완료');
       return;
     }
     const utterance = new SpeechSynthesisUtterance(queue[pointer++]);
@@ -258,7 +255,7 @@
     pointer = 0;
     activeIndex = ALL_SECTIONS;
     paused = false;
-    status.textContent = '전체 원고 낭독 중: 도입부터 결론까지 순서대로 읽습니다.';
+    status.textContent = '전체 원고 재생 중';
     updateButtons();
     speakNext(generation);
   }
@@ -275,7 +272,7 @@
     activeIndex = index;
     activeButton = buttons[index];
     paused = false;
-    status.textContent = '낭독 중: ' + section.shortLabel + ' (다른 부분을 누르면 그 부분부터 읽습니다)';
+    status.textContent = section.shortLabel + ' 재생 중';
     updateButtons();
     speakNext(generation);
   }
@@ -285,21 +282,21 @@
     if (paused) {
       paused = false;
       synthesis.resume();
-      status.textContent = '이어서 낭독 중: ' + activeLabel();
+      status.textContent = activeLabel() + ' 다시 재생 중';
       if (!currentUtterance) speakNext(generation);
     } else {
       paused = true;
       synthesis.pause();
-      status.textContent = '일시정지: ' + activeLabel();
+      status.textContent = activeLabel() + ' 일시정지';
     }
     updateButtons();
   });
-  stopButton.addEventListener('click', function () { clearPlayback('낭독을 정지했습니다.'); });
+  stopButton.addEventListener('click', function () { clearPlayback('음성 정지'); });
 
   // 원고가 접혀 낭독 위치가 보이지 않게 되면 자동 정지합니다.
   const readToggle = document.getElementById('sermonReadToggle');
   const readClose = document.getElementById('sermonReadClose');
-  function stopIfHidden() { if (root.hidden) clearPlayback('원고를 접어 낭독을 정지했습니다.'); }
+  function stopIfHidden() { if (root.hidden) clearPlayback('원고 접힘, 음성 정지'); }
   if (readToggle) readToggle.addEventListener('click', stopIfHidden);
   if (readClose) readClose.addEventListener('click', stopIfHidden);
   window.addEventListener('pagehide', function () { clearPlayback(); });
