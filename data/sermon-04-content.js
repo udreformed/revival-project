@@ -1,4 +1,4 @@
-/* 제4회 설교 v0.10.4 · 기존 문구정리 유지, 한국어 낭독 오디오 기능 추가. 설교 본문·상세아웃라인 불변. */
+/* 제4회 설교 v0.10.5 · 참고자료 카드형 섹션 통일. 기존 원고, 오디오, 상세 아웃라인 불변. */
 (function(){
   "use strict";
   const sermon=window.SERMON_SERIES_DATA?.sermons?.find(x=>x.order===4);
@@ -15,8 +15,64 @@
     const status=document.querySelector('.sermon-header-status');
     if(status)status.textContent='제4회 설교 원고 · 강단용 상세 아웃라인 제공';
   }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refineSermon04Header);
-  else refineSermon04Header();
+  // 제1~3회와 같은 참고자료 카드/섹션 디자인 적용.
+  // 제4회만 원고 안에 들어 있던 학술 주석을 원고 밖으로 이동합니다.
+  // 기존의 3개 공통 섹션(관련 참고 도서/주해 참고 주석/Theo10)은 일절 변경하지 않습니다.
+  function arrangeSermon04Sources(){
+    if(Number(new URLSearchParams(location.search).get('sermon'))!==4)return;
+    const manuscript=document.getElementById('sermonFullText');
+    const research=document.querySelector('#sermonDocument .sermon-research-section');
+    if(!manuscript||!research)return;
+    const notes=manuscript.querySelector(':scope > .sermon-source-notes');
+    if(!notes||notes.dataset.moved==='yes')return;
+    const heads=Array.from(notes.children).filter(el=>el.tagName==='H3');
+    if(!heads.length)return;
+
+    // 제목과 원고의 내용은 그대로 두며, 표시용으로만 목록을 카드로 재배열합니다.
+    const sections=[];
+    for(const head of heads){
+      const list=head.nextElementSibling;
+      if(!list||list.tagName!=='OL')continue;
+      const section=document.createElement('section');
+      section.className='section sermon-04-source-section';
+      const title=document.createElement('h2');
+      title.textContent=(head.textContent||'').trim();
+      section.appendChild(title);
+      const grid=document.createElement('div');
+      grid.className='sermon-reference-grid';
+      for(const item of Array.from(list.children).filter(el=>el.tagName==='LI')){
+        const card=document.createElement('div');
+        card.className='reference-book sermon-research-entry';
+        const heading=item.querySelector(':scope > strong');
+        if(heading){
+          const strong=document.createElement('strong');
+          strong.innerHTML=heading.innerHTML;
+          card.appendChild(strong);
+        }
+        const body=document.createElement('p');
+        body.innerHTML=item.innerHTML.replace(/^\s*<strong>[^<]*<\/strong>\s*/,'').trim();
+        card.appendChild(body);
+        grid.appendChild(card);
+      }
+      section.appendChild(grid);
+      sections.push(section);
+    }
+    if(!sections.length)return;
+    notes.dataset.moved='yes';
+    // 원고 낭독(제4회 TTS)과 문서의 본문 영역에서 주석을 분리합니다.
+    notes.remove();
+    let anchor=research;
+    for(const section of sections){
+      anchor.insertAdjacentElement('afterend',section);
+      anchor=section;
+    }
+  }
+  function readySermon04(){
+    refineSermon04Header();
+    arrangeSermon04Sources();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',readySermon04);
+  else readySermon04();
 })();
 
 
