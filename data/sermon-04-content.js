@@ -432,3 +432,289 @@
     refineFiveHeader();
   }
 })();
+
+
+/* 제5회 상세페이지: 질문·본문·보조구절·도서·주석·주해 참고 자료의 일관성 보완.
+   제1~4회 원고와 제4회 낭독 기능은 변경하지 않습니다. */
+(function () {
+  'use strict';
+  var all = window.SERMON_SERIES_DATA && window.SERMON_SERIES_DATA.sermons;
+  if (!all) return;
+  var sermon = all.find(function(item) { return item.order === 5; });
+  if (!sermon) return;
+  Object.assign(sermon, {"title":"원수 된 죄인을 위해 그리스도를 내어주신 하나님의 사랑","hookTitle":"원수 된 죄인을 위해 그리스도를 내어주신 하나님의 사랑","question":"자신의 영광을 거역한 원수를 하나님께서는 어떻게 사랑하시며, 그 사랑은 왜 끝까지 확실합니까?","mainStatement":"하나님께서는 자신의 거룩한 이름과 영광에 신실하시기에 원수 된 죄인을 자유롭게 사랑하시고, 그리스도의 피로 의롭다 하시며 자신과 화목하게 하셔서, 살아 계신 그리스도를 통하여 자기 백성을 끝까지 구원하시고 하나님 자신을 기뻐하게 하십니다.","themeParagraph":"우리는 하나님의 선물을 누리면서도 그 영광을 우상과 자신에게 돌리고 창조주를 거역한 원수였습니다. 하나님께서는 이 반역을 아시면서도 자신의 이름을 위하여 진노를 오래 참으시고 구원의 뜻에 신실하셨습니다(사 48장). 죄를 무죄로 돌리지 않고 공의롭게 징계하시면서도 백성을 아주 멸하지 않으신다는 말씀은 그분의 거룩하고 신실하신 성품을 드러냅니다(렘 30:11). 이 사랑은 그리스도의 십자가에서 결정적으로 확증되었습니다. 하나님께서는 원수였던 우리를 그리스도의 피로 의롭다 하시고 자신과 화목하게 하셨습니다. 이미 화목하게 하셨다면, 살아 계신 그리스도를 통하여 마지막 날에 구원하실 것은 더욱 확실합니다. 성령께서는 그 사랑을 마음에 알게 하시며, 구속받은 백성은 하나님 자신을 기뻐합니다(롬 5:5–11).","outline":[{"title":"도입 · 사람의 사랑과 다른 하나님의 사랑","content":"인간은 신뢰를 저버린 사람을 사랑하기 어렵습니다. 그러나 하나님께서는 자신을 거역한 원수를 먼저 사랑하셨습니다."},{"title":"1 · 하나님의 영광을 거역한 원수","content":"우리는 하나님의 선물을 누리면서 그 영광을 우상과 자신에게 돌렸습니다. 하나님께서는 이 반역을 처음부터 아셨습니다."},{"title":"2 · 자신의 이름에 신실하신 하나님의 사랑","content":"하나님께서는 자기 이름을 위하여 진노를 오래 참으십니다. 죄를 의롭게 심판하시면서도 자신의 구원의 뜻을 버리지 않으십니다."},{"title":"3 · 그리스도의 피로 확증된 사랑","content":"원수였을 때 그리스도께서 우리를 위하여 죽으셨습니다. 하나님께서는 그 피로 죄인을 의롭다 하시고 자신과 화목하게 하셨습니다."},{"title":"절정 · 끝까지 구원하시는 하나님의 사랑","content":"원수였을 때 아들을 내어주셨다면, 이제 화목하게 된 자기 백성을 살아 계신 그리스도를 통하여 끝까지 구원하실 것은 더욱 확실합니다."},{"title":"결론 · 하나님 자신을 기뻐하는 백성","content":"하나님의 영광을 거절하던 죄인이 성령으로 그 사랑을 알고, 하나님과 화목하게 되어 하나님 자신을 기뻐하며 찬송합니다."}],"primaryText":"롬 5:5–11","secondaryText":"사 48장; 렘 30:11","otherTexts":"","supportRefs":[{"book":"이사야","abbr":"사","file":"Isaiah","chapter":48,"parts":[{"startChapter":48,"startVerse":1,"endChapter":48,"endVerse":22}],"text":"사 48장","kind":"보조본문"},{"book":"예레미야","abbr":"렘","file":"Jeremiah","chapter":30,"parts":[{"startChapter":30,"startVerse":11,"endChapter":30,"endVerse":11}],"text":"렘 30:11","kind":"보조본문"}],"candidateRefs":[],"extraRefs":[{"book":"이사야","abbr":"사","file":"Isaiah","chapter":48,"parts":[{"startChapter":48,"startVerse":1,"endChapter":48,"endVerse":22}],"text":"사 48장","kind":"보조본문"},{"book":"예레미야","abbr":"렘","file":"Jeremiah","chapter":30,"parts":[{"startChapter":30,"startVerse":11,"endChapter":30,"endVerse":11}],"text":"렘 30:11","kind":"보조본문"}],"references":[{"id":"book02","title":"하나님을 아는 지식","author":"J. I. 패커","category":"하나님의 사랑·신실하심","note":"하나님을 아는 지식과 변함없는 사랑"},{"id":"book06","title":"성도와 하나님과의 교제","author":"존 오웬","category":"삼위 하나님의 사랑·교제","note":"성부의 사랑과 그리스도 안에서의 화목"},{"id":"book09","title":"개혁조직신학 2: 인간과 그리스도","author":"조엘 비키·폴 스몰리","category":"죄·그리스도의 대속","note":"인간의 죄와 그리스도의 중보 사역"},{"id":"book13","title":"예수 그리스도를 보고 맛보라","author":"존 파이퍼","category":"그리스도의 영광","note":"그리스도 안에서 나타난 하나님의 영광과 기쁨"}],"status":"원고 게시","statusNote":"","checkNote":"","reviewIssue":"","prepCheck":"","caution":"","argumentPath":"","thesisFocus":"","draft":false,"manuscriptFinalized":true});
+  window.SERMON_RESEARCH_SOURCES = window.SERMON_RESEARCH_SOURCES || {};
+  window.SERMON_RESEARCH_SOURCES['5'] = {"commentaries":[{"author":"더글러스 J. 무 (Douglas J. Moo)","title":"The Epistle to the Romans","series":"NICNT, Eerdmans, 1996","note":"원수였을 때 나타난 하나님의 사랑, 칭의와 화목, 살아 계신 그리스도 안에서의 최종 구원의 확실성"},{"author":"토머스 R. 슈라이너 (Thomas R. Schreiner)","title":"Romans","series":"BECNT, Baker Books, 1998","note":"그리스도의 대속을 통한 사랑의 객관적 확증, 미래 구원에 대한 두 번의 ‘더욱’ 논증, 하나님 자신을 기뻐하는 결론"},{"author":"C. E. B. 크랜필드 (C. E. B. Cranfield)","title":"A Critical and Exegetical Commentary on Romans","series":"ICC, T&T Clark, 2004","note":"로마서 5장에 나타난 하나님의 사랑과 화목, 그리스도 안에서의 평화와 기쁨의 신학적 의미"},{"author":"F. F. 브루스 (F. F. Bruce)","title":"Romans: An Introduction and Commentary","series":"Tyndale New Testament Commentaries, IVP, 1985","note":"믿음으로 얻는 하나님과의 평화, 원수였던 죄인을 향한 구원의 은혜"},{"author":"F. B. 휴이 (F. B. Huey)","title":"Jeremiah, Lamentations","series":"New American Commentary 16, Broadman & Holman, 1993","note":"예레미야 30:11의 실제 징계와 보존의 약속, 하나님의 공의와 신실하심"},{"author":"잭 R. 런드봄 (Jack R. Lundbom)","title":"Jeremiah 21–36","series":"Anchor Bible 21B, Doubleday, 2004","note":"예레미야 30장에 나타난 심판과 회복, 언약 백성에게 주어진 보존의 약속"},{"author":"윌리엄 L. 홀러데이 (William L. Holladay)","title":"Jeremiah 2: Chapters 26–52","series":"Hermeneia, Fortress Press, 1989","note":"예레미야 30–31장의 역사적 회복 약속과 죄에 대한 징계의 문맥"}],"systematics":[{"author":"빌헬무스 아 브라켈","title":"The Christian’s Reasonable Service","url":"https://theo10.pages.dev/books/brakel/","note":"하나님의 거룩함·자유로운 은혜·구원하시는 사랑의 교리적 연관"},{"author":"헤르만 바빙크","title":"Reformed Dogmatics","url":"https://theo10.pages.dev/books/bavinck/","note":"하나님의 영광과 신실하심, 그리스도 안에서 드러나는 삼위 하나님의 구원하시는 사랑"}]};
+  function installPublicNotes() {
+    if (Number(new URLSearchParams(window.location.search).get('sermon')) !== 5) return;
+    if (document.getElementById('sermon-five-notes')) return;
+    var following = document.querySelector('.sermon-reference-books-section');
+    if (!following) return;
+    following.insertAdjacentHTML('beforebegin', "<section class=\"section sermon-research-section sermon-five-notes-section\" id=\"sermon-five-notes\"><h2>주석</h2><div class=\"sermon-reference-grid\"><div class=\"reference-book sermon-research-entry\"><strong>하나님의 영광을 거역하는 죄</strong><p>이사야 48:3–8에서 이스라엘의 완고함과 우상숭배가 책망받습니다. 하나님의 영광을 가로챈다는 말은 하나님이 본래 지니신 영광이 실제로 감소했다는 뜻이 아니라, 하나님께 돌려야 할 찬송과 감사를 다른 대상에게 돌리는 반역을 뜻합니다.</p></div><div class=\"reference-book sermon-research-entry\"><strong>자신의 이름을 위한 오래 참으심</strong><p>이사야 48:9–11에서 하나님께서는 자신의 이름과 영광을 위하여 진노를 오래 참으신다고 선언하십니다. 이 말씀은 반역한 언약 백성의 역사적 보존에 관한 직접적인 선언이며, 모든 이스라엘 개인의 영원한 구원을 뜻하지는 않습니다.</p></div><div class=\"reference-book sermon-research-entry\"><strong>죄에 대한 공의와 회복의 약속</strong><p>예레미야 30:11은 백성을 아주 멸하지 않으시겠다는 약속과 법에 따라 징계하시겠다는 선언을 함께 전합니다. 심판과 회복은 역사적 이스라엘과 유다의 문맥에 놓여 있으며, 로마서 5장의 화목은 그리스도의 대속을 통해 설명됩니다.</p></div><div class=\"reference-book sermon-research-entry\"><strong>그리스도의 죽음과 살아 계심</strong><p>로마서 5:6–11은 그리스도의 죽음을 하나님의 사랑에 대한 실제 증거이자 구속의 근거로 제시합니다. 이미 이루어진 칭의와 화목으로부터 마지막 날의 구원에 대한 확신이 나옵니다. 구속받은 사람이 누리는 궁극적인 기쁨은 하나님 자신에게 있습니다.</p></div><div class=\"reference-book sermon-research-entry\"><strong>실화의 원자료 — 메리 존슨과 오셔 이스라엘</strong><p>미국 미니애폴리스의 사건과 용서 및 관계 회복에 관한 설명은 당사자의 StoryCorps 인터뷰를 근거로 합니다. 이 용서는 가해자의 형사책임을 취소한 사건이 아닙니다.</p><a class=\"reference-book-link\" href=\"https://storycorps.org/stories/mary-johnson-and-oshea-israel/\" target=\"_blank\" rel=\"noopener noreferrer\">StoryCorps 당사자 인터뷰 읽기</a></div></div></section>");
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', installPublicNotes);
+  else installPublicNotes();
+})();
+
+/* 제5회 설교 원고 낭독: 제1~4회와 같은 브라우저 SpeechSynthesis 방식.
+ * MP3/외부 API/추가 HTML 수정 없이 data/sermon-04-content.js 하나로 설치합니다.
+ * 원고 본문만 읽고 "주석", "참고문헌", "편집자주"를 낭독하지 않습니다.
+ */
+(function () {
+  'use strict';
+  if (Number(new URLSearchParams(window.location.search).get('sermon')) !== 5) return;
+
+  function installSermon05TTS() {
+    const root = document.getElementById('sermonFullText');
+    if (!root || root.dataset.sermon05TtsReady === 'yes') return;
+    const allHeadings = Array.from(root.querySelectorAll('h3'));
+    const notesStart = allHeadings.findIndex(h => /^(주석|참고문헌|편집자주)(?:\s|$)/.test((h.textContent || '').trim()));
+    const headings = notesStart < 0 ? allHeadings : allHeadings.slice(0, notesStart);
+    if (!headings.length) return;
+    root.dataset.sermon05TtsReady = 'yes';
+
+    const hasTTS = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+    const synth = hasTTS ? window.speechSynthesis : null;
+    const styles = document.createElement('style');
+    styles.id = 'sermon05-tts-styles';
+    // 기존 제1~3회와 동일한 카드/버튼 톤을 사용합니다.
+    styles.textContent = `
+      .sermon05-tts-panel{margin:4px 0 25px;padding:14px 16px;border:1px solid #c8ddd2;border-radius:12px;background:#f5faf7;color:#24483e}
+      .sermon05-tts-title{margin:0 0 9px!important;color:#245346;font-size:15px;font-weight:800}
+      .sermon05-tts-actions,.sermon05-tts-section{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+      .sermon05-tts-section{margin:-4px 0 17px}
+      .sermon05-tts-btn{appearance:none;border:1px solid #90b7a8;border-radius:8px;padding:9px 13px;background:#fff;color:#20584b;font:700 14px/1.45 system-ui,-apple-system,"Noto Sans KR",sans-serif;cursor:pointer;touch-action:manipulation}
+      .sermon05-tts-btn:hover,.sermon05-tts-btn:focus-visible{background:#e6f3ec;outline-offset:2px}
+      .sermon05-tts-btn.sermon05-tts-all,.sermon05-tts-btn.is-active{background:#196e5b;color:#fff;border-color:#196e5b;font-weight:800}
+      .sermon05-tts-btn.sermon05-tts-all:hover,.sermon05-tts-btn.sermon05-tts-all:focus-visible{background:#11513f}
+      .sermon05-tts-btn:disabled{opacity:.45;cursor:not-allowed}
+      .sermon05-tts-section .sermon05-tts-btn{font-size:13px;padding:7px 12px}
+      .sermon05-tts-speed{display:inline-flex;align-items:center;gap:6px;color:#326557;font-size:13px;font-weight:700}
+      .sermon05-tts-select{background:#fff;border:1px solid #90b7a8;border-radius:7px;padding:7px;color:#20584b;font-size:14px}
+      .sermon05-tts-status{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+      @media(max-width:700px){.sermon05-tts-panel{padding:13px 12px}.sermon05-tts-btn{font-size:13px;padding:9px 11px}.sermon05-tts-section{margin-top:-5px}}
+    `;
+    document.head.appendChild(styles);
+
+    const sections = headings.map((heading, index) => {
+      const title = (heading.textContent || '').replace(/\s+/g, ' ').trim();
+      const shortLabel = index === 0 ? '도입' : /^\d+\./.test(title)
+        ? title.match(/^\d+/)[0] + '대지' : title.split(' — ')[0];
+      const paragraphs = [];
+      let node = heading.nextElementSibling;
+      while (node && node.tagName !== 'H3' && !node.classList.contains('sermon-read-bottom')) {
+        if (node.matches('p,li,blockquote')) {
+          const t = (node.textContent || '').replace(/\s+/g, ' ').trim();
+          if (t) paragraphs.push(t);
+        } else if (node.matches('div,section')) {
+          node.querySelectorAll('p,li,blockquote').forEach(child => {
+            const t = (child.textContent || '').replace(/\s+/g, ' ').trim();
+            if (t) paragraphs.push(t);
+          });
+        }
+        node = node.nextElementSibling;
+      }
+      return {heading, title, shortLabel, paragraphs};
+    });
+
+    function createButton(label, className) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'sermon05-tts-btn' + (className ? ' ' + className : '');
+      b.textContent = label;
+      return b;
+    }
+    const panel = document.createElement('div');
+    panel.className = 'sermon05-tts-panel';
+    panel.setAttribute('aria-label', '제5회 설교 원고 음성 낭독');
+    const panelTitle = document.createElement('div');
+    panelTitle.className = 'sermon05-tts-title';
+    panelTitle.textContent = '설교 원고 음성 듣기';
+    panel.appendChild(panelTitle);
+    const actions = document.createElement('div');
+    actions.className = 'sermon05-tts-actions';
+    const allBtn = createButton('전체듣기', 'sermon05-tts-all');
+    allBtn.setAttribute('aria-label', '제5회 설교 원고 전체 듣기');
+    const pauseBtn = createButton('⏸ 일시정지');
+    const stopBtn = createButton('■ 정지');
+    allBtn.disabled = !hasTTS;
+    pauseBtn.disabled = true;
+    stopBtn.disabled = true;
+    actions.append(allBtn, pauseBtn, stopBtn);
+    const speedLabel = document.createElement('label');
+    speedLabel.className = 'sermon05-tts-speed';
+    speedLabel.textContent = '낭독 속도';
+    const speedSelect = document.createElement('select');
+    speedSelect.className = 'sermon05-tts-select';
+    speedSelect.setAttribute('aria-label', '낭독 속도');
+    [0.8,0.9,1,1.1,1.2,1.3].forEach(rate => {
+      const option = document.createElement('option');
+      option.value = String(rate);
+      option.textContent = rate.toFixed(1) + '배';
+      if (rate === 1) option.selected = true;
+      speedSelect.appendChild(option);
+    });
+    speedLabel.appendChild(speedSelect);
+    actions.appendChild(speedLabel);
+    panel.appendChild(actions);
+    const status = document.createElement('p');
+    status.className = 'sermon05-tts-status';
+    status.setAttribute('role','status');
+    status.setAttribute('aria-live','polite');
+    status.textContent = hasTTS ? '음성 듣기 준비' : '이 브라우저는 음성 합성을 지원하지 않습니다.';
+    panel.appendChild(status);
+    root.insertBefore(panel, headings[0]);
+
+    const buttons = sections.map((sec, i) => {
+      const row = document.createElement('div');
+      row.className = 'sermon05-tts-section';
+      const button = createButton('▶ ' + sec.shortLabel + ' 듣기');
+      button.disabled = !hasTTS || sec.paragraphs.length === 0;
+      button.setAttribute('aria-label', sec.title + ' 낭독 시작');
+      button.addEventListener('click', () => startSection(i));
+      row.appendChild(button);
+      sec.heading.insertAdjacentElement('afterend', row);
+      return button;
+    });
+
+    function chooseKoreanVoice() {
+      if (!hasTTS) return null;
+      const voices = synth.getVoices().filter(v => /^ko([_-]|$)/i.test(v.lang));
+      return voices.find(v => v.localService && /premium|enhanced|yuna|sora|유나/i.test(v.name)) ||
+        voices.find(v => v.localService) || voices[0] || null;
+    }
+    if (hasTTS) {
+      synth.getVoices();
+      if (typeof synth.addEventListener === 'function') synth.addEventListener('voiceschanged', chooseKoreanVoice);
+    }
+
+    // 긴 원고를 짧게 분할하여 브라우저의 음성 중단 문제를 줄입니다.
+    function segment(value) {
+      const clean = String(value || '').replace(/\s+/g, ' ').trim();
+      if (!clean) return [];
+      const sentences = clean.replace(/([.!?。！？]+[”"’']?)(\s+|$)/g,'$1\u241e')
+        .split('\u241e').map(x => x.trim()).filter(Boolean);
+      const result = [];
+      const LIMIT = 155;
+      sentences.forEach(sentence => {
+        let remaining = sentence;
+        while (remaining.length > LIMIT) {
+          let split = remaining.lastIndexOf(' ', LIMIT);
+          if (split < 75) split = LIMIT;
+          result.push(remaining.slice(0, split).trim());
+          remaining = remaining.slice(split).trim();
+        }
+        if (remaining) result.push(remaining);
+      });
+      return result;
+    }
+    // 장절 번호는 필요한 경우 낭독에서만 제거하고 원고는 보존합니다.
+    function narrationText(section, paragraph) {
+      return section === sections[0] ? paragraph.replace(/\[(?:[3-9]|1[0-4])\]/g,'').replace(/\s+/g,' ').trim() : paragraph;
+    }
+    let active = -1; // -1: 정지, -2: 전체 낭독, 0~: 특정 부분
+    let queue = [];
+    let pointer = 0;
+    let paused = false;
+    let current = null;
+    let generation = 0;
+
+    function label() { return active === -2 ? '전체 원고' : active >= 0 ? sections[active].shortLabel : ''; }
+    function updateButtons() {
+      allBtn.classList.toggle('is-active', active === -2);
+      allBtn.setAttribute('aria-pressed', String(active === -2));
+      buttons.forEach((btn,i) => {
+        const selected = i === active;
+        btn.classList.toggle('is-active', selected);
+        btn.setAttribute('aria-pressed', String(selected));
+        btn.textContent = selected ? '↺ ' + sections[i].shortLabel + ' 처음부터' : '▶ ' + sections[i].shortLabel + ' 듣기';
+      });
+      pauseBtn.disabled = active === -1;
+      stopBtn.disabled = active === -1;
+      pauseBtn.textContent = paused ? '▶ 이어 듣기' : '⏸ 일시정지';
+    }
+    function clearPlayback(message) {
+      generation++;
+      active = -1;
+      queue = [];
+      pointer = 0;
+      paused = false;
+      current = null;
+      if (hasTTS) synth.cancel();
+      if (message) status.textContent = message;
+      updateButtons();
+    }
+    function speakNext(token) {
+      if (token !== generation || active === -1 || paused) return;
+      if (pointer >= queue.length) {
+        const finished = label();
+        clearPlayback(finished + ' 낭독 완료');
+        return;
+      }
+      const utterance = new SpeechSynthesisUtterance(queue[pointer++]);
+      utterance.lang = 'ko-KR';
+      utterance.rate = Number(speedSelect.value) || 1;
+      utterance.pitch = 1;
+      const voice = chooseKoreanVoice();
+      if (voice) utterance.voice = voice;
+      current = utterance;
+      utterance.onend = () => {
+        if (token !== generation || current !== utterance) return;
+        current = null;
+        window.setTimeout(() => speakNext(token), 60);
+      };
+      utterance.onerror = event => {
+        if (token !== generation || current !== utterance) return;
+        if (event.error === 'canceled' || event.error === 'interrupted') return;
+        clearPlayback('음성 재생에 문제가 생겼습니다. 한국어 음성 설정을 확인해 주세요.');
+      };
+      try { synth.speak(utterance); }
+      catch (_) { clearPlayback('이 브라우저에서 음성 낭독을 시작할 수 없습니다.'); }
+    }
+    function begin(index) {
+      if (!hasTTS) return;
+      clearPlayback();
+      const selected = index === -2 ? sections : [sections[index]];
+      queue = [];
+      selected.forEach(sec => {
+        queue.push(sec.title.replace(/\s*\([^)]*단일 문장[^)]*\)/,'').trim());
+        sec.paragraphs.forEach(p => { queue.push(...segment(narrationText(sec,p))); });
+      });
+      if (!queue.length) { status.textContent = '읽을 원고가 없습니다.'; return; }
+      active = index;
+      paused = false;
+      pointer = 0;
+      status.textContent = label() + ' 낭독 중';
+      updateButtons();
+      speakNext(generation);
+    }
+    function startSection(index) { if (index >= 0 && index < sections.length) begin(index); }
+    allBtn.addEventListener('click', () => begin(-2));
+    pauseBtn.addEventListener('click', () => {
+      if (!hasTTS || active === -1) return;
+      if (paused) {
+        paused = false;
+        synth.resume();
+        status.textContent = label() + ' 다시 재생 중';
+        if (!current) speakNext(generation);
+      } else {
+        paused = true;
+        synth.pause();
+        status.textContent = label() + ' 일시정지';
+      }
+      updateButtons();
+    });
+    stopBtn.addEventListener('click', () => clearPlayback('음성 정지'));
+    // 원고를 접을 때 자동 정지하고, 다른 페이지로 이동하면 음성을 남기지 않습니다.
+    const readToggle = document.getElementById('sermonReadToggle');
+    const readClose = document.getElementById('sermonReadClose');
+    function stopIfHidden() { if (root.hidden) clearPlayback('원고 접힘, 음성 정지'); }
+    if (readToggle) readToggle.addEventListener('click', stopIfHidden);
+    if (readClose) readClose.addEventListener('click', stopIfHidden);
+    window.addEventListener('pagehide', () => clearPlayback());
+    updateButtons();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', installSermon05TTS);
+  else installSermon05TTS();
+})();
+
