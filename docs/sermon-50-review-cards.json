@@ -1,0 +1,450 @@
+{
+  "updatedAt": "2026-11-16",
+  "policy": {
+    "version": "2026-11-16-v1",
+    "appliesTo": "설교 01–50 + 제51회 특별 초안",
+    "handoff": "docs/sermon-design-handoff.md",
+    "requiredChecks": [
+      "전회차 배분·같은 성품의 다른 본문·완성 원고와 대조",
+      "주본문 장르·역사·구조·원어·저자의 논증을 우선 주해",
+      "권위 있는 주석 최소 2종(가능할 때)과 실제 쪽수·견해 차이 기록",
+      "한 문장 중심주제문과 고유 신학적 절정 검증",
+      "동일 본문 재사용과 중심 논증 중복 검증",
+      "성부·성자·성령의 사역을 본문에 합당하게 정경적으로 연결",
+      "죄인·성령·경배·부흥 기도를 동일한 고정 문단으로 복제하지 않음",
+      "Theo10·부흥프로젝트 자료의 실제 공개 범위·검증 정도 기록",
+      "설교 원고 완성 후 사용자의 최종 승인 확보",
+      "승인 원고로 상세 아웃라인·간략 흐름·인용 성경 목록 생성",
+      "웹 데이터·PPT·낭독·성경 미리보기 및 기존 회차 회귀 검사",
+      "매회 docs/sermon-design-handoff.md의 진행표·변경 이력·남은 과제 갱신"
+    ]
+  },
+  "cards": [
+    {
+      "order": 1,
+      "focus": "두 아들을 향해 먼저 나아가는 아버지의 긍휼과 잔치 초청",
+      "avoidOverlap": "27회 대제사장 중보와 41회 언약 백성 회복의 논증을 가져오지 않음",
+      "canonicalTopic": "긍휼·자비",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 2,
+      "focus": "시인의 생각·말·삶·내면을 완전히 아시는 하나님의 지식과 거룩한 감찰",
+      "avoidOverlap": "26회의 비밀 계시 능력과 24회의 편재적 심판을 주대지로 삼지 않음",
+      "canonicalTopic": "전지성·신적 지식",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 3,
+      "focus": "홀로 복되시고 영광 받으시기에 합당한 하나님의 본래적 충족",
+      "avoidOverlap": "34회의 우상숭배 논박과 생명·호흡 공급을 핵심으로 반복하지 않음",
+      "canonicalTopic": "자족성·충족성·복되심",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 4,
+      "focus": "창세 전 그리스도 안에서 정하신 하나님의 자유롭고 거룩한 구속 목적",
+      "avoidOverlap": "23회에 재배정된 은혜의 성화 교육, 36회 개별 긍휼, 48회 박해 사건을 한 설교로 삼지 않음",
+      "canonicalTopic": "자유로우신 뜻·의지",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 5,
+      "focus": "원수에게 나타난 하나님 사랑의 확증과 화목에서 미래 구원으로 가는 '더욱' 논증",
+      "avoidOverlap": "7회 칭의의 공의·16회 공동체 사랑·44회 내재적 사랑과 구별",
+      "canonicalTopic": "사랑",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 6,
+      "focus": "인자 안에서 피난처와 풍성함을 주시는 생명의 원천, 하나님의 빛",
+      "avoidOverlap": "9회 피조세계 섭리·34회 자족성·47회 성자의 생명 수여로 확대하지 않음",
+      "canonicalTopic": "살아계심·생명성",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 7,
+      "focus": "그리스도의 속량으로 죄인을 의롭다 하시는 하나님의 의로우심",
+      "avoidOverlap": "5회의 사랑과 최종 구원 확신·31회 왕권의 정의·49회 최후 심판을 분리",
+      "canonicalTopic": "의로우심·공의",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 8,
+      "focus": "영이신 아버지가 그리스도를 통해 여시는 영과 진리의 예배",
+      "avoidOverlap": "45회의 하늘도 담지 못하는 광대성·24회의 편재성 논증 반복 금지",
+      "canonicalTopic": "영이심·비가시성",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 9,
+      "focus": "수많은 생명과 질서를 지으시고 공급하시는 하나님의 창조 지혜",
+      "avoidOverlap": "6회의 생명의 원천과 교제·34회의 자족적 공급·50회의 보편적 선하심과 구분",
+      "canonicalTopic": "지혜로우심",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 10,
+      "focus": "죽은 죄인을 그리스도와 함께 살리시는 무조건적 구원 은혜",
+      "avoidOverlap": "23회의 은혜가 가르치는 성화·38회의 거룩한 이름을 위한 새 마음과 구분",
+      "canonicalTopic": "은혜",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 11,
+      "focus": "시련과 악한 유혹을 구별하면서 변함없이 좋은 선물을 주시는 아버지",
+      "avoidOverlap": "33회의 언약 지속 및 19·37회 말씀·약속 신실함으로 환원하지 않음",
+      "canonicalTopic": "불변성",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 12,
+      "focus": "출애굽기 언약 갱신 속 긍휼과 공의의 통일된 하나님의 자기계시",
+      "avoidOverlap": "단순성을 출 34장에서 직접 완전 증명했다고 하지 않으며 7회 칭의론·41회 언약 긍휼과 구분",
+      "canonicalTopic": "단순성·비합성",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 13,
+      "focus": "이사야의 부정함을 드러내고 정결하게 하시는 거룩한 하나님의 영광",
+      "avoidOverlap": "38회의 새 마음과 성령 언약 약속 및 25회 아름다우심과 구별",
+      "canonicalTopic": "거룩하심",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 14,
+      "focus": "높으신 하나님이 통회하는 이와 은혜롭게 함께하여 소생시키심",
+      "avoidOverlap": "24회의 공간적 편재와 45회의 무한성을 동일시하지 않음",
+      "canonicalTopic": "편재성·보편적 현존",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 15,
+      "focus": "교만한 느부갓네살의 권세를 낮추고 다시 세우시는 왕들의 왕",
+      "avoidOverlap": "28회의 만유 보좌 찬양과 48회의 교회 박해 가운데 통치와 구분",
+      "canonicalTopic": "주권적 통치와 권위",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 16,
+      "focus": "먼저 아들을 보내신 하나님 사랑의 근원과 형제 사랑으로 나타나는 교회",
+      "avoidOverlap": "5회 원수와의 화목 및 미래 구원 확신·29회 사랑을 앎·44회 영원한 사랑과 구분",
+      "canonicalTopic": "사랑",
+      "revisedPrimaryText": "요일 4:7–12",
+      "revisedTitle": "먼저 사랑하신 하나님과 그 사랑으로 살아가는 교회"
+    },
+    {
+      "order": 17,
+      "focus": "니느웨 악행에 맞서 심판하시고 피난처가 되시는 거룩한 진노",
+      "avoidOverlap": "42회의 현재적 내버려 두심 및 49회의 최후 심판과 구분",
+      "canonicalTopic": "진노·준엄하심",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 18,
+      "focus": "그리스도를 부활·승귀시키신 능력과 교회가 알아야 할 부르심의 소망",
+      "avoidOverlap": "39회 약속 성취의 불가능성 극복·28회 만유 통치와 구별",
+      "canonicalTopic": "전능하심·능력",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 19,
+      "focus": "그리스도 안에서 확증된 구원 약속과 성령의 인치심·보증",
+      "avoidOverlap": "33회 언약 유지와 37회 거짓 없는 말씀의 불가역성을 구분",
+      "canonicalTopic": "진실하심·신실하심",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 20,
+      "focus": "멸시받아서는 안 될 하나님의 인내가 회개로 부름",
+      "avoidOverlap": "17회 역사적 보응·42회 방임의 진노와 구별",
+      "canonicalTopic": "오래 참으심·인내",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 21,
+      "focus": "변하는 피조세계와 달리 영원히 동일하신 창조주의 영광이 성자께 적용됨",
+      "avoidOverlap": "40회의 유한한 인생과 하나님의 거처라는 대비와 구별",
+      "canonicalTopic": "영원성",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 22,
+      "focus": "고난의 까닭을 다 밝히지 않으면서 피조세계를 다스리는 신적 지혜",
+      "avoidOverlap": "9회의 창조 공급·43회의 십자가에 나타난 지혜를 대체하지 않음",
+      "canonicalTopic": "지혜로우심",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 23,
+      "focus": "나타난 구원의 은혜가 경건하지 않음을 버리도록 가르치고 재림 소망을 형성",
+      "avoidOverlap": "4회 영원한 작정과 엡 1장·10회 죄인 소생·25회 아름다움 경배를 반복하지 않음",
+      "canonicalTopic": "은혜",
+      "revisedPrimaryText": "딛 2:11–14",
+      "revisedTitle": "구원하시고 거룩한 삶을 가르치시는 하나님의 은혜"
+    },
+    {
+      "order": 24,
+      "focus": "거짓 선지자도 숨을 수 없는 모든 곳에 충만하신 하나님의 현존",
+      "avoidOverlap": "14회의 통회자에 대한 은혜로운 임재·2회의 마음 감찰을 별도 기능으로 구별",
+      "canonicalTopic": "편재성·보편적 현존",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 25,
+      "focus": "여호와의 아름다우심을 바라보며 하나님 자신을 한 가지 소원으로 추구하는 경배",
+      "avoidOverlap": "6회 빛과 생명의 원천·3회 복되심·51회 일상과 부흥의 통합을 반복하지 않음",
+      "canonicalTopic": "아름다우심·완전하신 탁월함",
+      "revisedPrimaryText": "시 27:1–6",
+      "revisedTitle": "우리가 바라보고 기뻐하는 하나님의 아름다우심"
+    },
+    {
+      "order": 26,
+      "focus": "인간에게 감추어진 비밀을 자유롭게 드러내시는 하나님의 계시적 지식",
+      "avoidOverlap": "2회의 모든 길을 아는 감찰·22회의 헤아릴 수 없는 지혜와 구별",
+      "canonicalTopic": "전지성·신적 지식",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 27,
+      "focus": "죄 없이 시험받으시고 연약함을 동정하는 승귀하신 대제사장",
+      "avoidOverlap": "1회의 아버지의 두 아들 초청·41회의 언약 백성 향한 긍휼과 구별",
+      "canonicalTopic": "긍휼·자비",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 28,
+      "focus": "온 우주를 다스리는 보좌와 천사·만물의 합당한 송축",
+      "avoidOverlap": "15회 왕의 굴복 사건·48회 교회 역사 속 통치와 구별",
+      "canonicalTopic": "주권적 통치와 권위",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 29,
+      "focus": "성령의 강건하게 하심으로 교회가 함께 그리스도의 사랑을 앎",
+      "avoidOverlap": "5회 사랑의 객관적 증명·16회 형제 사랑·44회 성부·성자의 영원한 사랑과 구별",
+      "canonicalTopic": "사랑",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 30,
+      "focus": "유일하신 여호와께 전인격적으로 향하는 언약 백성의 사랑",
+      "avoidOverlap": "35회 질투의 우상 금지·25회 여호와의 아름다움을 바라보는 경배와 구별",
+      "canonicalTopic": "유일성",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 31,
+      "focus": "왕권의 기초인 의와 정의, 우상의 수치와 시온의 기쁨",
+      "avoidOverlap": "7회 칭의의 공의·49회 최후 심판과 구별",
+      "canonicalTopic": "의로우심·공의",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 32,
+      "focus": "하나님만 선하시다는 선언이 드러내는 자기 의·재물 의존과 구원 불가능성",
+      "avoidOverlap": "50회 피조물 모두에게 선하심·34회 창조주 자족성으로 치환하지 않음",
+      "canonicalTopic": "선하심",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 33,
+      "focus": "자기 언약과 의에 변함없기에 심판하면서도 보존하시는 하나님",
+      "avoidOverlap": "11회 변함없는 선물·19회 성령의 보증·37회 발람 앞 말씀의 성실과 구별",
+      "canonicalTopic": "불변성",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 34,
+      "focus": "부족을 공급받지 않으시고 모든 사람에게 생명과 호흡을 주시는 창조주",
+      "avoidOverlap": "3회 하나님의 복되심·9회 창조 지혜·6회 생명의 원천과 특별 은혜와 구별",
+      "canonicalTopic": "자족성·충족성·복되심",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 35,
+      "focus": "언약적 질투로 우상숭배를 금하고 돌이키는 백성을 기억하는 하나님",
+      "avoidOverlap": "30회 유일성에 기초한 사랑·17회 외적 심판과 구별",
+      "canonicalTopic": "거룩한 질투·영광의 배타성",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 36,
+      "focus": "인간 공로에 매이지 않고 긍휼을 베푸시는 하나님의 거룩한 자유",
+      "avoidOverlap": "4회의 포괄적 영원 작정·41회의 배반자 회복과 구별",
+      "canonicalTopic": "자유로우신 뜻·의지",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 37,
+      "focus": "저주와 술수도 뒤집지 못하는 거짓 없는 하나님의 선언",
+      "avoidOverlap": "19회의 그리스도 안의 구원 약속 성취·33회의 언약 유지와 구별",
+      "canonicalTopic": "진실하심·신실하심",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 38,
+      "focus": "더럽혀진 자신의 거룩한 이름을 위해 정결케 하고 새 마음·자기 영을 주시는 하나님",
+      "avoidOverlap": "10회 무조건적 생명 수여 및 23회 은혜의 교육과 구별",
+      "canonicalTopic": "거룩하심",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 39,
+      "focus": "아브라함과 사라의 불가능한 상황에서 정하신 때 약속을 이루는 능력",
+      "avoidOverlap": "18회 그리스도 승귀 능력과 37회 말씀의 진실성에 대한 일반론으로 바꾸지 않음",
+      "canonicalTopic": "전능하심·능력",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 40,
+      "focus": "죄와 죽음 아래 있는 유한한 날들 앞에 영원히 거처가 되시는 하나님",
+      "avoidOverlap": "21회 피조세계와 영원한 성자의 신성을 강조하는 논증과 구별",
+      "canonicalTopic": "영원성",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 41,
+      "focus": "배반한 이스라엘을 심판하면서도 완전히 포기하지 않으시는 거룩한 긍휼",
+      "avoidOverlap": "1회 잃은 아들의 비유·27회 대제사장 동정과 구별",
+      "canonicalTopic": "긍휼·자비",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 42,
+      "focus": "진리를 억누르고 우상 섬기는 사람들을 내버려 두시는 현재적 진노",
+      "avoidOverlap": "17회 니느웨에 대한 역사적 심판·49회 종말 심판과 구별",
+      "canonicalTopic": "진노·준엄하심",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 43,
+      "focus": "세상의 평가를 뒤집는 십자가의 구원 지혜와 인간 자랑의 붕괴",
+      "avoidOverlap": "9회 창조 지혜·22회 섭리의 불가해성·7회 칭의의 법정적 설명과 구별",
+      "canonicalTopic": "지혜로우심",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 44,
+      "focus": "창세 전에 성부와 성자가 나누신 사랑 및 제자들의 영광·교제 소망",
+      "avoidOverlap": "5회 역사적 속죄·16회 형제 사랑·29회 사랑에 대한 조명과 구별",
+      "canonicalTopic": "사랑",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 45,
+      "focus": "하늘도 모실 수 없는 초월하심과 이름을 둔 성전을 향한 기도를 들으심",
+      "avoidOverlap": "8회 예배의 새 시대·14회의 회복적 임재·24회의 편재성과 구별",
+      "canonicalTopic": "무한성·광대성",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 46,
+      "focus": "스스로 계시면서 족장의 언약을 기억하시고 모세를 보내시는 이름 계시",
+      "avoidOverlap": "3회 복되심·34회 피조물에게 의존하지 않음·33회 언약 불변과 구별",
+      "canonicalTopic": "자존성·독립성",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 47,
+      "focus": "아버지와 같이 생명·심판의 권세를 행하는 성자와 현재·장래의 생명",
+      "avoidOverlap": "6회 시편의 생명 원천과 은혜·10회 은혜로 죄인을 살림과 구별",
+      "canonicalTopic": "살아계심·생명성",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 48,
+      "focus": "야고보의 죽음과 베드로 구출 속 교회를 다스리고 말씀을 성장시키는 하나님",
+      "avoidOverlap": "4회 영원한 작정·15회 느부갓네살 심판·28회 보좌 송영과 구별",
+      "canonicalTopic": "주권적 통치와 권위",
+      "revisedPrimaryText": "행 12:1–24",
+      "revisedTitle": "박해받는 교회 가운데 자신의 뜻을 이루시는 하나님"
+    },
+    {
+      "order": 49,
+      "focus": "행위를 따라 공의롭게 판결하시는 최후의 보좌와 생명책",
+      "avoidOverlap": "7회 십자가의 의와 칭의·31회 보좌의 통치 의와 구별",
+      "canonicalTopic": "의로우심·공의",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    },
+    {
+      "order": 50,
+      "focus": "모든 피조물에게 베푸시는 선하심·공급과 자기를 부르는 자를 향한 가까우심",
+      "avoidOverlap": "6회 생명의 원천과 피난처·9회 창조 지혜·34회 자족성·32회 청년의 선함과 구별",
+      "canonicalTopic": "선하심",
+      "revisedPrimaryText": null,
+      "revisedTitle": null
+    }
+  ],
+  "approvedRevision": {
+    "16": {
+      "title": "먼저 사랑하신 하나님과 그 사랑으로 살아가는 교회",
+      "topic": null,
+      "primaryText": "요일 4:7–12",
+      "mainStatement": "하나님께서는 사랑의 근원이시며 자기 아들을 보내어 죄인을 살리시는 사랑을 나타내셨습니다. 하나님께로부터 난 사람들은 그 사랑을 받아 서로 사랑하며, 하나님께서 자기 백성 안에 거하시고 그분의 사랑이 그들 가운데 온전하게 나타나는 은혜를 누립니다."
+    },
+    "23": {
+      "title": "구원하시고 거룩한 삶을 가르치시는 하나님의 은혜",
+      "topic": null,
+      "primaryText": "딛 2:11–14",
+      "mainStatement": "하나님께서는 그리스도 안에서 구원하시는 은혜를 나타내셨으며, 자기 백성을 죄악에서 속량하여 거룩하게 하시고, 이 은혜로 경건하게 살아가도록 가르치시며, 구주 예수 그리스도의 영광스러운 나타나심을 기다리게 하십니다."
+    },
+    "25": {
+      "title": "우리가 바라보고 기뻐하는 하나님의 아름다우심",
+      "topic": "아름다우심·완전하신 탁월함",
+      "primaryText": "시 27:1–6",
+      "mainStatement": "하나님은 모든 피조물의 위협보다 크신 빛과 구원이시며, 자신의 아름다우심과 선하심으로 경배받기에 합당하신 분입니다. 시인은 원수의 위협 속에서도 하나님 자신을 바라보고 그분과 교제하는 일을 가장 간절히 구하며, 그분의 보호 가운데 기쁨으로 찬양합니다."
+    },
+    "48": {
+      "title": "박해받는 교회 가운데 자신의 뜻을 이루시는 하나님",
+      "topic": null,
+      "primaryText": "행 12:1–24",
+      "mainStatement": "하나님께서는 세상의 권세가 자기 교회를 박해하는 가운데서도 역사를 다스리십니다. 야고보의 죽음과 베드로의 구출이라는 서로 다른 사건 속에서도 하나님은 자신의 뜻을 이루시며, 자신을 높이는 통치자를 심판하시고 복음의 말씀이 계속 전파되게 하십니다."
+    }
+  }
+}
