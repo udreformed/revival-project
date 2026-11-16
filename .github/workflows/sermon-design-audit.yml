@@ -1,0 +1,19 @@
+name: Sermon design integrity
+on:
+  push:
+    paths:
+      - 'data/sermon-*'
+      - 'docs/sermon-*'
+      - 'tools/check-sermon-design.cjs'
+      - '.github/workflows/sermon-design-audit.yml'
+  workflow_dispatch:
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check 50 sermons and review cards
+        run: node tools/check-sermon-design.cjs
