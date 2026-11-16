@@ -742,3 +742,57 @@
   window.SERMON_DESIGN_AUDIT_POLICY=policy;
   window.SERMON_DESIGN_REVISION_VERSION=policy.version;
 })();
+
+
+/* 제25회 시편 27:4 원어 주석 (2026-11-16).
+ * 승인된 50편 재설계의 일부. 화면에는 제25회 상세페이지에만 간결하게 표시.
+ */
+(function(){
+  'use strict';
+  const sermons=window.SERMON_SERIES_DATA && window.SERMON_SERIES_DATA.sermons;
+  const sermon=Array.isArray(sermons) && sermons.find(s=>s.order===25);
+  if(!sermon)return;
+  sermon.studyNotes=[
+    {label:'노암(נֹעַם)',body:'시 27:4의 “아름다움”은 기쁨을 주는 사랑스러움·즐거움·은혜로움의 의미를 지닙니다. 외형적 미모만을 뜻하지 않습니다.'},
+    {label:'본문 문맥',body:'위협 가운데 시인이 가장 구하는 것은 성소의 장식이 아니라 여호와 자신을 바라보며 그분과 교제하는 일입니다(시 27:1–6).'},
+    {label:'번역상의 유의점',body:'같은 노암은 시 90:17에서 하나님의 호의·은총을 가리킵니다. 이 한 단어만으로 “아름다우심”을 독립된 신적 본질 속성으로 확정하지 않습니다.'}
+  ];
+  if(typeof document==='undefined'||typeof location==='undefined')return;
+  function renderNotes(){
+    if(!/(?:^|\/)sermon-detail\.html$/.test(location.pathname)||Number(new URLSearchParams(location.search).get('sermon'))!==25)return;
+    const body=document.querySelector('#sermonDocument .document-body');
+    if(!body||body.querySelector('[data-sermon25-noam-notes]'))return;
+    const section=document.createElement('section');
+    section.className='section sermon-research-notes';
+    section.setAttribute('data-sermon25-noam-notes','');
+    const title=document.createElement('h2');
+    title.textContent='본문 주해 주석 · 시 27:4';
+    section.appendChild(title);
+    const list=document.createElement('ol');
+    list.style.cssText='margin:0 0 10px;padding-left:1.35em;';
+    sermon.studyNotes.forEach(item=>{
+      const li=document.createElement('li');
+      li.style.marginBottom='8px';
+      const strong=document.createElement('strong');
+      strong.textContent=item.label+' — ';
+      li.appendChild(strong);
+      li.appendChild(document.createTextNode(item.body));
+      list.appendChild(li);
+    });
+    section.appendChild(list);
+    const source=document.createElement('p');
+    source.style.cssText='font-size:0.9em;opacity:0.86;margin:0;';
+    source.appendChild(document.createTextNode('사전 근거: '));
+    const link=document.createElement('a');
+    link.href='https://biblehub.com/hebrew/5278.htm';
+    link.target='_blank';
+    link.rel='noopener noreferrer';
+    link.textContent='Brown–Driver–Briggs, נֹעַם (H5278)';
+    source.appendChild(link);
+    section.appendChild(source);
+    const next=Array.from(body.children).find(node=>node.querySelector('h2')?.textContent.trim()==='관련 참고 도서');
+    body.insertBefore(section,next||null);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',renderNotes,{once:true});
+  else renderNotes();
+})();
