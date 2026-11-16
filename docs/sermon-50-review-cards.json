@@ -218,7 +218,15 @@
       "avoidOverlap": "6회 빛과 생명의 원천·3회 복되심·51회 일상과 부흥의 통합을 반복하지 않음",
       "canonicalTopic": "아름다우심·완전하신 탁월함",
       "revisedPrimaryText": "시 27:1–6",
-      "revisedTitle": "우리가 바라보고 기뻐하는 하나님의 아름다우심"
+      "revisedTitle": "우리가 바라보고 기뻐하는 하나님의 아름다우심",
+      "lexicalStudy": {
+        "term": "נֹעַם (nōʿam)",
+        "source": "BDB H5278",
+        "meaning": "즐거움을 주는 사랑스러움·호의·아름다움",
+        "note": "시 27:4는 여호와 자신을 바라보고 그분과 교제함을 갈망함; 시 90:17의 은총 용법과 대조. 독립 신적 속성 확정 증거로 과장하지 않음",
+        "reference": "https://biblehub.com/hebrew/5278.htm",
+        "status": "기초 사전 검토 완료 · 시편 구조 및 주석 검증 계속"
+      }
     },
     {
       "order": 26,
